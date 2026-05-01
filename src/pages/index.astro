@@ -751,7 +751,7 @@ import tutorials from '../data/tutorials.json';
 
   function openViewer(id, title) {
     get('viewerTitle').textContent = `// ${title.toUpperCase()}`;
-    get('viewerFrame').src = `/tutorials/${id}.html`;
+    get('viewerFrame').src = `/tutorials/${id}/`;
     get('viewer').classList.add('open');
     document.body.style.overflow = 'hidden';
     history.pushState({ viewer: id }, '', `#${id}`);
