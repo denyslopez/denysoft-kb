@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.A.R.V.I.S. // ARCHITECT PROTOCOL 101</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020b14;
+  --bg2: #03111f;
+  --hud: #041828;
+  --arc: #00c8ff;
+  --arc-dim: rgba(0,200,255,0.12);
+  --arc-mid: rgba(0,200,255,0.35);
+  --arc-bright: rgba(0,200,255,0.85);
+  --gold: #ffa500;
+  --gold-dim: rgba(255,165,0,0.15);
+  --red: #ff3c3c;
+  --green: #00ff88;
+  --text: #b8e4f5;
+  --muted: #3a6a85;
+  --border: rgba(0,200,255,0.15);
+  --border-bright: rgba(0,200,255,0.5);
+  --glow: 0 0 20px rgba(0,200,255,0.4), 0 0 40px rgba(0,200,255,0.15);
+  --glow-sm: 0 0 10px rgba(0,200,255,0.5);
+  --glow-gold: 0 0 15px rgba(255,165,0,0.5);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,255,0.012) 2px, rgba(0,200,255,0.012) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--arc); box-shadow: var(--glow-sm); }
+
+.progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: rgba(0,200,255,0.1); z-index: 1000; }
+.progress-fill { height: 100%; background: linear-gradient(to right, var(--arc), var(--gold)); box-shadow: var(--glow-sm); width: 0%; transition: width 0.1s linear; }
+
+.nav {
+  position: fixed; top: 50%; right: 24px;
+  transform: translateY(-50%); z-index: 998;
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+}
+.nav-item { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-direction: row-reverse; }
+.nav-dot { width: 6px; height: 6px; background: var(--muted); border: 1px solid var(--muted); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transition: all 0.3s; }
+.nav-item.active .nav-dot { background: var(--arc); border-color: var(--arc); box-shadow: var(--glow-sm); transform: scale(1.4); }
+.nav-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; opacity: 0; transition: all 0.3s; white-space: nowrap; }
+.nav-item:hover .nav-label, .nav-item.active .nav-label { opacity: 1; color: var(--arc); }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 80px; position: relative; overflow: hidden; }
+.hex-bg { position: absolute; inset: 0; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zM28 100L0 84V50l28-16 28 16v34L28 100z' fill='none' stroke='%2300c8ff' stroke-width='0.5'/%3E%3C/svg%3E"); }
+
+.radar { position: absolute; right: -80px; top: 50%; transform: translateY(-50%); width: 680px; height: 680px; pointer-events: none; }
+.radar-ring { position: absolute; border-radius: 50%; border: 1px solid var(--arc); top: 50%; left: 50%; transform: translate(-50%, -50%); animation: radarPulse 4s ease-out infinite; }
+.radar-ring:nth-child(1) { width: 140px; height: 140px; animation-delay: 0s; }
+.radar-ring:nth-child(2) { width: 280px; height: 280px; animation-delay: 0.8s; }
+.radar-ring:nth-child(3) { width: 430px; height: 430px; animation-delay: 1.6s; }
+.radar-ring:nth-child(4) { width: 580px; height: 580px; animation-delay: 2.4s; }
+@keyframes radarPulse { 0% { opacity: 0.6; } 100% { opacity: 0; } }
+
+.radar-sweep { position: absolute; width: 280px; height: 280px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; }
+.radar-sweep::after { content: ''; position: absolute; top: 50%; left: 50%; width: 50%; height: 2px; background: linear-gradient(to right, transparent, rgba(0,200,255,0.6)); transform-origin: left center; animation: sweep 4s linear infinite; }
+@keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.arc-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle, rgba(0,200,255,0.9) 0%, rgba(0,200,255,0.2) 50%, transparent 70%); box-shadow: 0 0 30px rgba(0,200,255,0.8), 0 0 60px rgba(0,200,255,0.3); animation: arcPulse 2s ease-in-out infinite; }
+@keyframes arcPulse { 0%,100% { box-shadow: 0 0 30px rgba(0,200,255,0.8), 0 0 60px rgba(0,200,255,0.3); } 50% { box-shadow: 0 0 50px rgba(0,200,255,1), 0 0 100px rgba(0,200,255,0.5); } }
+
+.hero-status { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; animation: fadeIn 1s ease both; }
+.status-chip { display: flex; align-items: center; gap: 8px; border: 1px solid var(--arc-mid); background: var(--arc-dim); padding: 6px 14px; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--arc); clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: blink 1.5s ease infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+
+.hero-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--arc); text-transform: uppercase; margin-bottom: 16px; opacity: 0.7; animation: fadeIn 1s 0.1s ease both; }
+
+.hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(38px, 6.5vw, 88px); font-weight: 900; line-height: 1; letter-spacing: -1px; margin-bottom: 8px; animation: fadeIn 1s 0.2s ease both; }
+.hero h1 .l1 { display: block; color: var(--text); text-shadow: 0 0 40px rgba(184,228,245,0.3); }
+.hero h1 .l2 { display: block; color: var(--arc); text-shadow: var(--glow); }
+.hero h1 .l3 { display: block; color: transparent; -webkit-text-stroke: 1px rgba(0,200,255,0.3); font-size: 0.75em; letter-spacing: 2px; }
+
+.hero-sub { font-size: 17px; color: var(--muted); max-width: 480px; line-height: 1.7; margin: 28px 0 48px; font-weight: 400; animation: fadeIn 1s 0.3s ease both; border-left: 2px solid var(--arc-mid); padding-left: 20px; }
+.hero-sub strong { color: var(--arc); }
+
+.hero-metrics { display: flex; gap: 40px; animation: fadeIn 1s 0.4s ease both; }
+.metric { display: flex; flex-direction: column; gap: 4px; position: relative; padding-left: 16px; }
+.metric::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--arc); box-shadow: var(--glow-sm); }
+.metric-val { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 700; color: var(--arc); text-shadow: var(--glow-sm); line-height: 1; }
+.metric-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+.hero-data-strip { position: absolute; bottom: 32px; left: 80px; right: 80px; display: flex; align-items: center; gap: 24px; animation: fadeIn 1s 0.6s ease both; overflow: hidden; }
+.data-item { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1.5px; display: flex; gap: 8px; white-space: nowrap; }
+.data-item span { color: var(--arc); opacity: 0.7; }
+.data-sep { width: 1px; height: 16px; background: var(--border); }
+.data-scroll { display: flex; gap: 60px; animation: scrollData 20s linear infinite; }
+.data-wrapper { overflow: hidden; flex: 1; }
+@keyframes scrollData { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* SECTIONS */
+.section { padding: 100px 80px; position: relative; }
+.sec-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.sec-code { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--arc); text-transform: uppercase; opacity: 0.8; }
+.sec-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--arc-mid), transparent); max-width: 120px; }
+.sec-title { font-family: 'Orbitron', sans-serif; font-size: clamp(26px, 4vw, 46px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; margin-bottom: 56px; color: var(--text); }
+.sec-title .hi { color: var(--arc); text-shadow: var(--glow-sm); }
+.sec-title .hi2 { color: var(--gold); text-shadow: var(--glow-gold); }
+
+.hud-divider { height: 1px; margin: 0 80px; background: linear-gradient(to right, transparent, var(--arc-mid), transparent); position: relative; }
+.hud-divider::before { content: '◆'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 10px; color: var(--arc); background: var(--bg); padding: 0 8px; text-shadow: var(--glow-sm); }
+
+/* SHIFT */
+.shift-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; max-width: 940px; }
+.hud-card { background: var(--hud); border: 1px solid var(--border); padding: 32px; position: relative; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px)); }
+.hud-card.danger { border-color: rgba(255,60,60,0.3); }
+.hud-card.safe { border-color: rgba(0,200,255,0.4); box-shadow: 0 0 20px rgba(0,200,255,0.05); }
+.hud-card-badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.hud-card-badge .dot { width: 5px; height: 5px; border-radius: 50%; }
+.danger .hud-card-badge { color: var(--red); }
+.danger .hud-card-badge .dot { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.safe .hud-card-badge { color: var(--arc); }
+.safe .hud-card-badge .dot { background: var(--arc); box-shadow: 0 0 6px var(--arc); }
+.shift-icon { font-size: 32px; margin-bottom: 12px; }
+.shift-role { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px; }
+.danger .shift-role { color: var(--red); }
+.safe .shift-role { color: var(--arc); text-shadow: var(--glow-sm); }
+.shift-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 400; }
+.shift-arrow-box { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.shift-arrow-icon { font-family: 'Orbitron', sans-serif; font-size: 28px; color: var(--gold); text-shadow: var(--glow-gold); animation: arrowPulse 2s ease infinite; }
+@keyframes arrowPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.shift-arrow-label { font-family: 'Share Tech Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--gold); text-align: center; opacity: 0.7; }
+
+/* MODULES */
+.modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.module { background: var(--hud); padding: 32px; position: relative; overflow: hidden; transition: background 0.3s; }
+.module:hover { background: #061e30; }
+.module::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--arc), transparent); opacity: 0; transition: opacity 0.3s; }
+.module:hover::before { opacity: 1; }
+.mod-num { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--arc); letter-spacing: 2px; margin-bottom: 16px; opacity: 0.6; }
+.mod-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.5px; color: var(--text); }
+.mod-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; font-weight: 400; }
+.mod-tag { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 4px 12px; border: 1px solid; clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); }
+.t-concept { color: var(--arc); border-color: var(--arc-mid); background: var(--arc-dim); }
+.t-skill { color: var(--green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
+.t-tool { color: var(--gold); border-color: rgba(255,165,0,0.3); background: rgba(255,165,0,0.05); }
+.t-mindset { color: #a0c8ff; border-color: rgba(160,200,255,0.3); background: rgba(160,200,255,0.05); }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 50px; max-width: 780px; }
+.timeline::before { content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, var(--arc), rgba(0,200,255,0.2), transparent); }
+.t-step { position: relative; padding: 0 0 52px 40px; }
+.t-step::before { content: ''; position: absolute; left: -46px; top: 6px; width: 12px; height: 12px; background: var(--bg); border: 2px solid var(--arc); box-shadow: 0 0 10px rgba(0,200,255,0.5); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.t-step-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--arc); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.t-step-label::after { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--arc-mid); }
+.t-step-title { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+.t-step-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; font-weight: 400; }
+.t-example { background: rgba(0,200,255,0.04); border-left: 2px solid var(--arc-mid); padding: 14px 20px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: rgba(0,200,255,0.7); line-height: 1.7; position: relative; }
+.t-example::before { content: 'INPUT:'; position: absolute; top: -8px; left: 16px; background: var(--bg); padding: 0 6px; font-size: 8px; letter-spacing: 2px; color: var(--arc); }
+
+/* TOOLS */
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.tool-card { background: var(--hud); padding: 28px 24px; position: relative; transition: all 0.3s; overflow: hidden; }
+.tool-card:hover { background: #061e30; }
+.tool-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(0,200,255,0.08) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.tool-card:hover .tool-glow { opacity: 1; }
+.tool-icon { font-size: 24px; margin-bottom: 14px; display: block; }
+.tool-name { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--arc); letter-spacing: 0.5px; }
+.tool-role { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; font-weight: 400; }
+.tool-you { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: var(--green); display: flex; align-items: center; gap: 6px; }
+.tool-you::before { content: '▶'; font-size: 7px; }
+
+/* LESSONS */
+.lessons { border: 1px solid var(--border); background: var(--hud); overflow: hidden; }
+.lesson { border-bottom: 1px solid var(--border); overflow: hidden; }
+.lesson:last-child { border-bottom: none; }
+.lesson-header { display: flex; align-items: center; gap: 16px; padding: 22px 32px; cursor: pointer; transition: background 0.2s; user-select: none; position: relative; }
+.lesson-header:hover { background: rgba(0,200,255,0.04); }
+.lesson-header::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--arc); transition: width 0.3s; }
+.lesson-header:hover::before, .lesson.open .lesson-header::before { width: 2px; }
+.l-num { font-family: 'Share Tech Mono', monospace; font-size: 11px; width: 28px; height: 28px; border: 1px solid var(--arc-mid); display: flex; align-items: center; justify-content: center; color: var(--arc); flex-shrink: 0; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: var(--arc-dim); }
+.lesson.open .l-num { background: var(--arc); color: var(--bg); }
+.l-title { flex: 1; font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: 0.5px; color: var(--text); }
+.l-time { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.l-chevron { width: 18px; height: 18px; color: var(--muted); transition: transform 0.35s ease, color 0.3s; flex-shrink: 0; }
+.lesson.open .l-chevron { transform: rotate(180deg); color: var(--arc); }
+.lesson-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+.lesson.open .lesson-body { max-height: 1200px; }
+.lesson-content { padding: 28px 32px 32px 76px; border-top: 1px solid var(--border); }
+.lesson-content p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 20px; font-weight: 400; }
+.lesson-content p strong { color: var(--text); font-weight: 600; }
+.l-points { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.l-point { display: flex; gap: 14px; align-items: flex-start; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.l-point-marker { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--arc); margin-top: 3px; flex-shrink: 0; letter-spacing: 1px; opacity: 0.8; }
+.l-point strong { color: var(--text); font-weight: 600; }
+.l-code { background: #010d18; border: 1px solid rgba(0,200,255,0.2); padding: 20px 24px; font-family: 'Share Tech Mono', monospace; font-size: 12px; line-height: 1.9; color: rgba(0,200,255,0.65); position: relative; }
+.l-code::before { content: '// SYSTEM PROTOCOL'; position: absolute; top: -8px; right: 16px; background: var(--hud); padding: 0 8px; font-size: 8px; letter-spacing: 2px; color: var(--arc); }
+.l-code .kw { color: var(--red); }
+.l-code .str { color: var(--gold); }
+.l-code .val { color: var(--green); }
+.l-code .cm { color: rgba(0,200,255,0.25); }
+
+/* CHALLENGE */
+.challenge-card { background: var(--hud); border: 1px solid rgba(0,200,255,0.3); padding: 52px; position: relative; clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 32px 100%, 0 calc(100% - 32px)); box-shadow: 0 0 60px rgba(0,200,255,0.05); }
+.challenge-card::before { content: 'MISSION BRIEFING'; position: absolute; top: 20px; right: 52px; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--arc); opacity: 0.5; }
+.challenge-title { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 14px; color: var(--text); letter-spacing: -0.5px; }
+.challenge-desc { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 600px; margin-bottom: 36px; font-weight: 400; }
+.mission-steps { display: flex; flex-direction: column; gap: 14px; }
+.m-step { display: flex; gap: 18px; align-items: flex-start; }
+.m-num { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; width: 32px; height: 32px; background: var(--arc); color: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); box-shadow: 0 0 14px rgba(0,200,255,0.5); }
+.m-text { font-size: 14px; color: var(--text); line-height: 1.7; padding-top: 6px; font-weight: 400; }
+.m-text strong { color: var(--arc); }
+
+/* ANIM */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@keyframes glitch { 0% { transform: none; } 20% { transform: translate(-2px, 1px); text-shadow: -2px 0 var(--red), 2px 0 var(--green); } 40% { transform: translate(2px, -1px); } 60% { transform: translate(-1px, 0); } 100% { transform: none; text-shadow: var(--glow); } }
+
+/* FOOTER */
+.footer { padding: 48px 80px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.footer-brand { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; color: var(--arc); text-shadow: var(--glow-sm); letter-spacing: 1px; }
+.footer-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+.footer-meta { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; text-align: right; }
+
+@media (max-width: 768px) {
+  .hero, .section { padding: 60px 24px; }
+  .hud-divider { margin: 0 24px; }
+  .shift-grid { grid-template-columns: 1fr; }
+  .shift-arrow-box { transform: rotate(90deg); margin: 8px 0; }
+  .footer { padding: 40px 24px; flex-direction: column; gap: 16px; }
+  .nav { display: none; }
+  .lesson-content { padding: 20px 24px; }
+  .challenge-card { padding: 32px 24px; }
+  .hero-data-strip, .radar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-item active" data-s="0"><span class="nav-label">INIT</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="1"><span class="nav-label">SHIFT</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="2"><span class="nav-label">ROLES</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="3"><span class="nav-label">ADAPT</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="4"><span class="nav-label">STACK</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="5"><span class="nav-label">TRAIN</span><div class="nav-dot"></div></div>
+  <div class="nav-item" data-s="6"><span class="nav-label">MISSION</span><div class="nav-dot"></div></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hex-bg"></div>
+  <div class="radar">
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-sweep"></div>
+    <div class="arc-core"></div>
+  </div>
+
+  <div class="hero-status">
+    <div class="status-chip"><div class="status-dot"></div>SYSTEM ONLINE</div>
+    <div class="status-chip">TUTORIAL 101</div>
+  </div>
+
+  <div class="hero-eyebrow">J.A.R.V.I.S. // ARCHITECT PROTOCOL</div>
+
+  <h1>
+    <span class="l1">STOP</span>
+    <span class="l2" id="typeTarget">CODING.</span>
+    <span class="l3">START ARCHITECTING</span>
+  </h1>
+
+  <p class="hero-sub">
+    El nuevo paradigma donde tú eres el <strong>Arquitecto y Director de Producto</strong>, y la AI ejecuta. No es una herramienta — es un cambio total de identidad profesional.
+  </p>
+
+  <div class="hero-metrics">
+    <div class="metric"><span class="metric-val">10×</span><span class="metric-label">Output Speed</span></div>
+    <div class="metric"><span class="metric-val">07</span><span class="metric-label">Módulos</span></div>
+    <div class="metric"><span class="metric-val">∞</span><span class="metric-label">Leverage</span></div>
+  </div>
+
+  <div class="hero-data-strip">
+    <div class="data-wrapper">
+      <div class="data-scroll">
+        <div class="data-item">SYS_STATUS <span>NOMINAL</span></div><div class="data-sep"></div>
+        <div class="data-item">STACK <span>NEXT.JS 14 · TYPESCRIPT · SUPABASE</span></div><div class="data-sep"></div>
+        <div class="data-item">AI_ENGINE <span>CLAUDE · CURSOR · WINDSURF</span></div><div class="data-sep"></div>
+        <div class="data-item">OPERATOR <span>DENYSOFT_AGENCY</span></div><div class="data-sep"></div>
+        <div class="data-item">PROTOCOL <span>VIBE_CODING_101</span></div><div class="data-sep"></div>
+        <div class="data-item">SYS_STATUS <span>NOMINAL</span></div><div class="data-sep"></div>
+        <div class="data-item">STACK <span>NEXT.JS 14 · TYPESCRIPT · SUPABASE</span></div><div class="data-sep"></div>
+        <div class="data-item">AI_ENGINE <span>CLAUDE · CURSOR · WINDSURF</span></div><div class="data-sep"></div>
+        <div class="data-item">OPERATOR <span>DENYSOFT_AGENCY</span></div><div class="data-sep"></div>
+        <div class="data-item">PROTOCOL <span>VIBE_CODING_101</span></div><div class="data-sep"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S1: SHIFT -->
+<section class="section" id="s1">
+  <div class="sec-header"><span class="sec-code">MODULE_01</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">THE <span class="hi">PARADIGM</span> SHIFT</h2>
+  <div class="shift-grid reveal">
+    <div class="hud-card danger">
+      <div class="hud-card-badge"><div class="dot"></div>DEPRECATED MODE</div>
+      <div class="shift-icon">🔨</div>
+      <div class="shift-role">Developer Tradicional</div>
+      <div class="shift-desc">Tú escribes cada línea. Tu valor = velocidad de tipeo y memoria de sintaxis. Horas en Stack Overflow. Atascado en implementación. Imposible escalar.</div>
+    </div>
+    <div class="shift-arrow-box">
+      <div class="shift-arrow-icon">▶▶</div>
+      <div class="shift-arrow-label">UPGRADE<br>INITIATED</div>
+    </div>
+    <div class="hud-card safe">
+      <div class="hud-card-badge"><div class="dot"></div>ARCHITECT MODE</div>
+      <div class="shift-icon">🏛️</div>
+      <div class="shift-role">Arquitecto + Director</div>
+      <div class="shift-desc">Tú defines QUÉ y POR QUÉ. La AI ejecuta el CÓMO. Tu valor = claridad de visión, criterio técnico, decisiones estratégicas. Escala infinita.</div>
+    </div>
+  </div>
+  <div style="margin-top:44px;max-width:700px;" class="reveal">
+    <div class="t-example" style="margin:0;">La pregunta ya no es "¿sabes escribir código?" — es "¿sabes diseñar sistemas, definir requerimientos, y dirigir a la AI como si fuera tu equipo de ingeniería?" Eso separa al vibe coder promedio del que factura $200/hora.</div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S2: ROLES -->
+<section class="section" id="s2">
+  <div class="sec-header"><span class="sec-code">MODULE_02</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">LOS <span class="hi2">4 SOMBREROS</span><br>DEL ARQUITECTO</h2>
+  <div class="modules-grid reveal">
+    <div class="module">
+      <div class="mod-num">SOMBRERO · 01</div>
+      <div class="mod-title">🏗️ ARQUITECTO DE SISTEMAS</div>
+      <div class="mod-desc">Diseñas la estructura antes de escribir una línea. Defines componentes, flujos de datos, integraciones. Piensas en capas, no en funciones sueltas.</div>
+      <span class="mod-tag t-concept">CONCEPTO</span>
+    </div>
+    <div class="module">
+      <div class="mod-num">SOMBRERO · 02</div>
+      <div class="mod-title">📋 DIRECTOR DE PRODUCTO</div>
+      <div class="mod-desc">Traduces necesidades de negocio en specs técnicas. Defines features, prioridades, y criterios de éxito. El PRD es tu arma principal.</div>
+      <span class="mod-tag t-skill">SKILL</span>
+    </div>
+    <div class="module">
+      <div class="mod-num">SOMBRERO · 03</div>
+      <div class="mod-title">🎯 PROMPT ENGINEER</div>
+      <div class="mod-desc">Escribes instrucciones precisas para la AI. No prompts genéricos — contexto rico, constraints claros, outputs esperados. La AI es tu junior dev.</div>
+      <span class="mod-tag t-tool">TOOL</span>
+    </div>
+    <div class="module">
+      <div class="mod-num">SOMBRERO · 04</div>
+      <div class="mod-title">🧪 QA CRÍTICO</div>
+      <div class="mod-desc">Evalúas el output con criterio técnico y de negocio. Detectas errores de lógica, seguridad, y UX. No aceptas el primer resultado.</div>
+      <span class="mod-tag t-mindset">MINDSET</span>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S3: ADAPT -->
+<section class="section" id="s3">
+  <div class="sec-header"><span class="sec-code">MODULE_03</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">FRAMEWORK <span class="hi">A.D.A.P.T.</span></h2>
+  <div class="timeline reveal">
+    <div class="t-step">
+      <div class="t-step-label">PASO · A</div>
+      <div class="t-step-title">Architect First</div>
+      <div class="t-step-desc">Antes de abrir Cursor o Claude, dibuja el sistema. ¿Qué entidades existen? ¿Qué flujos hay? Un diagrama de 10 min te ahorra 3h de refactoring.</div>
+      <div class="t-example">"Tengo Users, Projects, y Assets. Users crean Projects. Projects tienen múltiples Assets con estados: draft → processing → published."</div>
+    </div>
+    <div class="t-step">
+      <div class="t-step-label">PASO · D</div>
+      <div class="t-step-title">Define el PRD</div>
+      <div class="t-step-desc">Product Requirements Document. No un essay — un documento estructurado con: contexto de negocio, user stories, stack declarado, y criterios de éxito medibles.</div>
+      <div class="t-example">"Como usuario autenticado, quiero subir un asset de imagen, para que el sistema genere 3 versiones optimizadas. Criterio: procesamiento &lt; 30s."</div>
+    </div>
+    <div class="t-step">
+      <div class="t-step-label">PASO · A</div>
+      <div class="t-step-title">Assign to AI</div>
+      <div class="t-step-desc">Con el PRD listo, das instrucciones en chunks manejables. No "buildea mi app" — "construye el componente ImageUploader con estos requerimientos específicos".</div>
+      <div class="t-example">"Construye POST /assets/upload. Stack: Next.js 14, TypeScript, Supabase Storage. Valida tipo de archivo, sube, retorna URL público."</div>
+    </div>
+    <div class="t-step">
+      <div class="t-step-label">PASO · P</div>
+      <div class="t-step-title">Probe &amp; Test</div>
+      <div class="t-step-desc">Prueba el código generado. No confíes ciegamente. Revisa edge cases, manejo de errores, seguridad. Pregunta: "¿Qué podría fallar aquí?"</div>
+      <div class="t-example">"No hay validación del tamaño del archivo. Agrega un límite de 10MB y retorna error 413 con mensaje claro si se excede."</div>
+    </div>
+    <div class="t-step">
+      <div class="t-step-label">PASO · T</div>
+      <div class="t-step-title">Tune &amp; Iterate</div>
+      <div class="t-step-desc">Refina conversacionalmente. La primera versión raramente es la final. Itera con contexto acumulado. Documenta en tu PRD — vive y evoluciona.</div>
+      <div class="t-example">"Integra este endpoint con el componente ImageUploader que creamos. Mantén el mismo patrón de manejo de errores y estado de loading."</div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S4: TOOLS -->
+<section class="section" id="s4">
+  <div class="sec-header"><span class="sec-code">MODULE_04</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">ARSENAL DEL <span class="hi2">ARQUITECTO</span></h2>
+  <div class="tools-grid reveal">
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">🧠</span><div class="tool-name">CLAUDE</div><div class="tool-role">Socio estratégico. Diseño de arquitectura, PRDs, revisión de código, debugging conceptual.</div><div class="tool-you">TÚ DIRIGES LA VISIÓN</div></div>
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">⚡</span><div class="tool-name">CURSOR</div><div class="tool-role">IDE con AI integrada. Donde la arquitectura se convierte en código real. El taller del arquitecto.</div><div class="tool-you">TÚ REVISAS LA CALIDAD</div></div>
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">📄</span><div class="tool-name">CLAUDE.MD</div><div class="tool-role">La Bible del proyecto. Contexto permanente que la AI lee en cada sesión. Stack, convenciones, reglas.</div><div class="tool-you">TÚ ERES EL AUTOR</div></div>
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">🗺️</span><div class="tool-name">NOTION / PRD</div><div class="tool-role">Centro de comando. User stories, arquitectura, decisiones técnicas, historial de cambios.</div><div class="tool-you">TÚ ERES EL PRODUCT MGR</div></div>
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">🚀</span><div class="tool-name">VERCEL / SUPABASE</div><div class="tool-role">Infraestructura serverless. Deploy, BD, auth, storage sin ops. Foco en producto.</div><div class="tool-you">TÚ TOMAS DECISIONES INFRA</div></div>
+    <div class="tool-card"><div class="tool-glow"></div><span class="tool-icon">🔧</span><div class="tool-name">GITHUB</div><div class="tool-role">Historial de decisiones. Cada commit es una decisión de arquitecto. Tu legado técnico.</div><div class="tool-you">TÚ ERES EL GATEKEEPER</div></div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S5: LESSONS -->
+<section class="section" id="s5">
+  <div class="sec-header"><span class="sec-code">MODULE_05</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">TRAINING <span class="hi">PROTOCOLS</span></h2>
+  <div class="lessons reveal">
+
+    <div class="lesson" id="l1">
+      <div class="lesson-header" onclick="toggleLesson('l1')">
+        <div class="l-num">01</div>
+        <div class="l-title">Escribir PRDs que la AI pueda ejecutar</div>
+        <div class="l-time">~15 MIN</div>
+        <svg class="l-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lesson-body"><div class="lesson-content">
+        <p>Un PRD para AI no es un documento bonito — es un <strong>contrato de instrucciones</strong>. Cuanto más específico, mejor el output.</p>
+        <div class="l-points">
+          <div class="l-point"><span class="l-point-marker">▷ 01</span><span><strong>Sección de Contexto:</strong> ¿Qué problema resuelve? ¿Para quién? ¿Por qué ahora?</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 02</span><span><strong>Stack declarado:</strong> Next.js 14, TypeScript, Tailwind, Supabase — siempre explícito</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 03</span><span><strong>User Stories:</strong> "Como [rol], quiero [acción], para [beneficio]"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 04</span><span><strong>Criterios medibles:</strong> No "funciona bien" — "carga en menos de 2 segundos"</span></div>
+        </div>
+        <div class="l-code">
+<span class="cm">// PRD TEMPLATE — feature section</span><br><br>
+<span class="kw">FEATURE:</span> <span class="str">Dashboard de Proyectos</span><br>
+<span class="kw">STACK:</span> <span class="val">Next.js 14 · TypeScript · Tailwind · Supabase</span><br>
+<span class="kw">USER_STORY:</span> <span class="str">"Como PM, quiero ver proyectos activos con estado y actividad."</span><br>
+<span class="kw">INPUTS:</span> userId autenticado via Supabase Auth<br>
+<span class="kw">OUTPUT:</span> Grid de cards: nombre, status, client, updated_at<br>
+<span class="kw">CONSTRAINTS:</span> 3 estados: active | paused | done · sort: updated_at DESC<br>
+<span class="kw">SUCCESS:</span> <span class="val">Carga &lt;1.5s · Empty state si no hay proyectos</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="lesson" id="l2">
+      <div class="lesson-header" onclick="toggleLesson('l2')">
+        <div class="l-num">02</div>
+        <div class="l-title">Decomposición: De visión a tareas atómicas</div>
+        <div class="l-time">~20 MIN</div>
+        <svg class="l-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lesson-body"><div class="lesson-content">
+        <p>El error más común: pedirle a la AI "construye la app". <strong>La AI necesita tareas pequeñas, concretas, con contexto claro.</strong></p>
+        <div class="l-points">
+          <div class="l-point"><span class="l-point-marker">▷ 01</span><span><strong>Epic → Feature → Task:</strong> Descompón en 3 niveles antes de promptear</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 02</span><span><strong>Una tarea = un componente:</strong> "Construye el hook useProjects" no "construye el dashboard"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 03</span><span><strong>Incluye dependencias:</strong> "Este hook usa el Supabase client en lib/supabase.ts"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 04</span><span><strong>Define el contrato:</strong> inputs, outputs, y errores esperados antes de pedir código</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="lesson" id="l3">
+      <div class="lesson-header" onclick="toggleLesson('l3')">
+        <div class="l-num">03</div>
+        <div class="l-title">Mantener coherencia a través de sesiones</div>
+        <div class="l-time">~15 MIN</div>
+        <svg class="l-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lesson-body"><div class="lesson-content">
+        <p>La AI no tiene memoria entre sesiones. <strong>Tú eres la memoria del proyecto.</strong> El claude.md y el PRD son el sistema nervioso que mantiene la coherencia.</p>
+        <div class="l-points">
+          <div class="l-point"><span class="l-point-marker">▷ 01</span><span><strong>claude.md obligatorio:</strong> Stack, convenciones de naming, estructura de carpetas, patrones usados</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 02</span><span><strong>Session starter:</strong> "Lee el claude.md y el PRD antes de continuar. Seguimos desde: [contexto]"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 03</span><span><strong>Decisiones documentadas:</strong> ¿Por qué Supabase y no Firebase? Escríbelo. La AI lo necesita.</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="lesson" id="l4">
+      <div class="lesson-header" onclick="toggleLesson('l4')">
+        <div class="l-num">04</div>
+        <div class="l-title">Debugging como Arquitecto — no línea por línea</div>
+        <div class="l-time">~25 MIN</div>
+        <svg class="l-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lesson-body"><div class="lesson-content">
+        <p>El arquitecto debuggea el <strong>sistema, no líneas.</strong> ¿En qué capa está el problema? ¿Datos, lógica, UI, network? Localiza la capa antes de ejecutar cualquier fix.</p>
+        <div class="l-points">
+          <div class="l-point"><span class="l-point-marker">▷ 01</span><span><strong>Describe el síntoma:</strong> "El usuario ve datos vacíos aunque hay datos en DB. El fetch retorna array vacío."</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 02</span><span><strong>Pide root cause:</strong> "Antes de fixear, explícame por qué crees que está pasando esto"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 03</span><span><strong>Valida side effects:</strong> "¿Este fix afecta otros componentes? ¿Qué más podría romperse?"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ 04</span><span><strong>Documenta el bug:</strong> Agrega al claude.md como decisión tomada. Evita reincidir.</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="lesson" id="l5">
+      <div class="lesson-header" onclick="toggleLesson('l5')">
+        <div class="l-num">05</div>
+        <div class="l-title">Comunicar valor al cliente sin hablar de código</div>
+        <div class="l-time">~10 MIN</div>
+        <svg class="l-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="lesson-body"><div class="lesson-content">
+        <p>El arquitecto habla en <strong>outcomes, no en outputs.</strong> Tu cliente no paga por componentes React — paga por leads, eficiencia, y crecimiento.</p>
+        <div class="l-points">
+          <div class="l-point"><span class="l-point-marker">✗ MAL</span><span>"Implementé un hook con React Query para data fetching optimizado con caché"</span></div>
+          <div class="l-point"><span class="l-point-marker">✓ BIEN</span><span>"El dashboard carga 3× más rápido — tus clientes llegan a la acción clave en &lt;2 segundos"</span></div>
+          <div class="l-point"><span class="l-point-marker">▷ PRD</span><span>El PRD es tu contrato: muestra qué se definió y qué se entregó. Transparencia = confianza = retención.</span></div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<!-- S6: MISSION -->
+<section class="section" id="s6">
+  <div class="sec-header"><span class="sec-code">MODULE_06</span><div class="sec-line"></div></div>
+  <h2 class="sec-title reveal">PRIMER <span class="hi">MISSION</span></h2>
+  <div class="challenge-card reveal">
+    <div class="challenge-title">OTTO // Feature "Asset Upload" — PRD Exercise</div>
+    <div class="challenge-desc">Usando OTTO como proyecto real de Denysoft, escribe el PRD de un feature específico y promptea a Claude para que lo construya. Este ejercicio une los 4 sombreros en un flujo real.</div>
+    <div class="mission-steps">
+      <div class="m-step"><div class="m-num">01</div><div class="m-text"><strong>Elige UN feature pequeño de OTTO</strong> — por ejemplo: "Guardar prompts de AI en un proyecto específico". Pequeño y concreto.</div></div>
+      <div class="m-step"><div class="m-num">02</div><div class="m-text"><strong>Escribe el PRD en Notion</strong> usando el template aprendido: contexto, stack, user story, inputs/outputs, criterios de éxito. Máximo 1 página.</div></div>
+      <div class="m-step"><div class="m-num">03</div><div class="m-text"><strong>Decompon en 3 tareas atómicas:</strong> 1) tabla en Supabase, 2) API endpoint, 3) componente UI.</div></div>
+      <div class="m-step"><div class="m-num">04</div><div class="m-text"><strong>Promptea Claude o Cursor</strong> con el PRD como contexto. Empieza por la tarea 1. Evalúa como QA crítico antes de pasar a la 2.</div></div>
+      <div class="m-step"><div class="m-num">05</div><div class="m-text"><strong>Documenta el resultado:</strong> ¿Qué funcionó? ¿Qué corregiste? ¿Qué agregas al claude.md de OTTO? <strong>Eso es pensar como arquitecto.</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hud-divider"></div>
+
+<footer class="footer">
+  <div>
+    <div class="footer-brand">J.A.R.V.I.S. // DENYSOFT ARCHITECT PROTOCOL</div>
+    <div class="footer-sub">El arquitecto dirige. La AI construye. Tú escalas.</div>
+  </div>
+  <div class="footer-meta">TUTORIAL · v1.0<br>MASTER DENYS LOPEZ · 2026</div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progressBar').style.width = (window.scrollY / total * 100) + '%';
+  const secs = ['s0','s1','s2','s3','s4','s5','s6'];
+  const navItems = document.querySelectorAll('.nav-item');
+  secs.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top <= window.innerHeight * 0.5 && r.bottom >= window.innerHeight * 0.5) {
+      navItems.forEach(n => n.classList.remove('active'));
+      navItems[i]?.classList.add('active');
+    }
+  });
+});
+
+document.querySelectorAll('.nav-item').forEach((item, i) => {
+  item.addEventListener('click', () => {
+    const secs = ['s0','s1','s2','s3','s4','s5','s6'];
+    document.getElementById(secs[i])?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+function toggleLesson(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Typing effect
+const target = document.getElementById('typeTarget');
+const words = ['CODING.', 'BUILDING.', 'EXECUTING.', 'CODING.'];
+let wi = 0, ci = 0, del = false;
+function type() {
+  const word = words[wi];
+  if (!del) {
+    target.textContent = word.slice(0, ++ci);
+    if (ci === word.length) { del = true; setTimeout(type, 2200); return; }
+  } else {
+    target.textContent = word.slice(0, --ci);
+    if (ci === 0) { del = false; wi = (wi + 1) % words.length; }
+  }
+  setTimeout(type, del ? 55 : 95);
+}
+setTimeout(type, 2000);
+</script>
+</body>
+</html>

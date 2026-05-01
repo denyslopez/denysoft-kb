@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Design 301 — Denysoft KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050708;
+  --surface: #0c0f12;
+  --card: #111518;
+  --card2: #161b20;
+  --border: #1e2830;
+  --border2: #253040;
+  --accent: #39ff8f;
+  --accent2: #ff3f6c;
+  --accent3: #fbbf24;
+  --accent4: #60a5fa;
+  --accent5: #c084fc;
+  --text: #e2eaf4;
+  --muted: #5a7080;
+  --muted2: #3a5060;
+  --radius: 14px;
+  --rsm: 7px;
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+[data-theme="light"] {
+  --bg: #f0f5f9; --surface: #ffffff; --card: #f7fafc; --card2: #edf2f7;
+  --border: #cbd8e4; --border2: #b0c4d8; --text: #0d1b2a; --muted: #4a6070; --muted2: #8aa0b0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+
+/* SCANLINE */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(57,255,143,0.012) 2px,rgba(57,255,143,0.012) 4px);pointer-events:none;z-index:0;}
+
+.wrap{max-width:880px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+/* PROGRESS */
+.prog{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;}
+.prog-inner{max-width:880px;margin:0 auto;padding:0 24px;}
+.prog-track{height:2px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent4));width:0%;transition:width .3s;}
+
+/* HEADER */
+header{padding:44px 0 0;border-bottom:1px solid var(--border);margin-bottom:56px;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:48px;flex-wrap:wrap;gap:12px;}
+.badges{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{font-family:var(--font-mono);font-size:10px;padding:4px 12px;border-radius:100px;letter-spacing:.06em;}
+.badge-kb{color:var(--accent);background:rgba(57,255,143,0.08);border:1px solid rgba(57,255,143,0.25);}
+.badge-pre{color:var(--accent3);background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);}
+.badge-new{color:var(--accent2);background:rgba(255,63,108,0.08);border:1px solid rgba(255,63,108,0.2);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.ctrls{display:flex;gap:8px;}
+.btn-c{font-family:var(--font-mono);font-size:10px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;}
+.btn-c:hover{border-color:var(--accent);color:var(--accent);}
+
+.eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--accent2);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
+.hero-title{font-family:var(--font-display);font-size:clamp(56px,10vw,110px);line-height:.95;letter-spacing:.02em;margin-bottom:20px;color:var(--text);}
+.hero-title .hl{color:var(--accent);}
+.hero-title .dim{color:var(--muted2);}
+.hero-sub{font-size:16px;color:var(--muted);max-width:600px;margin-bottom:36px;}
+.hero-sub strong{color:var(--text);}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border);}
+.meta-i{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.meta-i span{color:var(--accent);}
+
+/* STACK BADGES */
+.stack-row{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0;}
+.stack-pill{font-family:var(--font-mono);font-size:11px;padding:5px 14px;border-radius:100px;border:1px solid var(--border2);background:var(--card);color:var(--text);display:flex;align-items:center;gap:6px;}
+.stack-pill .dot{width:7px;height:7px;border-radius:50%;}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 26px;margin-bottom:56px;}
+.toc-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:520px){.toc-grid{grid-template-columns:1fr;}}
+.toc-a{text-decoration:none;color:var(--text);font-size:14px;display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:var(--rsm);transition:all .2s;}
+.toc-a:hover{background:rgba(57,255,143,0.05);color:var(--accent);}
+.toc-n{font-family:var(--font-mono);font-size:10px;color:var(--accent);min-width:22px;}
+
+/* SECTION */
+.section{margin-bottom:72px;scroll-margin-top:60px;}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.sec-label::before{content:'';width:14px;height:1px;background:var(--accent);}
+h2{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);line-height:1.05;letter-spacing:.03em;margin-bottom:18px;}
+p{color:var(--muted);margin-bottom:14px;font-size:15px;}
+strong{color:var(--text);}
+hr.dv{border:none;border-top:1px solid var(--border);margin:52px 0;}
+
+/* CALLOUTS */
+.callout{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--rsm);padding:14px 18px;margin:20px 0;font-size:14px;color:var(--text);background:var(--card);}
+.callout.warn{border-left-color:var(--accent2);}
+.callout.gold{border-left-color:var(--accent3);}
+.callout.blue{border-left-color:var(--accent4);}
+.callout.purple{border-left-color:var(--accent5);}
+
+/* OLD vs NEW COMPARISON */
+.paradigm-compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:24px 0;}
+@media(max-width:560px){.paradigm-compare{grid-template-columns:1fr;}}
+.paradigm-col{padding:24px 22px;}
+.paradigm-col.old{background:var(--card);border-right:1px solid var(--border);}
+.paradigm-col.new{background:rgba(57,255,143,0.03);}
+.paradigm-header{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.paradigm-col.old .paradigm-header{color:var(--muted);}
+.paradigm-col.new .paradigm-header{color:var(--accent);}
+.paradigm-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:13.5px;}
+.paradigm-col.old .paradigm-item{color:var(--muted);}
+.paradigm-col.new .paradigm-item{color:var(--text);}
+.pi-icon{flex-shrink:0;margin-top:2px;}
+
+/* AI FLOW — MAIN PIPELINE */
+.ai-flow{margin:28px 0;}
+.flow-step{display:flex;gap:0;margin-bottom:4px;position:relative;}
+.flow-step:not(:last-child)::after{content:'';position:absolute;left:27px;bottom:-20px;width:2px;height:20px;background:var(--border2);z-index:0;}
+.flow-num{width:56px;height:56px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--accent);background:var(--card);flex-shrink:0;position:relative;z-index:1;transition:all .2s;cursor:pointer;}
+.flow-num:hover,.flow-step.active .flow-num{border-color:var(--accent);background:rgba(57,255,143,0.08);}
+.flow-content{flex:1;margin-left:18px;padding:14px 0 24px;}
+.flow-title{font-family:var(--font-display);font-size:24px;letter-spacing:.04em;margin-bottom:4px;color:var(--text);}
+.flow-tool{font-family:var(--font-mono);font-size:10px;color:var(--accent4);letter-spacing:.1em;margin-bottom:8px;}
+.flow-body{font-size:14px;color:var(--muted);}
+.flow-expand{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 18px;margin-top:12px;display:none;animation:fadeIn .3s;}
+.flow-expand.show{display:block;}
+.expand-btn{font-family:var(--font-mono);font-size:10px;color:var(--accent);cursor:pointer;letter-spacing:.08em;background:none;border:none;padding:6px 0;transition:opacity .2s;}
+.expand-btn:hover{opacity:.7;}
+
+/* PROMPT BLOCK */
+.prompt-block{background:#050e08;border:1px solid rgba(57,255,143,0.15);border-radius:var(--rsm);padding:18px 20px;margin:14px 0;font-family:var(--font-mono);font-size:12.5px;color:#a0ffcc;line-height:1.8;position:relative;}
+.prompt-block::before{content:'PROMPT';position:absolute;top:10px;right:14px;font-size:9px;color:rgba(57,255,143,0.3);letter-spacing:.12em;}
+.prompt-block .ph{color:rgba(57,255,143,0.4);}
+.copy-btn{position:absolute;bottom:10px;right:14px;font-family:var(--font-mono);font-size:9px;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .2s;}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* TOOL CARDS */
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0;}
+@media(max-width:560px){.tool-grid{grid-template-columns:1fr 1fr;}}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;cursor:pointer;transition:all .2s;text-align:center;}
+.tool-card:hover,.tool-card.sel{border-color:var(--accent4);background:rgba(96,165,250,0.05);}
+.tool-icon{font-size:28px;margin-bottom:10px;}
+.tool-name{font-weight:700;font-size:14px;margin-bottom:4px;}
+.tool-role{font-family:var(--font-mono);font-size:10px;color:var(--accent4);letter-spacing:.08em;margin-bottom:8px;}
+.tool-desc{font-size:12px;color:var(--muted);}
+.tool-detail{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 22px;margin-top:4px;display:none;animation:fadeIn .3s;}
+.tool-detail.show{display:block;}
+
+/* PROMPT LAB */
+.prompt-lab{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;}
+.lab-title{font-family:var(--font-display);font-size:26px;letter-spacing:.04em;margin-bottom:6px;}
+.lab-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.lab-controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:520px){.lab-controls{grid-template-columns:1fr;}}
+.lc-field label{font-family:var(--font-mono);font-size:10px;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:.08em;}
+.lc-field input,.lc-field select{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:var(--rsm);font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .2s;}
+.lc-field input:focus,.lc-field select:focus{border-color:var(--accent);}
+.gen-btn{padding:11px 24px;background:var(--accent);color:#000;border:none;border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;letter-spacing:.02em;}
+.gen-btn:hover{opacity:.85;}
+.lab-output{margin-top:20px;display:none;animation:fadeIn .4s;}
+.lab-output.show{display:block;}
+.out-section{margin-bottom:16px;}
+.out-label{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.12em;margin-bottom:8px;}
+
+/* ITERATION SYSTEM */
+.iter-track{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin;margin:20px 0;}
+.iter-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;min-width:200px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.iter-card:hover,.iter-card.sel{border-color:var(--accent2);}
+.iter-v{font-family:var(--font-mono);font-size:10px;color:var(--accent2);letter-spacing:.1em;margin-bottom:8px;}
+.iter-visual{height:80px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-weight:900;font-size:18px;}
+.iter-note{font-size:12px;color:var(--muted);}
+.iter-detail{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 20px;margin-top:4px;display:none;animation:fadeIn .3s;}
+.iter-detail.show{display:block;}
+
+/* QUALITY CHECKLIST */
+.qc-grid{display:grid;gap:8px;margin:20px 0;}
+.qc-item{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;transition:all .2s;}
+.qc-item:hover{border-color:var(--border2);}
+.qc-item.pass{border-color:var(--accent);background:rgba(57,255,143,0.04);}
+.qc-item.fail{border-color:var(--accent2);background:rgba(255,63,108,0.04);}
+.qc-box{width:20px;height:20px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:2px;transition:all .2s;}
+.qc-item.pass .qc-box{background:var(--accent);border-color:var(--accent);color:#000;}
+.qc-item.fail .qc-box{background:var(--accent2);border-color:var(--accent2);color:#fff;}
+.qc-text{font-size:14px;}
+.qc-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* SPEED COMPARE */
+.speed-bar-wrap{margin:24px 0;}
+.speed-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+.speed-label{font-family:var(--font-mono);font-size:11px;width:120px;flex-shrink:0;color:var(--muted);}
+.speed-bar-bg{flex:1;height:10px;background:var(--card2);border-radius:5px;overflow:hidden;}
+.speed-bar-fill{height:100%;border-radius:5px;transition:width 1s ease;}
+.speed-time{font-family:var(--font-mono);font-size:11px;width:60px;text-align:right;flex-shrink:0;}
+
+/* QUIZ */
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;}
+.q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.q-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.q-bar-wrap{width:90px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.q-bar{height:100%;background:var(--accent);transition:width .4s;}
+.q-q{font-family:var(--font-display);font-size:22px;letter-spacing:.03em;margin-bottom:18px;line-height:1.15;}
+.q-opts{display:grid;gap:9px;}
+.q-opt{padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;font-size:14px;font-family:var(--font-body);color:var(--text);text-align:left;transition:all .2s;}
+.q-opt:hover:not(.dis){border-color:var(--accent);background:rgba(57,255,143,0.04);}
+.q-opt.correct{border-color:var(--accent);background:rgba(57,255,143,0.07);color:var(--accent);}
+.q-opt.wrong{border-color:var(--accent2);background:rgba(255,63,108,0.07);color:var(--accent2);}
+.q-opt.dis{cursor:default;}
+.q-fb{margin-top:14px;padding:12px 16px;border-radius:var(--rsm);font-size:13.5px;display:none;animation:fadeIn .3s;}
+.q-fb.correct{background:rgba(57,255,143,0.07);border:1px solid var(--accent);color:var(--accent);display:block;}
+.q-fb.wrong{background:rgba(255,63,108,0.07);border:1px solid var(--accent2);color:var(--accent2);display:block;}
+.q-next{margin-top:14px;display:none;padding:10px 22px;background:var(--accent);color:#000;border:none;border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;}
+.q-result{text-align:center;padding:16px 0;display:none;}
+.q-score{font-family:var(--font-display);font-size:72px;color:var(--accent);line-height:1;}
+.q-msg{font-size:14px;color:var(--muted);margin-top:8px;}
+.q-restart{margin-top:18px;padding:10px 24px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
+.q-restart:hover{background:rgba(57,255,143,0.08);}
+
+/* NEXT MODULE */
+.next-mod{background:linear-gradient(135deg,rgba(192,132,252,0.06),rgba(96,165,250,0.06));border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.nm-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;margin-bottom:6px;}
+.nm-title{font-family:var(--font-display);font-size:28px;letter-spacing:.04em;}
+.nm-title .hl{color:var(--accent5);}
+.nm-btn{padding:11px 22px;background:transparent;border:1px solid var(--accent5);color:var(--accent5);border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nm-btn:hover{background:rgba(192,132,252,0.08);}
+
+footer{border-top:1px solid var(--border);padding:28px 0;margin-top:60px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;}
+.footer-brand{color:var(--accent);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+[data-lang="es"] .en{display:none;}
+[data-lang="en"] .es{display:none;}
+</style>
+</head>
+<body>
+
+<div class="prog"><div class="prog-inner"><div class="prog-track"><div class="prog-fill" id="pFill"></div></div></div></div>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="badges">
+      <span class="badge badge-kb">Denysoft KB · Design Series</span>
+      <span class="badge badge-pre">⚠ <span class="en">Requires 101 + 201</span><span class="es">Requiere 101 + 201</span></span>
+      <span class="badge badge-new">✦ <span class="en">AI-Native</span><span class="es">AI-Native</span></span>
+    </div>
+    <div class="ctrls">
+      <button class="btn-c" id="langBtn" onclick="toggleLang()">🌐 ES</button>
+      <button class="btn-c" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+    </div>
+  </div>
+  <div class="eyebrow en">Graphic Design · Module 03</div>
+  <div class="eyebrow es">Diseño Gráfico · Módulo 03</div>
+  <h1 class="hero-title">
+    <span class="dim">LOGO</span><br>
+    <span class="hl">DESIGN</span><br>
+    <span class="dim">301</span>
+  </h1>
+  <p class="hero-sub en">The traditional 7-step design process is <strong>dead</strong>. Here's the new AI-native workflow — faster, more iterative, and more powerful — using the tools already in your stack.</p>
+  <p class="hero-sub es">El proceso tradicional de 7 pasos está <strong>muerto</strong>. Aquí está el nuevo flujo de trabajo AI-native — más rápido, más iterativo y más poderoso — usando las herramientas que ya tienes en tu stack.</p>
+
+  <div class="stack-row">
+    <div class="stack-pill"><div class="dot" style="background:#ff6b35;"></div>Claude</div>
+    <div class="stack-pill"><div class="dot" style="background:#4285f4;"></div>Gemini</div>
+    <div class="stack-pill"><div class="dot" style="background:#ff0000;"></div>Adobe Firefly</div>
+    <div class="stack-pill"><div class="dot" style="background:#1ab26b;"></div>Envato Elements</div>
+    <div class="stack-pill"><div class="dot" style="background:#10a37f;"></div>ChatGPT</div>
+  </div>
+
+  <div class="hero-meta">
+    <div class="meta-i">⏱ <span>~55 min</span></div>
+    <div class="meta-i">🤖 <span class="en">AI-Native</span><span class="es">AI-Native</span></div>
+    <div class="meta-i">🎯 <span class="en">8 Sections</span><span class="es">8 Secciones</span></div>
+    <div class="meta-i">🧪 <span class="en">Prompt Lab included</span><span class="es">Prompt Lab incluido</span></div>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc reveal">
+  <div class="toc-label en">Contents</div>
+  <div class="toc-label es">Contenido</div>
+  <div class="toc-grid">
+    <a class="toc-a" href="#s1"><span class="toc-n">01</span><span class="en">The Paradigm Shift</span><span class="es">El Cambio de Paradigma</span></a>
+    <a class="toc-a" href="#s2"><span class="toc-n">02</span><span class="en">Your New AI Stack</span><span class="es">Tu Nuevo Stack de AI</span></a>
+    <a class="toc-a" href="#s3"><span class="toc-n">03</span><span class="en">The AI-Native Flow</span><span class="es">El Flujo AI-Native</span></a>
+    <a class="toc-a" href="#s4"><span class="toc-n">04</span><span class="en">Prompt Engineering for Logos</span><span class="es">Prompt Engineering para Logos</span></a>
+    <a class="toc-a" href="#s5"><span class="toc-n">05</span><span class="en">The Iteration System</span><span class="es">El Sistema de Iteración</span></a>
+    <a class="toc-a" href="#s6"><span class="toc-n">06</span><span class="en">AI Output Quality Control</span><span class="es">Control de Calidad del Output AI</span></a>
+    <a class="toc-a" href="#s7"><span class="toc-n">07</span><span class="en">Speed Benchmarks</span><span class="es">Benchmarks de Velocidad</span></a>
+    <a class="toc-a" href="#s8"><span class="toc-n">08</span><span class="en">Quiz</span><span class="es">Quiz</span></a>
+  </div>
+</nav>
+
+<!-- S1: PARADIGM SHIFT -->
+<section class="section reveal" id="s1">
+  <div class="sec-label en">Section 01</div><div class="sec-label es">Sección 01</div>
+  <h2 class="en">THE PARADIGM<br>SHIFT</h2>
+  <h2 class="es">EL CAMBIO DE<br>PARADIGMA</h2>
+  <p class="en">The traditional process was designed around scarcity: scarce time, scarce iteration, scarce reference material. AI removes all three constraints. The process doesn't just get faster — it gets fundamentally different.</p>
+  <p class="es">El proceso tradicional fue diseñado en torno a la escasez: escasez de tiempo, escasez de iteración, escasez de material de referencia. La AI elimina las tres restricciones. El proceso no solo se vuelve más rápido — se vuelve fundamentalmente diferente.</p>
+
+  <div class="paradigm-compare">
+    <div class="paradigm-col old">
+      <div class="paradigm-header en">❌ TRADITIONAL PROCESS (Dead)</div>
+      <div class="paradigm-header es">❌ PROCESO TRADICIONAL (Muerto)</div>
+      <div class="paradigm-item"><span class="pi-icon">📅</span><span class="en">Discovery call → wait → brief document → wait</span><span class="es">Llamada de discovery → espera → documento brief → espera</span></div>
+      <div class="paradigm-item"><span class="pi-icon">✏️</span><span class="en">20–50 hand sketches (days)</span><span class="es">20–50 bocetos a mano (días)</span></div>
+      <div class="paradigm-item"><span class="pi-icon">🔍</span><span class="en">Manual competitor research (hours)</span><span class="es">Investigación manual de competidores (horas)</span></div>
+      <div class="paradigm-item"><span class="pi-icon">🎨</span><span class="en">3 concepts → client picks one → 3 revision rounds</span><span class="es">3 conceptos → cliente elige uno → 3 rondas de revisión</span></div>
+      <div class="paradigm-item"><span class="pi-icon">⏱</span><span class="en">Total: 2–4 weeks</span><span class="es">Total: 2–4 semanas</span></div>
+      <div class="paradigm-item"><span class="pi-icon">💸</span><span class="en">High cost = limited iterations</span><span class="es">Costo alto = iteraciones limitadas</span></div>
+    </div>
+    <div class="paradigm-col new">
+      <div class="paradigm-header en">✦ AI-NATIVE PROCESS (Now)</div>
+      <div class="paradigm-header es">✦ PROCESO AI-NATIVE (Ahora)</div>
+      <div class="paradigm-item"><span class="pi-icon">⚡</span><span class="en">Strategic brief extracted by Claude in 10 minutes</span><span class="es">Brief estratégico extraído por Claude en 10 minutos</span></div>
+      <div class="paradigm-item"><span class="pi-icon">🤖</span><span class="en">50+ visual directions generated in 30 minutes</span><span class="es">50+ direcciones visuales generadas en 30 minutos</span></div>
+      <div class="paradigm-item"><span class="pi-icon">🔎</span><span class="en">AI competitor + market analysis in minutes</span><span class="es">Análisis AI de competidores y mercado en minutos</span></div>
+      <div class="paradigm-item"><span class="pi-icon">🔄</span><span class="en">Infinite iterations — refine in real time with client</span><span class="es">Iteraciones infinitas — refina en tiempo real con el cliente</span></div>
+      <div class="paradigm-item"><span class="pi-icon">⏱</span><span class="en">Total: 2–5 days (same quality)</span><span class="es">Total: 2–5 días (misma calidad)</span></div>
+      <div class="paradigm-item"><span class="pi-icon">📈</span><span class="en">Lower cost = more iterations = better output</span><span class="es">Menor costo = más iteraciones = mejor resultado</span></div>
+    </div>
+  </div>
+
+  <div class="callout warn en">⚠️ <strong>Critical distinction:</strong> AI-native doesn't mean AI does the work. It means <strong>you use AI as your execution layer</strong> while you remain the strategist, art director, and quality filter. The designer who masters AI prompting will replace the one who doesn't — not the other way around.</div>
+  <div class="callout warn es">⚠️ <strong>Distinción crítica:</strong> AI-native no significa que la AI hace el trabajo. Significa que <strong>usas la AI como tu capa de ejecución</strong> mientras tú sigues siendo el estratega, director de arte y filtro de calidad. El diseñador que domina los prompts de AI reemplazará al que no — no al revés.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S2: TOOL STACK -->
+<section class="section reveal" id="s2">
+  <div class="sec-label en">Section 02</div><div class="sec-label es">Sección 02</div>
+  <h2 class="en">YOUR AI<br>TOOL STACK</h2>
+  <h2 class="es">TU STACK DE<br>HERRAMIENTAS AI</h2>
+  <p class="en">Each tool in your stack has a specific role in the AI-native logo process. Using the wrong tool for the wrong job is one of the biggest mistakes beginners make. Tap each to understand its role.</p>
+  <p class="es">Cada herramienta en tu stack tiene un rol específico en el proceso AI-native de logos. Usar la herramienta equivocada para el trabajo equivocado es uno de los errores más grandes que cometen los principiantes. Toca cada una para entender su rol.</p>
+
+  <div class="tool-grid">
+    <div class="tool-card" onclick="showTool('claude',this)">
+      <div class="tool-icon">🧠</div>
+      <div class="tool-name">Claude</div>
+      <div class="tool-role en">STRATEGY BRAIN</div>
+      <div class="tool-role es">CEREBRO ESTRATÉGICO</div>
+      <div class="tool-desc en">Brief extraction, brand strategy, naming, concept direction, copy</div>
+      <div class="tool-desc es">Extracción de brief, estrategia de marca, naming, dirección de concepto, copy</div>
+    </div>
+    <div class="tool-card" onclick="showTool('gemini',this)">
+      <div class="tool-icon">♊</div>
+      <div class="tool-name">Gemini</div>
+      <div class="tool-role en">RESEARCH ENGINE</div>
+      <div class="tool-role es">MOTOR DE INVESTIGACIÓN</div>
+      <div class="tool-desc en">Market research, competitor analysis, trend identification, references</div>
+      <div class="tool-desc es">Investigación de mercado, análisis de competidores, identificación de tendencias, referencias</div>
+    </div>
+    <div class="tool-card" onclick="showTool('firefly',this)">
+      <div class="tool-icon">🔥</div>
+      <div class="tool-name">Adobe Firefly</div>
+      <div class="tool-role en">VISUAL GENERATOR</div>
+      <div class="tool-role es">GENERADOR VISUAL</div>
+      <div class="tool-desc en">Logo concepts, mark exploration, color palettes, mockup generation</div>
+      <div class="tool-desc es">Conceptos de logo, exploración de símbolos, paletas de color, generación de mockups</div>
+    </div>
+    <div class="tool-card" onclick="showTool('envato',this)">
+      <div class="tool-icon">🗂</div>
+      <div class="tool-name">Envato Elements</div>
+      <div class="tool-role en">ASSET LIBRARY</div>
+      <div class="tool-role es">BIBLIOTECA DE ASSETS</div>
+      <div class="tool-desc en">Font licenses, icon sets, mockup templates, presentation assets</div>
+      <div class="tool-desc es">Licencias de fuentes, sets de íconos, plantillas de mockup, assets de presentación</div>
+    </div>
+    <div class="tool-card" onclick="showTool('chatgpt',this)">
+      <div class="tool-icon">💬</div>
+      <div class="tool-name">ChatGPT</div>
+      <div class="tool-role en">IDEATION PARTNER</div>
+      <div class="tool-role es">SOCIO DE IDEACIÓN</div>
+      <div class="tool-desc en">Tagline generation, naming alternatives, concept brainstorming, client presentations</div>
+      <div class="tool-desc es">Generación de taglines, alternativas de naming, brainstorming de conceptos, presentaciones de cliente</div>
+    </div>
+  </div>
+  <div class="tool-detail" id="toolDetail"></div>
+
+  <div class="callout blue en">💡 <strong>The stack rule:</strong> Claude = What to design. Gemini = What exists in the market. Firefly = Generate the visuals. Envato = Source the assets. ChatGPT = Rapid brainstorming partner. Never confuse their roles.</div>
+  <div class="callout blue es">💡 <strong>La regla del stack:</strong> Claude = Qué diseñar. Gemini = Qué existe en el mercado. Firefly = Genera los visuales. Envato = Fuente los assets. ChatGPT = Socio de brainstorming rápido. Nunca confundas sus roles.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S3: AI-NATIVE FLOW -->
+<section class="section reveal" id="s3">
+  <div class="sec-label en">Section 03</div><div class="sec-label es">Sección 03</div>
+  <h2 class="en">THE AI-NATIVE<br>FLOW</h2>
+  <h2 class="es">EL FLUJO<br>AI-NATIVE</h2>
+  <p class="en">6 steps. Each one AI-accelerated. Each one faster than before — but none of them skipped. The AI removes execution friction, not strategic thinking.</p>
+  <p class="es">6 pasos. Cada uno acelerado por AI. Cada uno más rápido que antes — pero ninguno se omite. La AI elimina la fricción de ejecución, no el pensamiento estratégico.</p>
+
+  <div class="ai-flow" id="aiFlow">
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(0)">1</div>
+      <div class="flow-content">
+        <div class="flow-tool">🧠 CLAUDE — ~10 min</div>
+        <div class="flow-title en">STRATEGIC BRIEF EXTRACTION</div>
+        <div class="flow-title es">EXTRACCIÓN ESTRATÉGICA DEL BRIEF</div>
+        <div class="flow-body en">Feed Claude your client's raw information — their website, a description, notes from a call. Claude structures it into a precise design brief: audience, positioning, competitors, color direction, typography personality, and what to avoid. No more 2-hour brief writing sessions.</div>
+        <div class="flow-body es">Alimenta a Claude con la información cruda de tu cliente — su sitio web, una descripción, notas de una llamada. Claude la estructura en un brief de diseño preciso: audiencia, posicionamiento, competidores, dirección de color, personalidad tipográfica y qué evitar. No más sesiones de 2 horas escribiendo briefs.</div>
+        <button class="expand-btn" onclick="toggleExpand(0)"><span class="en">→ See example prompt</span><span class="es">→ Ver prompt de ejemplo</span></button>
+        <div class="flow-expand" id="exp0">
+          <div class="prompt-block">
+<span class="ph">You are a senior brand strategist.</span>
+Here is everything I know about my client:
+
+<span class="ph">[Paste: client name, industry, description, target audience,
+competitors mentioned, any visual references they shared,
+words they used to describe themselves, budget range]</span>
+
+Extract a complete logo design brief with:
+1. Brand positioning statement (1 sentence)
+2. Target audience profile (2–3 sentences)
+3. 3 key brand personality attributes
+4. Color direction with psychological reasoning
+5. Typography personality (serif/sans/display and why)
+6. Logo type recommendation (wordmark/combination/etc.) and why
+7. Visual references to explore and avoid
+8. The ONE thing that must be true about this logo
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+          <p style="font-size:13px;margin:0;" class="en">This single prompt replaces a 2-hour brief session. Claude asks no follow-up — it works with what you give it and flags gaps. Run it before every project.</p>
+          <p style="font-size:13px;margin:0;" class="es">Este único prompt reemplaza una sesión de brief de 2 horas. Claude no hace seguimiento — trabaja con lo que le das y marca las brechas. Córrelo antes de cada proyecto.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(1)">2</div>
+      <div class="flow-content">
+        <div class="flow-tool">♊ GEMINI — ~15 min</div>
+        <div class="flow-title en">MARKET & COMPETITOR SCAN</div>
+        <div class="flow-title es">ANÁLISIS DE MERCADO Y COMPETIDORES</div>
+        <div class="flow-body en">Gemini's strength is real-time web access + research synthesis. Use it to map what visual territory competitors already own, identify color and style patterns in the industry, and find the whitespace — the position nobody is claiming.</div>
+        <div class="flow-body es">La fortaleza de Gemini es el acceso web en tiempo real + síntesis de investigación. Úsalo para mapear qué territorio visual ya poseen los competidores, identificar patrones de color y estilo en la industria, y encontrar el espacio vacío — la posición que nadie está reclamando.</div>
+        <button class="expand-btn" onclick="toggleExpand(1)"><span class="en">→ See example prompt</span><span class="es">→ Ver prompt de ejemplo</span></button>
+        <div class="flow-expand" id="exp1">
+          <div class="prompt-block">
+Search and analyze the top 10 competitors of <span class="ph">[CLIENT NAME]</span>
+in the <span class="ph">[INDUSTRY]</span> sector in <span class="ph">[MARKET/REGION]</span>.
+
+For each competitor, identify:
+- Primary logo type (wordmark/combination/emblem/etc.)
+- Dominant colors (hex if possible, or general description)
+- Typography style (serif/sans/script)
+- Brand personality (3 words)
+- Visual differentiators
+
+Then synthesize:
+1. What visual patterns dominate the market? (What everyone looks like)
+2. What visual territory is unclaimed? (The whitespace)
+3. What would make [CLIENT NAME] instantly stand out?
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+          <p style="font-size:13px;margin:0;" class="en">Gemini returns live data. Use its research canvas to save insights. This replaces 3–4 hours of manual competitor analysis and gives you a cleaner strategic picture.</p>
+          <p style="font-size:13px;margin:0;" class="es">Gemini devuelve datos en tiempo real. Usa su canvas de investigación para guardar insights. Esto reemplaza 3–4 horas de análisis manual de competidores y te da una visión estratégica más clara.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(2)">3</div>
+      <div class="flow-content">
+        <div class="flow-tool">🧠 CLAUDE + 💬 CHATGPT — ~15 min</div>
+        <div class="flow-title en">CONCEPT IDEATION SPRINT</div>
+        <div class="flow-title es">SPRINT DE IDEACIÓN DE CONCEPTOS</div>
+        <div class="flow-body en">No more blank paper. Use Claude for deep strategic concept development (3–5 directions with full rationale) and ChatGPT for rapid fire alternatives, tagline options, and name variations. You're running 50 ideas in 15 minutes instead of 3 ideas in 3 days.</div>
+        <div class="flow-body es">No más papel en blanco. Usa Claude para el desarrollo de conceptos estratégicos profundos (3–5 direcciones con justificación completa) y ChatGPT para alternativas rápidas, opciones de tagline y variaciones de nombre. Estás corriendo 50 ideas en 15 minutos en lugar de 3 ideas en 3 días.</div>
+        <button class="expand-btn" onclick="toggleExpand(2)"><span class="en">→ See example prompts</span><span class="es">→ Ver prompts de ejemplo</span></button>
+        <div class="flow-expand" id="exp2">
+          <p style="font-size:13px;color:var(--accent4);margin-bottom:8px;" class="en">Claude prompt — Deep concept development:</p>
+          <p style="font-size:13px;color:var(--accent4);margin-bottom:8px;" class="es">Prompt de Claude — Desarrollo profundo de conceptos:</p>
+          <div class="prompt-block">
+Based on this brief: <span class="ph">[paste brief from Step 1]</span>
+
+Generate 5 distinct logo concept directions for <span class="ph">[CLIENT]</span>.
+For each direction provide:
+- Concept name and 1-sentence rationale
+- Logo type (wordmark/combination/lettermark/etc.)
+- Visual metaphor or symbol idea
+- Color palette (3 colors max) with hex codes
+- Typography recommendation (specific font or font category)
+- Tagline suggestion
+- Why this direction wins for THIS specific client
+- What it risks or sacrifices
+
+Order them from most conservative to most bold.
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+          <p style="font-size:13px;color:var(--accent4);margin-top:14px;margin-bottom:8px;" class="en">ChatGPT prompt — Rapid tagline sprint:</p>
+          <p style="font-size:13px;color:var(--accent4);margin-top:14px;margin-bottom:8px;" class="es">Prompt de ChatGPT — Sprint rápido de taglines:</p>
+          <div class="prompt-block">
+Generate 20 tagline options for <span class="ph">[CLIENT NAME]</span>,
+a <span class="ph">[INDUSTRY]</span> company with this positioning:
+<span class="ph">[1-sentence positioning statement]</span>
+
+Target audience: <span class="ph">[AUDIENCE]</span>
+Brand personality: <span class="ph">[3 words]</span>
+Language: <span class="ph">[Spanish / English / Bilingual]</span>
+
+Make them: punchy, memorable, under 6 words each.
+Vary the tone: some bold, some subtle, some aspirational.
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(3)">4</div>
+      <div class="flow-content">
+        <div class="flow-tool">🔥 ADOBE FIREFLY — ~30 min</div>
+        <div class="flow-title en">VISUAL GENERATION & EXPLORATION</div>
+        <div class="flow-title es">GENERACIÓN VISUAL Y EXPLORACIÓN</div>
+        <div class="flow-body en">Take your 3 strongest concepts from Step 3 into Firefly. Generate 10–20 visual variations per direction. Firefly is not your final logo — it's your ideation accelerator. You're exploring visual territory in 30 minutes that used to take 3 days of sketching and digitizing.</div>
+        <div class="flow-body es">Lleva tus 3 conceptos más fuertes del Paso 3 a Firefly. Genera 10–20 variaciones visuales por dirección. Firefly no es tu logo final — es tu acelerador de ideación. Estás explorando territorio visual en 30 minutos que antes tomaba 3 días de bocetos y digitalización.</div>
+        <button class="expand-btn" onclick="toggleExpand(3)"><span class="en">→ See Firefly prompting strategy</span><span class="es">→ Ver estrategia de prompting para Firefly</span></button>
+        <div class="flow-expand" id="exp3">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px;" class="en">Firefly prompt structure for logo concepts:</p>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px;" class="es">Estructura de prompt de Firefly para conceptos de logo:</p>
+          <div class="prompt-block">
+<span class="ph">[STYLE]</span> logo design for <span class="ph">[COMPANY NAME]</span>,
+<span class="ph">[INDUSTRY]</span> company,
+<span class="ph">[LOGO TYPE: lettermark / wordmark / combination mark]</span>,
+<span class="ph">[COLOR PALETTE: navy blue and gold / black and white / etc.]</span>,
+<span class="ph">[TYPOGRAPHY FEEL: serif elegant / bold sans-serif / geometric]</span>,
+<span class="ph">[VISUAL REFERENCES: minimalist, Swiss design / Art Deco / etc.]</span>,
+vector style, clean, professional, white background,
+no gradients, scalable
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+          <div class="callout gold en" style="margin-top:12px;">⚡ <strong>Firefly workflow:</strong> Generate 4 variations → pick the strongest 1–2 → refine with Generative Fill → export as high-res PNG → bring into Illustrator/Figma for vector tracing and final refinement. Never use Firefly output as the final deliverable.</div>
+          <div class="callout gold es" style="margin-top:12px;">⚡ <strong>Flujo de Firefly:</strong> Genera 4 variaciones → elige las 1–2 más fuertes → refina con Generative Fill → exporta como PNG alta resolución → lleva a Illustrator/Figma para trazado vectorial y refinamiento final. Nunca uses el output de Firefly como entregable final.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(4)">5</div>
+      <div class="flow-content">
+        <div class="flow-tool">🗂 ENVATO ELEMENTS — ~20 min</div>
+        <div class="flow-title en">ASSET SOURCING & PRESENTATION</div>
+        <div class="flow-title es">SOURCING DE ASSETS Y PRESENTACIÓN</div>
+        <div class="flow-body en">Use Envato for three things: (1) font licensing for the exact typefaces used in the logo, (2) brand mockup templates to present the logo in realistic contexts (business cards, signage, phones), and (3) icon sets if building a system beyond the logo mark.</div>
+        <div class="flow-body es">Usa Envato para tres cosas: (1) licenciamiento de fuentes para las tipografías exactas usadas en el logo, (2) plantillas de mockup de marca para presentar el logo en contextos realistas (tarjetas, señalética, teléfonos), y (3) sets de íconos si construyes un sistema más allá del símbolo del logo.</div>
+        <button class="expand-btn" onclick="toggleExpand(4)"><span class="en">→ Envato workflow tips</span><span class="es">→ Consejos de flujo de trabajo Envato</span></button>
+        <div class="flow-expand" id="exp4">
+          <div style="display:grid;gap:10px;">
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 16px;">
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-bottom:6px;">FONTS</div>
+              <div style="font-size:13px;color:var(--muted);" class="en">Search Envato Elements for the exact font family. Download and embed in your Illustrator/Figma file. Always check the commercial license covers logo use.</div>
+              <div style="font-size:13px;color:var(--muted);" class="es">Busca en Envato Elements la familia de fuentes exacta. Descarga e incorpora en tu archivo de Illustrator/Figma. Verifica siempre que la licencia comercial cubra el uso en logos.</div>
+            </div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 16px;">
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent3);margin-bottom:6px;">MOCKUPS</div>
+              <div style="font-size:13px;color:var(--muted);" class="en">Search "logo mockup PSD" or "brand identity mockup." Download 5–8 varied contexts (business card, phone screen, office signage, tote bag). Present ALL logo variants in mockups — this is what sells the concept.</div>
+              <div style="font-size:13px;color:var(--muted);" class="es">Busca "logo mockup PSD" o "brand identity mockup." Descarga 5–8 contextos variados (tarjeta de negocios, pantalla de teléfono, señalética de oficina, bolsa). Presenta TODAS las variantes del logo en mockups — esto es lo que vende el concepto.</div>
+            </div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 16px;">
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent4);margin-bottom:6px;">ICON SETS</div>
+              <div style="font-size:13px;color:var(--muted);" class="en">For clients who need a broader icon library (app interfaces, presentations, social), search Envato for cohesive icon sets that match the logo's visual personality.</div>
+              <div style="font-size:13px;color:var(--muted);" class="es">Para clientes que necesitan una biblioteca de íconos más amplia (interfaces de app, presentaciones, redes sociales), busca en Envato sets de íconos coherentes que coincidan con la personalidad visual del logo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-num" onclick="toggleExpand(5)">6</div>
+      <div class="flow-content">
+        <div class="flow-tool">🧠 CLAUDE — ~20 min</div>
+        <div class="flow-title en">BRAND GUIDELINES GENERATION</div>
+        <div class="flow-title es">GENERACIÓN DE GUÍAS DE MARCA</div>
+        <div class="flow-body en">Feed Claude the final logo specs and generate a complete mini brand guidelines document — usage rules, color codes, typography stack, spacing system, do's and don'ts. What used to take a day now takes 20 minutes.</div>
+        <div class="flow-body es">Alimenta a Claude con las especificaciones del logo final y genera un documento completo de mini guías de marca — reglas de uso, códigos de color, stack tipográfico, sistema de espaciado, qué hacer y qué no. Lo que antes tomaba un día ahora toma 20 minutos.</div>
+        <button class="expand-btn" onclick="toggleExpand(5)"><span class="en">→ See brand guidelines prompt</span><span class="es">→ Ver prompt de guías de marca</span></button>
+        <div class="flow-expand" id="exp5">
+          <div class="prompt-block">
+Create a mini brand guidelines document for <span class="ph">[CLIENT NAME]</span>.
+
+Logo specs:
+- Primary colors: <span class="ph">[HEX codes]</span>
+- Secondary colors: <span class="ph">[HEX codes]</span>
+- Primary typeface: <span class="ph">[Font name + weight]</span>
+- Secondary typeface: <span class="ph">[Font name + weight]</span>
+- Logo clear space: <span class="ph">[rule, e.g., "1x the height of the mark"]</span>
+- Minimum size: <span class="ph">[e.g., 120px digital / 1.5cm print]</span>
+
+Generate:
+1. Color palette section (HEX, RGB, CMYK, Pantone equivalent)
+2. Typography usage rules
+3. Logo usage rules (when to use each variant)
+4. Clear space diagram description
+5. 5 DO's and 5 DON'Ts with specific examples
+6. Digital usage guidelines (social media sizes, favicon rules)
+7. Print guidelines (CMYK values, minimum sizes)
+
+Format as structured markdown for easy conversion to PDF.
+            <button class="copy-btn" onclick="copyPrompt(this)">copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /ai-flow -->
+</section>
+
+<hr class="dv">
+
+<!-- S4: PROMPT ENGINEERING LAB -->
+<section class="section reveal" id="s4">
+  <div class="sec-label en">Section 04</div><div class="sec-label es">Sección 04</div>
+  <h2 class="en">PROMPT<br>ENGINEERING<br>FOR LOGOS</h2>
+  <h2 class="es">PROMPT<br>ENGINEERING<br>PARA LOGOS</h2>
+  <p class="en">The quality of your AI output is directly proportional to the quality of your prompt. A generic prompt produces a generic logo. A strategic prompt produces a strategic starting point. Use the lab below to build a real Firefly prompt.</p>
+  <p class="es">La calidad de tu output AI es directamente proporcional a la calidad de tu prompt. Un prompt genérico produce un logo genérico. Un prompt estratégico produce un punto de partida estratégico. Usa el lab a continuación para construir un prompt real de Firefly.</p>
+
+  <div class="prompt-lab">
+    <div class="lab-title en">🧪 FIREFLY PROMPT LAB</div>
+    <div class="lab-title es">🧪 LABORATORIO DE PROMPTS FIREFLY</div>
+    <div class="lab-sub en">Fill in the fields and generate a production-ready Firefly prompt.</div>
+    <div class="lab-sub es">Completa los campos y genera un prompt listo para producción en Firefly.</div>
+    <div class="lab-controls">
+      <div class="lc-field"><label class="en">COMPANY NAME</label><label class="es">NOMBRE DE EMPRESA</label><input type="text" id="lCompany" placeholder="Invercasa"></div>
+      <div class="lc-field"><label class="en">INDUSTRY</label><label class="es">INDUSTRIA</label>
+        <select id="lIndustry">
+          <option value="real estate firm">Real Estate / Inmobiliaria</option>
+          <option value="technology company">Tech / Software</option>
+          <option value="restaurant">Restaurante</option>
+          <option value="law firm">Firma Legal</option>
+          <option value="health clinic">Clínica / Salud</option>
+          <option value="digital agency">Agencia Digital</option>
+          <option value="financial services firm">Servicios Financieros</option>
+        </select>
+      </div>
+      <div class="lc-field"><label class="en">LOGO TYPE</label><label class="es">TIPO DE LOGO</label>
+        <select id="lType">
+          <option value="combination mark with lettermark and wordmark">Combination Mark</option>
+          <option value="wordmark only, no symbol">Wordmark Only</option>
+          <option value="lettermark with initials">Lettermark</option>
+          <option value="abstract geometric mark with wordmark">Abstract + Wordmark</option>
+          <option value="emblem badge style">Emblem / Badge</option>
+        </select>
+      </div>
+      <div class="lc-field"><label class="en">COLOR DIRECTION</label><label class="es">DIRECCIÓN DE COLOR</label>
+        <select id="lColor">
+          <option value="deep navy blue and gold">Navy + Gold (Premium)</option>
+          <option value="black and white, monochrome">Black + White (Luxury)</option>
+          <option value="electric blue and white">Blue + White (Trust)</option>
+          <option value="forest green and cream">Green + Cream (Natural)</option>
+          <option value="coral red and charcoal">Red + Charcoal (Bold)</option>
+          <option value="deep purple and gold">Purple + Gold (Prestige)</option>
+          <option value="teal and white">Teal + White (Modern)</option>
+        </select>
+      </div>
+      <div class="lc-field"><label class="en">TYPOGRAPHY FEEL</label><label class="es">FEEL TIPOGRÁFICO</label>
+        <select id="lFont">
+          <option value="elegant serif typeface, classic and trustworthy">Serif — Elegant/Classic</option>
+          <option value="bold geometric sans-serif, modern and clean">Sans-Serif — Bold/Modern</option>
+          <option value="refined thin sans-serif, minimal and premium">Sans-Serif — Thin/Premium</option>
+          <option value="custom display lettering, distinctive and characterful">Display — Distinctive</option>
+          <option value="condensed sans-serif, strong and impactful">Condensed Sans — Impactful</option>
+        </select>
+      </div>
+      <div class="lc-field"><label class="en">VISUAL STYLE</label><label class="es">ESTILO VISUAL</label>
+        <select id="lStyle">
+          <option value="Swiss International Style, grid-based, minimal">Swiss / Minimal</option>
+          <option value="Art Deco, geometric, ornamental">Art Deco</option>
+          <option value="contemporary corporate, clean lines">Contemporary Corporate</option>
+          <option value="luxury editorial, refined and spacious">Luxury Editorial</option>
+          <option value="bold American modernism, strong shapes">Bold Modernism</option>
+          <option value="Latin American warmth, vibrant and cultural">Latin American</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generatePrompt()">
+      <span class="en">⚡ Generate Prompt</span><span class="es">⚡ Generar Prompt</span>
+    </button>
+    <div class="lab-output" id="labOut"></div>
+  </div>
+
+  <div class="callout en">📐 <strong>Anatomy of a great Firefly logo prompt:</strong> Subject (what) + Style (how it looks) + Technical specs (vector, clean, white bg) + Negative prompts (what to avoid). Missing any one of these makes the output unpredictable.</div>
+  <div class="callout es">📐 <strong>Anatomía de un buen prompt de logo para Firefly:</strong> Sujeto (qué) + Estilo (cómo se ve) + Especificaciones técnicas (vectorial, limpio, fondo blanco) + Prompts negativos (qué evitar). Omitir cualquiera de estos hace el output impredecible.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S5: ITERATION SYSTEM -->
+<section class="section reveal" id="s5">
+  <div class="sec-label en">Section 05</div><div class="sec-label es">Sección 05</div>
+  <h2 class="en">THE ITERATION<br>SYSTEM</h2>
+  <h2 class="es">EL SISTEMA DE<br>ITERACIÓN</h2>
+  <p class="en">The biggest advantage of AI-native design is infinite, cheap iteration. The traditional process budgeted 3 revision rounds because each one cost hours. AI removes that constraint. Here's how to use it without losing strategic direction.</p>
+  <p class="es">La mayor ventaja del diseño AI-native es la iteración infinita y barata. El proceso tradicional presupuestaba 3 rondas de revisión porque cada una costaba horas. La AI elimina esa restricción. Así es como usarla sin perder dirección estratégica.</p>
+
+  <div class="callout gold en">🔁 <strong>The iteration rule:</strong> Each iteration must have a clear hypothesis. "Let's see what happens" is not a prompt strategy. "Let's test if a circular mark works better than the rectangular one for this brand" is. Always iterate with purpose.</div>
+  <div class="callout gold es">🔁 <strong>La regla de iteración:</strong> Cada iteración debe tener una hipótesis clara. "Veamos qué pasa" no es una estrategia de prompts. "Probemos si un símbolo circular funciona mejor que el rectangular para esta marca" sí lo es. Siempre itera con propósito.</div>
+
+  <p class="en">Tap each version to see what changed and why.</p>
+  <p class="es">Toca cada versión para ver qué cambió y por qué.</p>
+
+  <div class="iter-track">
+    <div class="iter-card" onclick="showIter(0,this)">
+      <div class="iter-v">VERSION 1.0</div>
+      <div class="iter-visual" style="background:#0f1e32;font-family:'Bebas Neue',sans-serif;color:#c8a84b;font-size:22px;letter-spacing:.05em;">CORP</div>
+      <div class="iter-note en">First Firefly output — generic, too stiff</div>
+      <div class="iter-note es">Primer output de Firefly — genérico, demasiado rígido</div>
+    </div>
+    <div class="iter-card" onclick="showIter(1,this)">
+      <div class="iter-v">VERSION 1.1</div>
+      <div class="iter-visual" style="background:#0a1420;font-family:'Bebas Neue',sans-serif;color:#e8c060;font-size:20px;letter-spacing:.08em;gap:6px;display:flex;align-items:center;"><div style="width:28px;height:28px;border:2px solid #c8a84b;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:16px;">C</div>ORP</div>
+      <div class="iter-note en">Added mark — better but mark too small</div>
+      <div class="iter-note es">Símbolo agregado — mejor pero muy pequeño</div>
+    </div>
+    <div class="iter-card" onclick="showIter(2,this)">
+      <div class="iter-v">VERSION 1.2</div>
+      <div class="iter-visual" style="background:#0a1420;font-family:'DM Sans',sans-serif;flex-direction:column;gap:4px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:34px;height:34px;background:linear-gradient(135deg,#b8941e,#e8c060);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:#0a1420;">C</div><span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#e8edf2;letter-spacing:.08em;">CORP</span></div><div style="font-family:'Fira Code',monospace;font-size:7px;color:#5a7080;letter-spacing:.15em;padding-left:42px;">SERVICES</div></div>
+      <div class="iter-note en">Scale balanced — tagline added</div>
+      <div class="iter-note es">Escala balanceada — tagline agregado</div>
+    </div>
+    <div class="iter-card" onclick="showIter(3,this)">
+      <div class="iter-v">VERSION 2.0</div>
+      <div class="iter-visual" style="background:#050e06;font-family:'DM Sans',sans-serif;flex-direction:column;gap:4px;"><div style="display:flex;align-items:center;gap:10px;"><div style="width:38px;height:38px;background:linear-gradient(135deg,#c8a84b,#f0d878);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:#050708;letter-spacing:-.01em;">C</div><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#e2eaf4;letter-spacing:.06em;">CORP</span></div><div style="font-family:'Fira Code',monospace;font-size:7px;color:#3a5060;letter-spacing:.18em;padding-left:48px;text-transform:uppercase;">Premium Services</div></div>
+      <div class="iter-note en">✦ Direction change: darker bg, refined gold</div>
+      <div class="iter-note es">✦ Cambio de dirección: fondo más oscuro, dorado refinado</div>
+    </div>
+    <div class="iter-card" onclick="showIter(4,this)">
+      <div class="iter-v">VERSION FINAL</div>
+      <div class="iter-visual" style="background:#050708;font-family:'DM Sans',sans-serif;flex-direction:column;gap:4px;border:1px solid rgba(200,168,75,0.15);"><div style="display:flex;align-items:center;gap:11px;"><div style="width:42px;height:42px;background:linear-gradient(135deg,#b8941e,#f0d060,#c8a84b);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:#050708;">C</div><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#e2eaf4;letter-spacing:.06em;">CORP</span></div><div style="font-family:'Fira Code',monospace;font-size:7px;color:#5a7080;letter-spacing:.2em;padding-left:53px;text-transform:uppercase;">Premium Services</div></div>
+      <div class="iter-note en">✅ Final: perfect proportions, gradient depth</div>
+      <div class="iter-note es">✅ Final: proporciones perfectas, profundidad del gradiente</div>
+    </div>
+  </div>
+  <div class="iter-detail" id="iterDetail"></div>
+</section>
+
+<hr class="dv">
+
+<!-- S6: QUALITY CONTROL -->
+<section class="section reveal" id="s6">
+  <div class="sec-label en">Section 06</div><div class="sec-label es">Sección 06</div>
+  <h2 class="en">AI OUTPUT<br>QUALITY CONTROL</h2>
+  <h2 class="es">CONTROL DE CALIDAD<br>DEL OUTPUT AI</h2>
+  <p class="en">AI generates fast — it doesn't guarantee quality. Your role as the designer is to be the quality filter. Every AI-generated logo concept must pass this checklist before it goes anywhere near a client. Tap each item to evaluate it.</p>
+  <p class="es">La AI genera rápido — no garantiza calidad. Tu rol como diseñador es ser el filtro de calidad. Cada concepto de logo generado por AI debe pasar este checklist antes de acercarse a un cliente. Toca cada elemento para evaluarlo.</p>
+
+  <div class="qc-grid" id="qcGrid">
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ Works at 16x16px (favicon size)</div><div class="qc-text es">✦ Funciona a 16x16px (tamaño de favicon)</div><div class="qc-sub en">Shrink it down. If detail disappears — it fails.</div><div class="qc-sub es">Redúcelo. Si el detalle desaparece — reprueba.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ Works in pure black (no color)</div><div class="qc-text es">✦ Funciona en negro puro (sin color)</div><div class="qc-sub en">Desaturate it. If it loses meaning — it fails.</div><div class="qc-sub es">Desatúralo. Si pierde significado — reprueba.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ No more than 3 colors in the primary version</div><div class="qc-text es">✦ No más de 3 colores en la versión primaria</div><div class="qc-sub en">AI tends to over-color. Simplify if needed.</div><div class="qc-sub es">La AI tiende a usar demasiados colores. Simplifica si es necesario.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ No raster effects or pixel-dependent elements</div><div class="qc-text es">✦ Sin efectos raster o elementos dependientes de píxeles</div><div class="qc-sub en">AI outputs are PNGs. Everything must be retraced as vector.</div><div class="qc-sub es">Los outputs de AI son PNGs. Todo debe ser retrazado como vector.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ No visual clichés for the industry</div><div class="qc-text es">✦ Sin clichés visuales de la industria</div><div class="qc-sub en">Real estate house? Legal scales? Medical cross? If AI defaulted to a cliché, regenerate with more specific direction.</div><div class="qc-sub es">¿Casa inmobiliaria? ¿Balanza legal? ¿Cruz médica? Si la AI usó un cliché, regenera con dirección más específica.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ Could be described in one sentence from memory</div><div class="qc-text es">✦ Puede describirse en una oración de memoria</div><div class="qc-sub en">The simplicity test. If it takes 3 sentences to describe — it's too complex.</div><div class="qc-sub es">La prueba de simplicidad. Si toma 3 oraciones describir — es demasiado complejo.</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ Aligns with the strategic brief from Claude</div><div class="qc-text es">✦ Alinea con el brief estratégico de Claude</div><div class="qc-sub en">Pretty ≠ right. Does it match the brand personality and audience defined in Step 1?</div><div class="qc-sub es">Bonito ≠ correcto. ¿Coincide con la personalidad de marca y audiencia definida en el Paso 1?</div></div>
+    </div>
+    <div class="qc-item" onclick="toggleQC(this,'pass')">
+      <div class="qc-box"></div>
+      <div><div class="qc-text en">✦ Passes the "unfamiliar market" test</div><div class="qc-text es">✦ Pasa la prueba del "mercado desconocido"</div><div class="qc-sub en">Would someone who knows nothing about this company guess the right industry from the logo? If not — reconsider.</div><div class="qc-sub es">¿Alguien que no conoce esta empresa adivinaría la industria correcta por el logo? Si no — reconsidera.</div></div>
+    </div>
+  </div>
+
+  <div class="callout warn en">⚠️ <strong>The vector trap:</strong> Firefly generates beautiful PNG images — not vectors. Before any logo is delivered to a client, it MUST be retraced in Illustrator (Image Trace) or Figma as a clean vector. Delivering a PNG as a "final logo" is unprofessional regardless of how it was created.</div>
+  <div class="callout warn es">⚠️ <strong>La trampa del vector:</strong> Firefly genera imágenes PNG hermosas — no vectores. Antes de entregar cualquier logo a un cliente, DEBE ser retrazado en Illustrator (Image Trace) o Figma como vector limpio. Entregar un PNG como "logo final" es poco profesional sin importar cómo fue creado.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S7: SPEED BENCHMARKS -->
+<section class="section reveal" id="s7">
+  <div class="sec-label en">Section 07</div><div class="sec-label es">Sección 07</div>
+  <h2 class="en">SPEED<br>BENCHMARKS</h2>
+  <h2 class="es">BENCHMARKS<br>DE VELOCIDAD</h2>
+  <p class="en">The AI-native process doesn't just reduce time slightly. It fundamentally changes the economics of logo design. Same quality output — fraction of the time. Here's the data.</p>
+  <p class="es">El proceso AI-native no solo reduce el tiempo ligeramente. Cambia fundamentalmente la economía del diseño de logos. Mismo output de calidad — fracción del tiempo. Aquí están los datos.</p>
+
+  <div class="speed-bar-wrap" id="speedBars">
+    <div class="speed-row"><div class="speed-label en">Brief writing</div><div class="speed-label es">Escritura brief</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="85" data-ai="12"></div></div><div class="speed-time" id="st0">-</div></div>
+    <div class="speed-row"><div class="speed-label en">Market research</div><div class="speed-label es">Investigación</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="240" data-ai="20"></div></div><div class="speed-time" id="st1">-</div></div>
+    <div class="speed-row"><div class="speed-label en">Concept ideation</div><div class="speed-label es">Ideación</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="480" data-ai="30"></div></div><div class="speed-time" id="st2">-</div></div>
+    <div class="speed-row"><div class="speed-label en">Visual exploration</div><div class="speed-label es">Exploración visual</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="360" data-ai="40"></div></div><div class="speed-time" id="st3">-</div></div>
+    <div class="speed-row"><div class="speed-label en">Refinement</div><div class="speed-label es">Refinamiento</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="180" data-ai="60"></div></div><div class="speed-time" id="st4">-</div></div>
+    <div class="speed-row"><div class="speed-label en">Brand guidelines</div><div class="speed-label es">Guías de marca</div><div class="speed-bar-bg"><div class="speed-bar-fill" style="width:0%;background:var(--muted2);" data-traditional="240" data-ai="25"></div></div><div class="speed-time" id="st5">-</div></div>
+  </div>
+
+  <div style="display:flex;gap:14px;margin:20px 0;flex-wrap:wrap;">
+    <button class="gen-btn" style="background:var(--muted2);color:var(--text);" onclick="showBenchmark('traditional')"><span class="en">📊 Traditional</span><span class="es">📊 Tradicional</span></button>
+    <button class="gen-btn" onclick="showBenchmark('ai')"><span class="en">⚡ AI-Native</span><span class="es">⚡ AI-Native</span></button>
+  </div>
+  <div id="benchSummary" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 22px;margin-top:8px;animation:fadeIn .4s;"></div>
+
+  <div class="callout purple en">💜 <strong>The real advantage isn't speed — it's iteration depth.</strong> With 8 hours of traditional work you do 3 concepts. With 8 hours of AI-native work you do 20 concepts, pick the best 3, refine those 3 to near-final quality, and still have time to build the guidelines. The client gets a better result.</div>
+  <div class="callout purple es">💜 <strong>La ventaja real no es la velocidad — es la profundidad de iteración.</strong> Con 8 horas de trabajo tradicional haces 3 conceptos. Con 8 horas de trabajo AI-native haces 20 conceptos, eliges los mejores 3, refinas esos 3 a calidad casi final, y aún tienes tiempo para construir las guías. El cliente obtiene un mejor resultado.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S8: QUIZ -->
+<section class="section reveal" id="s8">
+  <div class="sec-label en">Section 08</div><div class="sec-label es">Sección 08</div>
+  <h2 class="en">KNOWLEDGE<br>CHECK</h2>
+  <h2 class="es">QUIZ<br>FINAL</h2>
+  <p class="en">7 questions. AI-native level. No basics.</p>
+  <p class="es">7 preguntas. Nivel AI-native. Nada básico.</p>
+  <div class="quiz-box">
+    <div id="qA">
+      <div class="q-head">
+        <div class="q-lbl" id="qLbl">Question 1 / 7</div>
+        <div class="q-bar-wrap"><div class="q-bar" id="qBar" style="width:14.2%"></div></div>
+      </div>
+      <div class="q-q" id="qQ"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <button class="q-next" id="qNext" onclick="nextQ()"></button>
+    </div>
+    <div class="q-result" id="qR">
+      <div class="q-score" id="qSc"></div>
+      <div class="q-msg" id="qMsg"></div>
+      <button class="q-restart" onclick="restartQ()"><span class="en">↺ Restart</span><span class="es">↺ Reiniciar</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT MODULE -->
+<div class="next-mod reveal">
+  <div>
+    <div class="nm-label en">FINAL MODULE IN THE SERIES</div>
+    <div class="nm-label es">MÓDULO FINAL EN LA SERIE</div>
+    <div class="nm-title en">Logo Design <span class="hl">401</span><br><span style="font-size:16px;font-family:var(--font-body);color:var(--muted);font-weight:400;">Creating a Real Logo with AI — Live Case</span></div>
+    <div class="nm-title es">Logo Design <span class="hl">401</span><br><span style="font-size:16px;font-family:var(--font-body);color:var(--muted);font-weight:400;">Creando un Logo Real con AI — Caso en Vivo</span></div>
+  </div>
+  <button class="nm-btn en">Coming Soon →</button>
+  <button class="nm-btn es">Próximamente →</button>
+</div>
+
+<footer>
+  <div><span class="footer-brand">Denysoft KB</span> · Logo Design 301</div>
+  <div class="en">Graphic Design Series · 2025</div>
+  <div class="es">Serie de Diseño Gráfico · 2025</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// THEME / LANG
+function toggleTheme(){
+  const h=document.documentElement,b=document.getElementById('themeBtn'),d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');b.textContent=d?'🌙 Dark':'☀️ Light';
+}
+function toggleLang(){
+  const h=document.documentElement,b=document.getElementById('langBtn'),e=h.getAttribute('data-lang')==='en';
+  h.setAttribute('data-lang',e?'es':'en');b.textContent=e?'🌐 EN':'🌐 ES';renderQ();
+}
+
+// PROGRESS
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('pFill').style.width=(s/t*100)+'%';
+});
+
+// REVEAL
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// COPY PROMPT
+function copyPrompt(btn){
+  const block=btn.closest('.prompt-block');
+  const text=block.innerText.replace('copy','').trim();
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='✓ copied';setTimeout(()=>btn.textContent='copy',2000);});
+}
+
+// TOOL DETAILS
+const toolData={
+  claude:{en:{title:'Claude — Strategy Brain',role:'Steps 1, 3 & 6',when:'Use Claude at the START (brief extraction + concept direction) and END (brand guidelines generation) of every project. Claude is your strategic partner — it thinks about brand positioning, audience psychology, and design rationale.',strengths:'Deep strategic reasoning · Long-form analysis · Brand voice development · Structured document generation · No hallucination of design references',limits:'Does not generate images. Use it for text-based strategy, not visual output.',prompting:'Give Claude the raw client info — messy is fine. It structures chaos. Always ask for reasoning behind recommendations, not just the recommendations themselves.',bestfor:'Brand brief · Concept rationale · Tagline development · Brand guidelines · Client presentation copy'},es:{title:'Claude — Cerebro Estratégico',role:'Pasos 1, 3 y 6',when:'Usa Claude al INICIO (extracción de brief + dirección de concepto) y al FINAL (generación de guías de marca) de cada proyecto. Claude es tu socio estratégico — piensa sobre posicionamiento de marca, psicología de audiencia y justificación de diseño.',strengths:'Razonamiento estratégico profundo · Análisis de formato largo · Desarrollo de voz de marca · Generación de documentos estructurados',limits:'No genera imágenes. Úsalo para estrategia basada en texto, no output visual.',prompting:'Dale a Claude la información cruda del cliente — desordenada está bien. Estructura el caos. Siempre pide el razonamiento detrás de las recomendaciones, no solo las recomendaciones.',bestfor:'Brief de marca · Justificación de conceptos · Desarrollo de taglines · Guías de marca · Copy de presentación de cliente'}},
+  gemini:{en:{title:'Gemini — Research Engine',role:'Step 2',when:'Use Gemini when you need current, real-world data about a market, industry, or competitor landscape. Its live web access makes it the only tool in the stack that can tell you what the market looks like RIGHT NOW — not based on training data.',strengths:'Real-time web research · Competitor visual analysis · Market trend identification · Current brand landscape mapping · Multimodal — can analyze images you upload',limits:'Less strategic depth than Claude. Use for research, not strategy formulation.',prompting:'Be specific about the market geography. "Real estate companies in El Salvador" gives better results than "real estate companies."',bestfor:'Competitor analysis · Market research · Color/style trend identification · Industry visual landscape mapping'},es:{title:'Gemini — Motor de Investigación',role:'Paso 2',when:'Usa Gemini cuando necesitas datos actuales del mundo real sobre un mercado, industria o panorama competitivo. Su acceso web en tiempo real lo hace la única herramienta en el stack que puede decirte cómo se ve el mercado AHORA MISMO.',strengths:'Investigación web en tiempo real · Análisis visual de competidores · Identificación de tendencias de mercado · Mapeo del panorama de marcas actuales · Multimodal — puede analizar imágenes',limits:'Menos profundidad estratégica que Claude. Úsalo para investigación, no para formular estrategia.',prompting:'Sé específico sobre la geografía del mercado. "Empresas inmobiliarias en El Salvador" da mejores resultados que "empresas inmobiliarias."',bestfor:'Análisis de competidores · Investigación de mercado · Identificación de tendencias de color/estilo'}},
+  firefly:{en:{title:'Adobe Firefly — Visual Generator',role:'Step 4',when:'Use Firefly for rapid visual concept exploration. Generate 10–20 logo concept images per direction in 30 minutes. The output is NOT your final logo — it\'s your ideation canvas. The final logo must be retraced as vector.',strengths:'Deep Adobe ecosystem integration · Commercial-use safe (trained on licensed content) · Generative Fill for refinement · Style reference uploads · Fast iteration',limits:'Output is raster PNG — must be vectorized. Can produce generic results without specific prompting. Not for final deliverables.',prompting:'Always specify: logo type + colors + typography feel + style reference + "vector style, white background, no gradients." Add negative prompts: "no clip art, no shadow, no 3D effects."',bestfor:'Initial concept exploration · Color palette testing · Style direction validation · Mockup generation via Photoshop integration'},es:{title:'Adobe Firefly — Generador Visual',role:'Paso 4',when:'Usa Firefly para exploración rápida de conceptos visuales. Genera 10–20 imágenes de conceptos de logo por dirección en 30 minutos. El output NO es tu logo final — es tu canvas de ideación. El logo final debe ser retrazado como vector.',strengths:'Integración profunda con el ecosistema Adobe · Seguro para uso comercial · Generative Fill para refinamiento · Carga de referencias de estilo · Iteración rápida',limits:'El output es PNG raster — debe vectorizarse. Puede producir resultados genéricos sin prompts específicos.',prompting:'Siempre especifica: tipo de logo + colores + feel tipográfico + referencia de estilo + "estilo vectorial, fondo blanco, sin gradientes." Agrega prompts negativos: "sin clipart, sin sombra, sin efectos 3D."',bestfor:'Exploración inicial de conceptos · Prueba de paletas de color · Validación de dirección de estilo'}},
+  envato:{en:{title:'Envato Elements — Asset Library',role:'Step 5',when:'Use Envato at the asset sourcing and presentation phase. It\'s your one-stop for commercially licensed fonts, professional mockup templates, and icon sets — all with one subscription covering unlimited downloads.',strengths:'Unlimited downloads with subscription · Commercial license included · Huge font library · Professional mockup templates · Icon sets · Presentation templates',limits:'Assets require an active subscription for commercial use. Always verify the specific license for logo use (some fonts require additional licenses).',prompting:'Search strategy: use specific descriptors like "minimalist logo mockup PSD" or "real estate brand identity mockup" rather than generic terms.',bestfor:'Font licensing · Brand mockup templates · Client presentation assets · Icon library · Stationery templates'},es:{title:'Envato Elements — Biblioteca de Assets',role:'Paso 5',when:'Usa Envato en la fase de sourcing de assets y presentación. Es tu fuente única para fuentes licenciadas comercialmente, plantillas de mockup profesionales y sets de íconos — todo con una suscripción que cubre descargas ilimitadas.',strengths:'Descargas ilimitadas con suscripción · Licencia comercial incluida · Gran biblioteca de fuentes · Plantillas de mockup profesionales · Sets de íconos',limits:'Los assets requieren una suscripción activa para uso comercial. Siempre verifica la licencia específica para uso en logos.',prompting:'Estrategia de búsqueda: usa descriptores específicos como "mockup PSD de logo minimalista" o "mockup de identidad de marca inmobiliaria" en lugar de términos genéricos.',bestfor:'Licenciamiento de fuentes · Plantillas de mockup de marca · Assets de presentación de cliente · Biblioteca de íconos'}},
+  chatgpt:{en:{title:'ChatGPT — Ideation Partner',role:'Step 3',when:'Use ChatGPT for rapid brainstorming sessions where you need high volume output fast — 20 tagline options, 15 name alternatives, 30 concept keywords. It\'s your quantity engine. Use Claude for quality depth, ChatGPT for quantity breadth.',strengths:'Fast response · High volume output · Good at naming and wordplay · Strong for brainstorming sessions · Easy back-and-forth iteration',limits:'Less strategic depth than Claude for complex brand analysis. More prone to generic suggestions without strong prompting.',prompting:'Give it constraints, not freedom. "Generate 20 taglines under 6 words for a premium real estate firm targeting diaspora buyers" gets better results than "create taglines for my client."',bestfor:'Tagline generation · Brand name alternatives · Keyword brainstorming · Concept name exploration · Quick copy variations'},es:{title:'ChatGPT — Socio de Ideación',role:'Paso 3',when:'Usa ChatGPT para sesiones rápidas de brainstorming donde necesitas alto volumen de output rápido — 20 opciones de tagline, 15 alternativas de nombre, 30 palabras clave de concepto. Es tu motor de cantidad. Usa Claude para profundidad de calidad, ChatGPT para amplitud de cantidad.',strengths:'Respuesta rápida · Alto volumen de output · Bueno en naming y juegos de palabras · Fuerte para sesiones de brainstorming',limits:'Menos profundidad estratégica que Claude para análisis de marca complejo.',prompting:'Dale restricciones, no libertad. "Genera 20 taglines de menos de 6 palabras para una firma inmobiliaria premium" da mejores resultados que "crea taglines para mi cliente."',bestfor:'Generación de taglines · Alternativas de nombre de marca · Brainstorming de palabras clave · Exploración de nombres de conceptos'}}
+};
+
+function showTool(k,el){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.querySelectorAll('.tool-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const d=es?toolData[k].es:toolData[k].en;
+  const det=document.getElementById('toolDetail');
+  det.innerHTML=`<div style="margin-bottom:14px;"><strong style="font-family:var(--font-display);font-size:22px;letter-spacing:.04em;">${d.title}</strong> <span style="font-family:var(--font-mono);font-size:10px;color:var(--accent4);margin-left:10px;">${d.role}</span></div>
+  <div style="display:grid;gap:8px;">
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:11px 15px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;">${es?'CUÁNDO USAR':'WHEN TO USE'}</span><div style="font-size:13px;margin-top:5px;color:var(--muted);">${d.when}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:11px 15px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent4);letter-spacing:.1em;">${es?'FORTALEZAS':'STRENGTHS'}</span><div style="font-size:13px;margin-top:5px;color:var(--muted);">${d.strengths}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:11px 15px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent3);letter-spacing:.1em;">${es?'PROMPTING PRO':'PROMPTING PRO'}</span><div style="font-size:13px;margin-top:5px;color:var(--muted);">${d.prompting}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:11px 15px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent2);letter-spacing:.1em;">${es?'LIMITACIONES':'LIMITS'}</span><div style="font-size:13px;margin-top:5px;color:var(--muted);">${d.limits}</div></div>
+  </div>`;
+  det.classList.add('show');
+}
+
+// FLOW EXPAND
+function toggleExpand(i){
+  const el=document.getElementById('exp'+i);
+  el.classList.toggle('show');
+}
+
+// PROMPT LAB
+function generatePrompt(){
+  const company=document.getElementById('lCompany').value||'[Company Name]';
+  const industry=document.getElementById('lIndustry').value;
+  const type=document.getElementById('lType').value;
+  const color=document.getElementById('lColor').value;
+  const font=document.getElementById('lFont').value;
+  const style=document.getElementById('lStyle').value;
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+
+  const fireflyPrompt=`${style} logo design for ${company}, ${industry}, ${type}, color palette: ${color}, typography: ${font}, vector style, clean professional design, white background, no gradients, no shadows, no 3D effects, no clip art, scalable mark, flat design`;
+
+  const claudePrompt=`You are a senior brand strategist. Create a complete logo design brief for ${company}, a ${industry}. The visual direction is: ${style} aesthetic, ${color} color palette, ${font}. Provide: (1) brand positioning statement, (2) target audience profile, (3) 3 brand personality attributes, (4) logo usage rules, (5) what this logo must NOT look like.`;
+
+  const out=document.getElementById('labOut');
+  out.innerHTML=`
+    <div class="out-section">
+      <div class="out-label">🔥 ADOBE FIREFLY PROMPT</div>
+      <div class="prompt-block" style="position:relative;">${fireflyPrompt}<button class="copy-btn" onclick="copyPrompt(this)">copy</button></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;" class="en">Paste directly into Firefly's text-to-image field. Generate 4 variations, pick the strongest, then refine.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;" class="es">Pega directamente en el campo de texto a imagen de Firefly. Genera 4 variaciones, elige la más fuerte, luego refina.</p>
+    </div>
+    <div class="out-section">
+      <div class="out-label">🧠 CLAUDE STRATEGY PROMPT</div>
+      <div class="prompt-block" style="position:relative;">${claudePrompt}<button class="copy-btn" onclick="copyPrompt(this)">copy</button></div>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;" class="en">Run this in Claude first. Get the strategic brief before generating visuals in Firefly.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;" class="es">Corre esto en Claude primero. Obtén el brief estratégico antes de generar visuales en Firefly.</p>
+    </div>`;
+  out.classList.add('show');
+}
+
+// ITERATION DETAILS
+const iterDetails={
+  0:{en:'First Firefly output. The AI defaulted to a generic all-caps wordmark with no symbol. Colors are flat. The prompt was: "logo for corporate services company, navy and gold, professional." Too vague — AI fills vague prompts with generic defaults.',es:'Primer output de Firefly. La AI usó un wordmark genérico en mayúsculas sin símbolo. Los colores son planos. El prompt fue: "logo para empresa de servicios corporativos, azul marino y dorado, profesional." Demasiado vago — la AI llena los prompts vagos con valores genéricos.'},
+  1:{en:'Refined prompt added: "combination mark with geometric initial lettermark." AI added a mark — but the proportion is wrong. The mark is too small relative to the wordmark. Insight: always specify the approximate size relationship between mark and text.',es:'Prompt refinado: "marca combinada con lettermark inicial geométrico." La AI agregó un símbolo — pero la proporción está incorrecta. El símbolo es demasiado pequeño relative al wordmark. Insight: siempre especifica la relación de tamaño aproximada entre símbolo y texto.'},
+  2:{en:'Added to prompt: "mark equal height to wordmark, bold lettermark, monospace tagline in smaller size below." Proportion improved significantly. Hierarchy is now readable. The tagline adds professionalism. Ready for color direction refinement.',es:'Agregado al prompt: "símbolo igual altura que wordmark, lettermark negrita, tagline monoespaciado en tamaño menor debajo." La proporción mejoró significativamente. La jerarquía ahora es legible. El tagline agrega profesionalismo. Listo para refinamiento de dirección de color.'},
+  3:{en:'Strategic pivot: changed background assumption from "white" to "dark luxury." This single change shifted the entire visual territory. New prompt direction: "premium brand on dark background, rich gold gradient mark, sophisticated." The concept jumped from "corporate" to "premium." This is the power of directional iteration.',es:'Pivote estratégico: se cambió el supuesto del fondo de "blanco" a "lujo oscuro." Este único cambio desplazó todo el territorio visual. Nueva dirección de prompt: "marca premium en fondo oscuro, símbolo con gradiente de oro rico, sofisticado." El concepto saltó de "corporativo" a "premium." Este es el poder de la iteración direccional.'},
+  4:{en:'Final refinement in Illustrator after vectorizing the Firefly output. Proportions manually adjusted: mark increased 10%, corner radius from sharp to 10px, gold gradient refined to 3-stop gradient for depth, tagline tracking increased to 0.2em. This is the human layer that AI cannot replace — the micro-decisions that make the difference between good and professional.',es:'Refinamiento final en Illustrator después de vectorizar el output de Firefly. Proporciones ajustadas manualmente: símbolo aumentado 10%, radio de esquinas de agudo a 10px, gradiente de oro refinado a gradiente de 3 puntos para profundidad, tracking del tagline aumentado a 0.2em. Esta es la capa humana que la AI no puede reemplazar — las micro-decisiones que marcan la diferencia entre bueno y profesional.'}
+};
+
+function showIter(i,el){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.querySelectorAll('.iter-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const d=iterDetails[i];
+  const det=document.getElementById('iterDetail');
+  det.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:var(--accent2);letter-spacing:.1em;margin-bottom:8px;">VERSION ${i===4?'FINAL':i+'.'+0} — WHAT CHANGED</div><p style="font-size:14px;margin:0;color:var(--muted);">${es?d.es:d.en}</p>`;
+  det.classList.add('show');
+}
+
+// QC TOGGLE
+function toggleQC(el,state){
+  const box=el.querySelector('.qc-box');
+  if(el.classList.contains(state)){
+    el.classList.remove(state);box.textContent='';
+  } else {
+    el.classList.remove('pass','fail');
+    el.classList.add(state);
+    box.textContent=state==='pass'?'✓':'✗';
+  }
+}
+
+// SPEED BENCHMARK
+function showBenchmark(mode){
+  const bars=document.querySelectorAll('.speed-bar-fill');
+  const times=[['85min','12min'],['240min','20min'],['480min','30min'],['360min','40min'],['180min','60min'],['240min','25min']];
+  const maxTrad=480;
+  bars.forEach((bar,i)=>{
+    const trad=parseInt(bar.getAttribute('data-traditional'));
+    const ai=parseInt(bar.getAttribute('data-ai'));
+    if(mode==='traditional'){
+      bar.style.width=(trad/maxTrad*100)+'%';
+      bar.style.background='var(--muted2)';
+      document.getElementById('st'+i).textContent=times[i][0];
+    } else {
+      bar.style.width=(ai/maxTrad*100)+'%';
+      bar.style.background='var(--accent)';
+      document.getElementById('st'+i).textContent=times[i][1];
+    }
+  });
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const summary=document.getElementById('benchSummary');
+  summary.style.display='block';
+  if(mode==='traditional'){
+    summary.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px;">${es?'PROCESO TRADICIONAL — TOTAL':'TRADITIONAL PROCESS — TOTAL'}</div><div style="font-family:var(--font-display);font-size:32px;color:var(--muted);">~25 ${es?'horas':'hours'}</div><div style="font-size:13px;color:var(--muted);margin-top:6px;">${es?'~3–4 días laborales. 3 conceptos. 3 rondas de revisión. Cliente espera semanas.':'~3–4 working days. 3 concepts. 3 revision rounds. Client waits weeks.'}</div>`;
+  } else {
+    summary.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;margin-bottom:8px;">${es?'PROCESO AI-NATIVE — TOTAL':'AI-NATIVE PROCESS — TOTAL'}</div><div style="font-family:var(--font-display);font-size:32px;color:var(--accent);">~3 ${es?'horas':'hours'}</div><div style="font-size:13px;color:var(--muted);margin-top:6px;">${es?'Mismo día. 20+ conceptos explorados. 3 refinados a calidad casi final. Guías incluidas.':'Same day. 20+ concepts explored. 3 refined to near-final quality. Guidelines included.'}</div>`;
+  }
+}
+
+// QUIZ
+const qData=[
+  {q:{en:'In the AI-native logo process, what is Claude\'s PRIMARY role?',es:'En el proceso AI-native de logos, ¿cuál es el rol PRIMARIO de Claude?'},o:{en:['Generating logo images and visual concepts','Strategic brief extraction and brand guidelines generation','Searching competitor logos on the web','Creating mockup templates for client presentations'],es:['Generar imágenes de logos y conceptos visuales','Extracción del brief estratégico y generación de guías de marca','Buscar logos de competidores en la web','Crear plantillas de mockup para presentaciones de cliente']},c:1,e:{en:'✅ Claude is the strategy brain — it extracts the brief at the start and generates brand guidelines at the end. It does NOT generate images. That\'s Firefly\'s job.',es:'✅ Claude es el cerebro estratégico — extrae el brief al inicio y genera las guías de marca al final. NO genera imágenes. Ese es el trabajo de Firefly.'}},
+  {q:{en:'Why is Gemini specifically used for competitor research instead of Claude?',es:'¿Por qué se usa específicamente Gemini para la investigación de competidores en lugar de Claude?'},o:{en:['Gemini is cheaper and faster','Gemini has real-time web access, giving current market data — Claude\'s training data may be outdated','Gemini produces better brand strategy than Claude','Claude refuses to analyze competitor brands'],es:['Gemini es más barato y rápido','Gemini tiene acceso web en tiempo real, dando datos actuales del mercado — los datos de entrenamiento de Claude pueden estar desactualizados','Gemini produce mejor estrategia de marca que Claude','Claude se niega a analizar marcas de competidores']},c:1,e:{en:'✅ Gemini\'s live web access is the key advantage for research. It can tell you what the competitor landscape looks like RIGHT NOW. Claude works from training data, which may not reflect the current market.',es:'✅ El acceso web en vivo de Gemini es la ventaja clave para la investigación. Puede decirte cómo se ve el panorama competitivo AHORA MISMO. Claude trabaja con datos de entrenamiento que pueden no reflejar el mercado actual.'}},
+  {q:{en:'A client asks you to deliver the Adobe Firefly output as the final logo. What do you do?',es:'Un cliente te pide entregar el output de Adobe Firefly como el logo final. ¿Qué haces?'},o:{en:['Export it at the highest PNG resolution and deliver it — it looks professional','Explain that Firefly output is raster PNG and must be retraced as a clean vector before delivery','Deliver it but add a disclaimer that it\'s AI-generated','Charge extra for the vectorization and deliver without explaining why'],es:['Exportarlo en la mayor resolución PNG y entregarlo — se ve profesional','Explicar que el output de Firefly es PNG raster y debe ser retrazado como vector limpio antes de la entrega','Entregarlo pero agregar un descargo de que fue generado por AI','Cobrar extra por la vectorización y entregar sin explicar por qué']},c:1,e:{en:'✅ Firefly output is always a raster PNG. For professional logo delivery, you must vectorize it in Illustrator (Image Trace + manual cleanup) or Figma. A PNG logo fails at large print sizes — it pixelates.',es:'✅ El output de Firefly siempre es PNG raster. Para entrega profesional de logo, debes vectorizarlo en Illustrator (Image Trace + limpieza manual) o Figma. Un logo PNG falla en tamaños de impresión grandes — se pixela.'}},
+  {q:{en:'What is the correct role of ChatGPT vs Claude in the ideation phase?',es:'¿Cuál es el rol correcto de ChatGPT vs Claude en la fase de ideación?'},o:{en:['They are interchangeable — use whichever you prefer','Claude for quantity (rapid fire options), ChatGPT for quality (deep strategic concepts)','ChatGPT for quantity (rapid fire brainstorming), Claude for quality (deep strategic concept development)','ChatGPT generates better visuals, Claude generates better text'],es:['Son intercambiables — usa el que prefieras','Claude para cantidad (opciones rápidas), ChatGPT para calidad (conceptos estratégicos profundos)','ChatGPT para cantidad (brainstorming rápido), Claude para calidad (desarrollo profundo de conceptos estratégicos)','ChatGPT genera mejores visuales, Claude genera mejor texto']},c:2,e:{en:'✅ ChatGPT = speed and volume (taglines, naming, rapid alternatives). Claude = depth and strategy (full concept directions with rationale). They have different strengths — using both beats using either alone.',es:'✅ ChatGPT = velocidad y volumen (taglines, naming, alternativas rápidas). Claude = profundidad y estrategia (direcciones completas de conceptos con justificación). Tienen diferentes fortalezas — usar ambos supera usar cualquiera solo.'}},
+  {q:{en:'The AI-native process generates more concepts than the traditional process. Why is this actually better for the CLIENT?',es:'El proceso AI-native genera más conceptos que el proceso tradicional. ¿Por qué esto es en realidad mejor para el CLIENTE?'},o:{en:['More options means the client can pick their personal favorite','More exploration means you find stronger strategic directions before the client sees anything — they get the best 3, not the first 3','More concepts justify charging more','The client can compare all AI concepts and choose which one to refine'],es:['Más opciones significa que el cliente puede elegir su favorito personal','Más exploración significa que encuentras direcciones estratégicas más fuertes antes de que el cliente vea algo — recibe los mejores 3, no los primeros 3','Más conceptos justifican cobrar más','El cliente puede comparar todos los conceptos AI y elegir cuál refinar']},c:1,e:{en:'✅ The client never sees 20 AI concepts. You explore 20 internally, pick the 3 strongest strategically, refine those to near-final quality, then present the 3. The extra exploration happens on your side — the client gets a better-filtered, more strategically sound result.',es:'✅ El cliente nunca ve 20 conceptos AI. Tú exploras 20 internamente, eliges los 3 más fuertes estratégicamente, refinas esos a calidad casi final, luego presentas los 3. La exploración extra ocurre en tu lado — el cliente recibe un resultado mejor filtrado y más estratégicamente sólido.'}},
+  {q:{en:'Which quality control check is the MOST critical before showing any AI-generated logo to a client?',es:'¿Cuál es el control de calidad MÁS crítico antes de mostrar cualquier logo generado por AI a un cliente?'},o:{en:['Does it look good on a business card mockup?','Does it align with the strategic brief extracted by Claude in Step 1?','Does it use the colors the client mentioned liking?','Does it look different from what competitors are doing?'],es:['¿Se ve bien en un mockup de tarjeta de negocios?','¿Está alineado con el brief estratégico extraído por Claude en el Paso 1?','¿Usa los colores que el cliente mencionó que le gustan?','¿Se ve diferente de lo que hacen los competidores?']},c:1,e:{en:'✅ The strategic alignment check always comes first. A beautiful AI logo that doesn\'t match the brand positioning is a failed logo. Pretty ≠ right. The brief is your quality anchor — every concept gets measured against it before anything else.',es:'✅ La verificación de alineación estratégica siempre viene primero. Un logo AI hermoso que no coincide con el posicionamiento de marca es un logo fallido. Bonito ≠ correcto. El brief es tu ancla de calidad — cada concepto se mide contra él antes que cualquier otra cosa.'}},
+  {q:{en:'How much faster is the AI-native logo process compared to the traditional process, approximately?',es:'¿Aproximadamente cuánto más rápido es el proceso AI-native de logo comparado con el proceso tradicional?'},o:{en:['About 20% faster','About 2x faster','About 8–10x faster across the full process','The same speed — AI just changes which tasks take time'],es:['Alrededor de 20% más rápido','Alrededor de 2x más rápido','Alrededor de 8–10x más rápido en todo el proceso','La misma velocidad — la AI solo cambia qué tareas toman tiempo']},c:2,e:{en:'✅ Traditional full process: ~25 hours. AI-native full process: ~3 hours. That\'s approximately 8–10x faster. The biggest time savings are in research (12x faster), visual exploration (12x faster), and brief writing (7x faster). Refinement stays slower because that\'s the human craft layer.',es:'✅ Proceso tradicional completo: ~25 horas. Proceso AI-native completo: ~3 horas. Eso es aproximadamente 8–10x más rápido. Los mayores ahorros de tiempo están en investigación (12x más rápido), exploración visual (12x más rápido) y escritura del brief (7x más rápido).'}}
+];
+
+let qCur=0,qScore=0,qAns=false;
+function renderQ(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.getElementById('qLbl').textContent=(es?'Pregunta':'Question')+` ${qCur+1} / ${qData.length}`;
+  document.getElementById('qBar').style.width=((qCur+1)/qData.length*100)+'%';
+  document.getElementById('qQ').textContent=es?q.q.es:q.q.en;
+  const opts=es?q.o.es:q.o.en;
+  document.getElementById('qOpts').innerHTML=opts.map((o,i)=>`<button class="q-opt" onclick="ansQ(${i})">${o}</button>`).join('');
+  document.getElementById('qFb').className='q-fb';
+  document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').style.display='none';
+  document.getElementById('qNext').textContent=qCur<qData.length-1?(es?'Siguiente →':'Next →'):(es?'Ver resultado →':'See result →');
+  qAns=false;
+}
+function ansQ(i){
+  if(qAns)return;qAns=true;
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.querySelectorAll('.q-opt').forEach(o=>o.classList.add('dis'));
+  const ok=i===q.c;if(ok)qScore++;
+  document.querySelectorAll('.q-opt')[i].classList.add(ok?'correct':'wrong');
+  document.querySelectorAll('.q-opt')[q.c].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.textContent=es?q.e.es:q.e.en;
+  fb.className='q-fb '+(ok?'correct':'wrong');
+  document.getElementById('qNext').style.display='inline-block';
+}
+function nextQ(){
+  qCur++;
+  if(qCur>=qData.length)showResult();else renderQ();
+}
+function showResult(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.getElementById('qA').style.display='none';
+  document.getElementById('qR').style.display='block';
+  document.getElementById('qSc').textContent=`${qScore}/${qData.length}`;
+  const m={en:['Keep reviewing — the AI-native concepts are critical to implement.','Good foundation! A few key gaps. Re-read the tool stack and flow sections.','Solid! You understand the AI-native paradigm well.','Outstanding — you\'re ready to execute the 401 live case.'],es:['Sigue revisando — los conceptos AI-native son críticos para implementar.','¡Buena base! Algunas brechas clave. Relee las secciones de stack y flujo.','¡Sólido! Entiendes bien el paradigma AI-native.','Sobresaliente — estás listo para ejecutar el caso en vivo del 401.']};
+  const tier=qScore<=2?0:qScore<=4?1:qScore<=5?2:3;
+  document.getElementById('qMsg').textContent=es?m.es[tier]:m.en[tier];
+}
+function restartQ(){
+  qCur=0;qScore=0;qAns=false;
+  document.getElementById('qA').style.display='block';
+  document.getElementById('qR').style.display='none';
+  renderQ();
+}
+
+renderQ();
+</script>
+</body>
+</html>

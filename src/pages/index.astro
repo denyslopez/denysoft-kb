@@ -1,0 +1,789 @@
+---
+import Base from '../layouts/Base.astro';
+import tutorials from '../data/tutorials.json';
+---
+
+<Base title="Denysoft KB // ARCHITECT PROTOCOL">
+
+<style is:global>
+  /* ── JARVIS TOKENS ────────────────────────────────────────── */
+  :root {
+    --bg:           #020b14;
+    --bg2:          #03111f;
+    --hud:          #041828;
+    --hud2:         #061e30;
+    --arc:          #00c8ff;
+    --arc-dim:      rgba(0,200,255,0.10);
+    --arc-mid:      rgba(0,200,255,0.30);
+    --arc-bright:   rgba(0,200,255,0.85);
+    --gold:         #ffa500;
+    --gold-dim:     rgba(255,165,0,0.13);
+    --green:        #00ff88;
+    --text:         #b8e4f5;
+    --muted:        #3a6a85;
+    --border:       rgba(0,200,255,0.14);
+    --border-h:     rgba(0,200,255,0.45);
+    --glow:         0 0 20px rgba(0,200,255,0.4), 0 0 40px rgba(0,200,255,0.15);
+    --glow-sm:      0 0 10px rgba(0,200,255,0.5);
+    --glow-gold:    0 0 15px rgba(255,165,0,0.5);
+    --sidebar-w:    240px;
+    --header-h:     58px;
+    /* category accent colors */
+    --cat-ai:       #00c8ff;
+    --cat-logo:     #ff6b9d;
+    --cat-funnel:   #ffa500;
+    --cat-landing:  #00ff88;
+    --cat-api:      #a78bfa;
+    --cat-gbp:      #f7c948;
+    --cat-wa:       #25D366;
+    --cat-art:      #ff6b6b;
+    --cat-mcp:      #00cec9;
+    --cat-skills:   #7C6EFA;
+  }
+
+  /* ── RESET ────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* scanline overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,200,255,0.012) 2px, rgba(0,200,255,0.012) 4px
+    );
+  }
+
+  /* hex grid bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zM28 100L0 84V50l28-16 28 16v34L28 100z' fill='none' stroke='%2300c8ff' stroke-width='0.5'/%3E%3C/svg%3E");
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--arc); box-shadow: var(--glow-sm); }
+
+  /* ── PROGRESS BAR ─────────────────────────────────────────── */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: rgba(0,200,255,0.08); z-index: 9999;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--arc), var(--gold));
+    box-shadow: var(--glow-sm);
+    width: 0%; transition: width 0.1s linear;
+  }
+
+  /* ── HEADER ───────────────────────────────────────────────── */
+  .hdr {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: rgba(2,11,20,0.92);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center;
+    padding: 0 20px; gap: 18px;
+    z-index: 100;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  }
+  .hdr::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--arc), var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  /* logo */
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; flex-shrink: 0; white-space: nowrap;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    border: 1.5px solid var(--arc);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2.5px; padding: 5px;
+    box-shadow: var(--glow-sm);
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    background: var(--arc-dim);
+  }
+  .logo-mark b { background: var(--arc); border-radius: 1px; display: block; }
+  .logo-mark b:nth-child(2) { opacity: .4; }
+  .logo-mark b:nth-child(3) { opacity: .4; }
+  .logo-mark b:nth-child(4) { opacity: .15; }
+  .logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .78rem; font-weight: 700;
+    letter-spacing: .12em; color: var(--text);
+    text-transform: uppercase;
+  }
+  .logo-text em { color: var(--arc); font-style: normal; text-shadow: var(--glow-sm); }
+
+  /* status chip */
+  .status-chip {
+    display: flex; align-items: center; gap: 7px;
+    border: 1px solid var(--arc-mid); background: var(--arc-dim);
+    padding: 4px 11px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .62rem; letter-spacing: .15em; text-transform: uppercase; color: var(--arc);
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 6px var(--green);
+    animation: blink 1.5s ease infinite;
+  }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.2; } }
+
+  /* search */
+  .search-wrap { flex: 1; max-width: 380px; position: relative; }
+  .search-wrap svg {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--hud);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    padding: 7px 14px 7px 34px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace; font-size: .75rem;
+    letter-spacing: .05em;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus {
+    border-color: var(--arc);
+    box-shadow: var(--glow-sm);
+    background: var(--hud2);
+  }
+
+  /* hdr right */
+  .hdr-end { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .data-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .62rem; letter-spacing: .1em; color: var(--muted);
+    padding: 3px 10px; border: 1px solid var(--border);
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    background: var(--hud);
+  }
+  .data-tag span { color: var(--arc); }
+
+  .hdr-btn {
+    width: 30px; height: 30px;
+    border: 1px solid var(--border); background: var(--hud);
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); transition: color .15s, border-color .15s, box-shadow .15s;
+  }
+  .hdr-btn:hover { color: var(--arc); border-color: var(--arc); box-shadow: var(--glow-sm); }
+
+  .burger {
+    display: none; width: 30px; height: 30px;
+    border: 1px solid var(--border); background: var(--hud);
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    cursor: pointer; align-items: center; justify-content: center; color: var(--muted);
+  }
+
+  /* ── LAYOUT ───────────────────────────────────────────────── */
+  .shell {
+    display: flex; padding-top: var(--header-h);
+    min-height: 100vh; position: relative; z-index: 1;
+  }
+
+  /* ── SIDEBAR ──────────────────────────────────────────────── */
+  .sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: rgba(3,17,31,0.95);
+    border-right: 1px solid var(--border);
+    position: fixed; top: var(--header-h); left: 0; bottom: 0;
+    overflow-y: auto; padding: 20px 12px;
+    transition: transform .3s cubic-bezier(.16,1,.3,1);
+  }
+  .sidebar::after {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0; width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--arc), transparent);
+    opacity: .3;
+  }
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0; z-index: 39;
+    background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+  }
+
+  .sb-sec { margin-bottom: 22px; }
+  .sb-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .58rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); padding: 0 8px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sb-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  .sb-item {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 7px 10px; margin-bottom: 2px;
+    border: 1px solid transparent; background: transparent;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif; font-size: .9rem; font-weight: 500;
+    letter-spacing: .04em;
+    cursor: pointer; text-align: left;
+    transition: all .15s;
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  }
+  .sb-item:hover {
+    background: var(--arc-dim); border-color: var(--border);
+    color: var(--arc);
+  }
+  .sb-item.active {
+    background: var(--arc-dim); border-color: var(--arc-mid);
+    color: var(--arc); box-shadow: inset 0 0 12px rgba(0,200,255,0.05);
+  }
+  .sb-dot {
+    width: 6px; height: 6px; flex-shrink: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .sb-n {
+    margin-left: auto; font-family: 'Share Tech Mono', monospace;
+    font-size: .65rem; color: var(--muted); letter-spacing: .05em;
+  }
+  .sb-item.active .sb-n { color: var(--arc); }
+
+  /* level chips */
+  .lvl-row { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 2px; }
+  .lvl-chip {
+    font-family: 'Orbitron', sans-serif; font-size: .6rem; font-weight: 700;
+    padding: 4px 10px; letter-spacing: .08em;
+    border: 1px solid var(--border); background: var(--hud);
+    cursor: pointer; transition: all .15s; color: var(--muted);
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  }
+  .lvl-chip[data-lvl="101"] { color: #4ECDC4; }
+  .lvl-chip[data-lvl="201"] { color: #00c8ff; }
+  .lvl-chip[data-lvl="301"] { color: #ffa500; }
+  .lvl-chip[data-lvl="401"] { color: #ff6b6b; }
+  .lvl-chip[data-lvl="501"] { color: #a78bfa; }
+  .lvl-chip.active {
+    border-color: currentColor;
+    background: rgba(0,200,255,0.08);
+    box-shadow: 0 0 8px currentColor;
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  /* ── MAIN ─────────────────────────────────────────────────── */
+  .main { flex: 1; margin-left: var(--sidebar-w); padding: 24px 24px 60px; min-width: 0; }
+
+  .main-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+  }
+  .main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .85rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .main-title::before {
+    content: '//'; color: var(--arc); font-size: .7rem;
+    text-shadow: var(--glow-sm);
+  }
+  .main-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem; color: var(--muted); letter-spacing: .08em;
+  }
+
+  /* ── GRID ─────────────────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: 16px;
+  }
+
+  /* ── CARD ─────────────────────────────────────────────────── */
+  .card {
+    background: var(--hud);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: background .25s, border-color .25s, box-shadow .25s;
+    animation: cardIn .35s cubic-bezier(.16,1,.3,1) both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    background: var(--hud2);
+    border-color: var(--arc-mid);
+    box-shadow: 0 0 20px rgba(0,200,255,0.06);
+  }
+
+  .card-inner { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .card-cat {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+  }
+  .card-lvl {
+    font-family: 'Orbitron', sans-serif; font-size: .6rem; font-weight: 700;
+    letter-spacing: .08em; padding: 2px 9px;
+    border: 1px solid currentColor;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    background: rgba(0,0,0,.3);
+  }
+
+  .card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .88rem; font-weight: 700; line-height: 1.3;
+    color: var(--text); margin-bottom: 10px;
+    letter-spacing: -.01em;
+  }
+  .card:hover .card-title { color: var(--arc); text-shadow: var(--glow-sm); }
+
+  .card-desc {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: .88rem; color: var(--muted);
+    line-height: 1.6; flex: 1; margin-bottom: 14px; font-weight: 400;
+  }
+
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .6rem; letter-spacing: .06em;
+    padding: 2px 8px; color: var(--muted);
+    border: 1px solid var(--border); background: rgba(0,200,255,0.04);
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  }
+
+  .card-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .card-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .62rem; color: var(--muted); letter-spacing: .05em;
+  }
+  .open-btn {
+    font-family: 'Orbitron', sans-serif; font-size: .62rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--arc); background: var(--arc-dim);
+    border: 1px solid var(--arc-mid);
+    padding: 5px 13px; cursor: pointer; transition: all .15s;
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  }
+  .open-btn:hover {
+    background: var(--arc); color: var(--bg);
+    box-shadow: var(--glow-sm);
+  }
+
+  /* ── EMPTY ────────────────────────────────────────────────── */
+  .empty {
+    padding: 80px 20px; text-align: center; color: var(--muted);
+    background: var(--hud); border: 1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+  .empty svg { margin: 0 auto 18px; display: block; opacity: .15; }
+  .empty h3 {
+    font-family: 'Orbitron', sans-serif; font-size: .9rem;
+    letter-spacing: .1em; color: var(--text); margin-bottom: 10px;
+  }
+  .empty p { font-family: 'Share Tech Mono', monospace; font-size: .72rem; line-height: 1.8; }
+  .empty code { color: var(--arc); }
+
+  /* ── VIEWER ───────────────────────────────────────────────── */
+  .viewer {
+    position: fixed; inset: 0; z-index: 200;
+    display: none; flex-direction: column;
+    background: var(--bg);
+  }
+  .viewer.open { display: flex; }
+  .viewer-bar {
+    height: var(--header-h);
+    background: rgba(2,11,20,0.97);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 18px; flex-shrink: 0;
+  }
+  .viewer-bar::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--arc), transparent);
+    opacity: .4;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'Orbitron', sans-serif; font-size: .62rem;
+    font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--border); background: var(--hud);
+    padding: 6px 13px; cursor: pointer; transition: all .15s;
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  }
+  .back-btn:hover { color: var(--arc); border-color: var(--arc); box-shadow: var(--glow-sm); }
+  .viewer-sep { width: 1px; height: 18px; background: var(--border); }
+  .viewer-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+    color: var(--arc); text-shadow: var(--glow-sm);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .viewer-frame { flex: 1; width: 100%; border: none; }
+
+  /* ── RESPONSIVE ───────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .search-wrap { max-width: none; flex: 1; }
+    .status-chip { display: none; }
+    .data-tag { display: none; }
+    .burger { display: flex; }
+    .sidebar {
+      transform: translateX(-100%); z-index: 40;
+      width: 260px; min-width: 260px;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.open { display: block; }
+    .main { margin-left: 0; padding: 18px 14px 60px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .hdr { padding: 0 12px; gap: 10px; }
+    .logo-text { display: none; }
+    .main { padding: 14px 10px 60px; }
+  }
+</style>
+
+<!-- Google Fonts — JARVIS stack -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<!-- progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ════════ HEADER ══════════════════════════════════════════ -->
+<header class="hdr">
+  <button class="burger" id="burgerBtn" aria-label="Toggle menu">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 12h18M3 6h18M3 18h18"/>
+    </svg>
+  </button>
+
+  <a class="logo" href="/">
+    <div class="logo-mark"><b></b><b></b><b></b><b></b></div>
+    <span class="logo-text">DENYSOFT <em>KB</em></span>
+  </a>
+
+  <div class="status-chip">
+    <span class="status-dot"></span>
+    SYSTEM ONLINE
+  </div>
+
+  <div class="search-wrap">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="SEARCH PROTOCOLS..." autocomplete="off">
+  </div>
+
+  <div class="hdr-end">
+    <div class="data-tag">MODULES <span id="badgeCount">00</span></div>
+    <button class="hdr-btn" id="themeBtn" title="Toggle theme">
+      <svg id="themeIco" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- ════════ SHELL ════════════════════════════════════════════ -->
+<div class="shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-sec">
+      <div class="sb-label">Browse</div>
+      <button class="sb-item active" data-cat="all">
+        <span class="sb-dot" style="background:var(--arc);box-shadow:var(--glow-sm)"></span>
+        ALL PROTOCOLS
+        <span class="sb-n" id="n-all">00</span>
+      </button>
+    </div>
+
+    <div class="sb-sec">
+      <div class="sb-label">Categories</div>
+      <div id="catList"></div>
+    </div>
+
+    <div class="sb-sec" id="lvlSec">
+      <div class="sb-label">Level</div>
+      <div class="lvl-row" id="lvlRow">
+        <button class="lvl-chip active" data-lvl="all">ALL</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-bar">
+      <span class="main-title" id="mainTitle">ALL PROTOCOLS</span>
+      <span class="main-meta" id="mainMeta"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<!-- ════════ VIEWER ═══════════════════════════════════════════ -->
+<div class="viewer" id="viewer">
+  <div class="viewer-bar" style="position:relative">
+    <button class="back-btn" id="backBtn">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      BACK
+    </button>
+    <div class="viewer-sep"></div>
+    <span class="viewer-title" id="viewerTitle"></span>
+  </div>
+  <iframe class="viewer-frame" id="viewerFrame" title="Protocol viewer"></iframe>
+</div>
+
+<!-- ════════ ENGINE ═══════════════════════════════════════════ -->
+<script define:vars={{ tutorials }}>
+
+  const CAT_COLOR = {
+    'AI Productivity':    '#00c8ff',
+    'Logo Design':        '#ff6b9d',
+    'Marketing Funnels':  '#ffa500',
+    'Landing Pages':      '#00ff88',
+    'APIs & Webhooks':    '#a78bfa',
+    'Google Business':    '#f7c948',
+    'WhatsApp AI Agent':  '#25D366',
+    'Art Direction':      '#ff6b6b',
+    'MCP':                '#00cec9',
+    'Claude Skills':      '#7C6EFA',
+  };
+  const LVL = {
+    '101': { color:'#4ECDC4' },
+    '201': { color:'#00c8ff' },
+    '301': { color:'#ffa500' },
+    '401': { color:'#ff6b6b' },
+    '501': { color:'#a78bfa' },
+  };
+
+  const cc  = cat => CAT_COLOR[cat] || '#00c8ff';
+  const lc  = lvl => lvl ? (LVL[lvl] || { color:'#3a6a85' }).color : null;
+  const pad = n => String(n).padStart(2,'0');
+  const esc = s => String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+  const get = id => document.getElementById(id);
+
+  let activeCat = 'all', activeLvl = 'all', q = '';
+
+  /* progress bar */
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    get('progressFill').style.width = pct + '%';
+  });
+
+  function getFiltered() {
+    const qlow = q.toLowerCase();
+    return tutorials.filter(t => {
+      if (activeCat !== 'all' && t.category !== activeCat) return false;
+      if (activeLvl !== 'all' && t.level !== activeLvl) return false;
+      if (qlow) {
+        const hay = `${t.title} ${t.description} ${t.category} ${(t.tags||[]).join(' ')}`.toLowerCase();
+        if (!hay.includes(qlow)) return false;
+      }
+      return true;
+    });
+  }
+
+  function buildSidebar() {
+    const n = tutorials.length;
+    get('n-all').textContent = pad(n);
+    get('badgeCount').textContent = pad(n);
+
+    const cats = [...new Set(tutorials.map(t => t.category))];
+    get('catList').innerHTML = cats.map(cat => {
+      const cnt = tutorials.filter(t => t.category === cat).length;
+      const c = cc(cat);
+      return `<button class="sb-item" data-cat="${esc(cat)}">
+        <span class="sb-dot" style="background:${c}"></span>
+        ${esc(cat)}
+        <span class="sb-n">${pad(cnt)}</span>
+      </button>`;
+    }).join('');
+
+    document.querySelectorAll('.sb-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCat = btn.dataset.cat;
+        document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        get('mainTitle').textContent = activeCat === 'all' ? 'ALL PROTOCOLS' : activeCat.toUpperCase();
+        renderGrid();
+        closeSidebar();
+      });
+    });
+
+    // Levels — dynamic, only show levels that actually exist in data
+    const LVL_ORDER = ['101','201','301','401','501'];
+    const allLevels = [...new Set(tutorials.map(t => t.level).filter(Boolean))];
+    const sorted = [
+      ...LVL_ORDER.filter(l => allLevels.includes(l)),
+      ...allLevels.filter(l => !LVL_ORDER.includes(l)).sort()
+    ];
+
+    const lvlRow = get('lvlRow');
+    sorted.forEach(lvl => {
+      const color = lc(lvl) || '#3a6a85';
+      const btn = document.createElement('button');
+      btn.className = 'lvl-chip';
+      btn.dataset.lvl = lvl;
+      btn.textContent = lvl.toUpperCase();
+      btn.style.color = color;
+      lvlRow.appendChild(btn);
+    });
+
+    // Hide level section entirely if no levels defined
+    if (sorted.length === 0) get('lvlSec').style.display = 'none';
+
+    lvlRow.querySelectorAll('.lvl-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        activeLvl = chip.dataset.lvl;
+        lvlRow.querySelectorAll('.lvl-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const list = getFiltered();
+    get('mainMeta').textContent = `${pad(list.length)} MODULES LOADED`;
+
+    if (!list.length) {
+      get('grid').innerHTML = `<div class="empty">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <h3>NO PROTOCOLS FOUND</h3>
+        <p>${tutorials.length === 0
+          ? 'Add entries to <code>src/data/tutorials.json</code><br>and drop HTML files in <code>src/pages/tutorials/</code>'
+          : 'ADJUST SEARCH PARAMETERS AND RETRY'
+        }</p>
+      </div>`;
+      return;
+    }
+
+    get('grid').innerHTML = list.map((t, i) => {
+      const c  = cc(t.category);
+      const lcolor = lc(t.level) || '#3a6a85';
+      const tags = (t.tags||[]).slice(0,4).map(tg => `<span class="tag">${esc(tg)}</span>`).join('');
+      const date = t.dateAdded
+        ? new Date(t.dateAdded+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+        : '';
+      return `
+        <div class="card" style="animation-delay:${i*35}ms" data-id="${esc(t.id)}">
+          <div style="height:2px;background:linear-gradient(to right,${c},transparent);"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <span class="card-cat" style="color:${c}">${esc(t.category)}</span>
+              ${t.level ? `<span class="card-lvl" style="color:${lcolor};border-color:${lcolor}40">${esc(t.level)}</span>` : ''}
+            </div>
+            <div class="card-title">${esc(t.title)}</div>
+            <div class="card-desc">${esc(t.description)}</div>
+            <div class="card-tags">${tags}</div>
+            <div class="card-foot">
+              <span class="card-date">${date}</span>
+              <button class="open-btn" data-id="${esc(t.id)}">OPEN →</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const t = tutorials.find(x => x.id === card.dataset.id);
+        if (t) openViewer(t.id, t.title);
+      });
+    });
+    document.querySelectorAll('.open-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const t = tutorials.find(x => x.id === btn.dataset.id);
+        if (t) openViewer(t.id, t.title);
+      });
+    });
+  }
+
+  document.querySelectorAll('.lvl-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      activeLvl = chip.dataset.lvl;
+      document.querySelectorAll('.lvl-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderGrid();
+    });
+  });
+
+  get('searchInput').addEventListener('input', e => { q = e.target.value; renderGrid(); });
+
+  function openViewer(id, title) {
+    get('viewerTitle').textContent = `// ${title.toUpperCase()}`;
+    get('viewerFrame').src = `/tutorials/${id}.html`;
+    get('viewer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    history.pushState({ viewer: id }, '', `#${id}`);
+  }
+  function closeViewer() {
+    get('viewer').classList.remove('open');
+    get('viewerFrame').src = '';
+    document.body.style.overflow = '';
+    if (location.hash) history.pushState({}, '', location.pathname);
+  }
+  function closeSidebar() {
+    get('sidebar').classList.remove('open');
+    get('overlay').classList.remove('open');
+  }
+
+  get('backBtn').addEventListener('click', closeViewer);
+  window.addEventListener('popstate', () => { if (!location.hash) closeViewer(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+  get('burgerBtn').addEventListener('click', () => {
+    get('sidebar').classList.toggle('open');
+    get('overlay').classList.toggle('open');
+  });
+  get('overlay').addEventListener('click', closeSidebar);
+
+  /* theme toggle — JARVIS has no light mode, but keeping for compat */
+  get('themeBtn').addEventListener('click', () => {
+    const ico = get('themeIco');
+    ico.style.color = ico.style.color === 'var(--gold)' ? '' : 'var(--gold)';
+  });
+
+  buildSidebar();
+  renderGrid();
+</script>
+
+</Base>

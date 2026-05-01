@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Design 201 — Denysoft KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c10;
+  --surface: #0e1318;
+  --card: #131920;
+  --card2: #171f28;
+  --border: #1e2d3d;
+  --accent: #00c8ff;
+  --accent2: #ff5c5c;
+  --accent3: #ffd166;
+  --accent4: #06d6a0;
+  --text: #e8edf2;
+  --muted: #6b7d8f;
+  --muted2: #4a5a6a;
+  --success: #06d6a0;
+  --error: #ff5c5c;
+  --radius: 14px;
+  --rsm: 7px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+[data-theme="light"] {
+  --bg: #f0f4f8; --surface: #ffffff; --card: #f7f9fc; --card2: #eef2f7;
+  --border: #d0dae6; --text: #0d1b2a; --muted: #5a6e82; --muted2: #8a9eb2;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s;min-height:100vh;}
+
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6;}
+
+.wrap{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+/* PROGRESS */
+.prog{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;}
+.prog-inner{max-width:860px;margin:0 auto;padding:0 24px;}
+.prog-track{height:2px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent4));width:0%;transition:width .3s;}
+
+/* HEADER */
+header{padding:40px 0 0;border-bottom:1px solid var(--border);margin-bottom:52px;}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px;flex-wrap:wrap;gap:12px;}
+.kb-badge{font-family:var(--font-mono);font-size:11px;color:var(--accent);background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.25);padding:4px 12px;border-radius:100px;letter-spacing:.08em;}
+.prereq-badge{font-family:var(--font-mono);font-size:11px;color:var(--accent3);background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.2);padding:4px 12px;border-radius:100px;letter-spacing:.06em;}
+.ctrls{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-c{font-family:var(--font-mono);font-size:11px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;letter-spacing:.05em;}
+.btn-c:hover{border-color:var(--accent);color:var(--accent);}
+
+.eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--accent2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;}
+.hero-title{font-family:var(--font-display);font-size:clamp(42px,7vw,76px);font-weight:700;line-height:1.0;letter-spacing:-.02em;margin-bottom:20px;}
+.hero-title em{font-style:italic;color:var(--accent);}
+.hero-sub{font-size:16px;color:var(--muted);max-width:580px;margin-bottom:36px;}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border);}
+.meta-i{font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+.meta-i span{color:var(--accent);}
+
+/* BREADCRUMB */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--muted2);margin-bottom:28px;}
+.bc-link{color:var(--accent);text-decoration:none;cursor:pointer;}
+.bc-sep{opacity:.4;}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 26px;margin-bottom:52px;}
+.toc-title{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+@media(max-width:500px){.toc-grid{grid-template-columns:1fr;}}
+.toc-item{text-decoration:none;color:var(--text);font-size:14px;display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:var(--rsm);transition:all .2s;}
+.toc-item:hover{background:rgba(0,200,255,0.05);color:var(--accent);}
+.toc-n{font-family:var(--font-mono);font-size:10px;color:var(--accent);min-width:22px;}
+
+/* SECTION */
+.section{margin-bottom:68px;scroll-margin-top:58px;}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.sec-label::before{content:'';width:16px;height:1px;background:var(--accent);}
+h2{font-family:var(--font-display);font-size:clamp(26px,4vw,40px);font-weight:700;line-height:1.12;margin-bottom:18px;letter-spacing:-.01em;}
+p{color:var(--muted);margin-bottom:14px;font-size:15px;}
+strong{color:var(--text);}
+hr.dv{border:none;border-top:1px solid var(--border);margin:48px 0;}
+
+/* CALLOUT */
+.callout{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--rsm);padding:14px 18px;margin:20px 0;font-size:14px;color:var(--text);}
+.callout.warn{border-left-color:var(--accent2);}
+.callout.gold{border-left-color:var(--accent3);}
+.callout.green{border-left-color:var(--accent4);}
+
+/* TAGS */
+.tag-row{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0;}
+.tag{font-family:var(--font-mono);font-size:11px;padding:3px 10px;border-radius:100px;background:var(--surface);border:1px solid var(--border);color:var(--muted);}
+.tag.hi{color:var(--accent);border-color:rgba(0,200,255,0.3);background:rgba(0,200,255,0.06);}
+.tag.gold{color:var(--accent3);border-color:rgba(255,209,102,0.3);background:rgba(255,209,102,0.06);}
+
+/* ── BRIEF ANALYZER ── */
+.brief-tool{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;}
+.brief-tool h3{font-family:var(--font-display);font-size:22px;margin-bottom:6px;}
+.brief-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.brief-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:540px){.brief-grid{grid-template-columns:1fr;}}
+.bf-field label{display:block;font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:6px;letter-spacing:.08em;}
+.bf-field input,.bf-field select,.bf-field textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:var(--rsm);font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .2s;resize:none;}
+.bf-field input:focus,.bf-field select:focus,.bf-field textarea:focus{border-color:var(--accent);}
+.brief-btn{padding:11px 24px;background:var(--accent);color:#000;border:none;border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:opacity .2s;}
+.brief-btn:hover{opacity:.85;}
+.brief-output{margin-top:20px;display:none;animation:fadeIn .4s ease;}
+.brief-output.show{display:block;}
+.brief-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 22px;margin-bottom:12px;}
+.brief-card-title{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;margin-bottom:10px;}
+.brief-card ul{list-style:none;display:grid;gap:6px;}
+.brief-card ul li{font-size:13.5px;color:var(--text);display:flex;gap:8px;align-items:flex-start;}
+.brief-card ul li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:1px;}
+
+/* ── TYPOGRAPHY SYSTEM ── */
+.font-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0;}
+@media(max-width:540px){.font-compare{grid-template-columns:1fr;}}
+.font-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;cursor:pointer;transition:all .2s;position:relative;}
+.font-card:hover,.font-card.sel{border-color:var(--accent);background:rgba(0,200,255,0.04);}
+.font-card .fc-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:12px;}
+.font-card .fc-sample{font-size:32px;line-height:1.1;margin-bottom:10px;font-weight:700;}
+.font-card .fc-meta{font-size:12px;color:var(--muted);}
+.font-card .fc-tag{position:absolute;top:12px;right:12px;font-family:var(--font-mono);font-size:10px;padding:3px 8px;border-radius:100px;background:rgba(0,200,255,0.1);color:var(--accent);border:1px solid rgba(0,200,255,0.2);}
+.font-detail{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 22px;margin-top:4px;display:none;animation:fadeIn .3s;}
+.font-detail.show{display:block;}
+
+/* ── SPACING / PROPORTION ── */
+.proportion-demo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:22px 0;}
+.proportion-demo h3{font-family:var(--font-display);font-size:20px;margin-bottom:18px;}
+.prop-slider-wrap{margin-bottom:18px;}
+.prop-slider-wrap label{font-family:var(--font-mono);font-size:10px;color:var(--muted);display:block;margin-bottom:8px;letter-spacing:.08em;}
+.prop-slider-wrap input[type=range]{width:100%;accent-color:var(--accent);}
+.prop-preview{background:var(--surface);border-radius:var(--rsm);padding:28px;display:flex;align-items:center;justify-content:center;min-height:120px;gap:12px;position:relative;}
+.prop-mark{background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-family:var(--font-display);transition:all .3s;flex-shrink:0;}
+.prop-text-block{transition:all .3s;}
+.prop-name{font-weight:800;font-family:var(--font-display);transition:all .3s;}
+.prop-sub{font-family:var(--font-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:all .3s;}
+.prop-hint{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
+
+/* ── CASE STUDY STEPPER ── */
+.case-study{margin:28px 0;}
+.cs-header{background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(6,214,160,0.08));border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;}
+.cs-header::before{content:'CASE STUDY';position:absolute;top:16px;right:20px;font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.15em;opacity:.5;}
+.cs-client-name{font-family:var(--font-display);font-size:clamp(28px,5vw,48px);font-weight:700;letter-spacing:-.01em;margin:8px 0;}
+.cs-client-name em{font-style:italic;color:var(--accent);}
+.cs-client-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;}
+.cs-meta-pill{font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:100px;background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);color:var(--accent);}
+
+/* STEPPER NAV */
+.stepper-nav{display:flex;gap:0;margin-bottom:0;overflow-x:auto;scrollbar-width:none;}
+.stepper-nav::-webkit-scrollbar{display:none;}
+.step-tab{font-family:var(--font-mono);font-size:11px;padding:10px 18px;background:var(--surface);border:1px solid var(--border);border-bottom:none;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.05em;border-radius:var(--rsm) var(--rsm) 0 0;margin-right:4px;}
+.step-tab.active{background:var(--card);color:var(--accent);border-color:var(--border);border-bottom-color:var(--card);}
+.step-tab:hover:not(.active){color:var(--text);}
+.stepper-body{background:var(--card);border:1px solid var(--border);border-radius:0 var(--radius) var(--radius) var(--radius);padding:28px 30px;min-height:320px;}
+.step-panel{display:none;animation:fadeIn .35s ease;}
+.step-panel.active{display:block;}
+
+/* STEP CONTENT */
+.step-title{font-family:var(--font-display);font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:6px;}
+.step-num-label{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.12em;margin-bottom:14px;}
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;}
+@media(max-width:540px){.insight-grid{grid-template-columns:1fr;}}
+.insight-box{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;}
+.ib-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:8px;}
+.ib-val{font-size:14px;color:var(--text);}
+
+/* MOODBOARD */
+.moodboard{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+@media(max-width:500px){.moodboard{grid-template-columns:1fr 1fr;}}
+.mood-tile{border-radius:var(--rsm);padding:20px 14px;text-align:center;position:relative;overflow:hidden;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;}
+.mood-tile-icon{font-size:26px;margin-bottom:8px;}
+.mood-tile-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;}
+
+/* CONCEPTS */
+.concepts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0;}
+@media(max-width:540px){.concepts-grid{grid-template-columns:1fr;}}
+.concept-card{background:var(--card2);border:2px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;transition:all .25s;}
+.concept-card:hover,.concept-card.picked{border-color:var(--accent);background:rgba(0,200,255,0.05);}
+.concept-card.picked .cc-badge{display:block;}
+.cc-badge{display:none;font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.08em;margin-bottom:8px;}
+.cc-logo-preview{height:80px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border-radius:var(--rsm);background:var(--surface);}
+.cc-name{font-weight:700;font-size:13px;margin-bottom:4px;}
+.cc-desc{font-size:12px;color:var(--muted);}
+.concept-verdict{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 20px;margin-top:14px;display:none;animation:fadeIn .3s;}
+.concept-verdict.show{display:block;}
+
+/* REFINEMENT DEMO */
+.refine-stages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0;}
+@media(max-width:540px){.refine-stages{grid-template-columns:1fr;}}
+.refine-card{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 14px;text-align:center;}
+.refine-stage-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:14px;}
+.refine-visual{height:90px;background:var(--surface);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-weight:900;transition:all .3s;}
+.refine-note{font-size:12px;color:var(--muted);}
+
+/* FINAL LOGO SHOWCASE */
+.logo-showcase{background:linear-gradient(135deg,#0d1f2d,#0a1a14);border:1px solid var(--border);border-radius:var(--radius);padding:40px 32px;margin:20px 0;text-align:center;}
+.showcase-logo{display:inline-flex;align-items:center;gap:18px;margin-bottom:28px;}
+.sl-mark{width:72px;height:72px;background:linear-gradient(135deg,#00c8ff,#06d6a0);border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:34px;font-weight:700;color:#000;letter-spacing:-.02em;}
+.sl-text .sl-name{font-family:var(--font-display);font-size:30px;font-weight:700;color:#e8edf2;letter-spacing:-.01em;}
+.sl-text .sl-tag{font-family:var(--font-mono);font-size:10px;color:#6b7d8f;letter-spacing:.18em;text-transform:uppercase;margin-top:2px;}
+.showcase-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;}
+@media(max-width:500px){.showcase-variants{grid-template-columns:1fr 1fr;}}
+.sv-item{border-radius:var(--rsm);padding:16px 10px;text-align:center;font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.sv-mark{font-family:var(--font-display);font-weight:700;margin-bottom:8px;}
+
+/* DELIVERABLES */
+.deliverables-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;}
+@media(max-width:540px){.deliverables-grid{grid-template-columns:1fr;}}
+.del-item{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;}
+.del-icon{font-size:22px;flex-shrink:0;}
+.del-name{font-weight:700;font-size:14px;margin-bottom:3px;}
+.del-desc{font-size:12px;color:var(--muted);}
+
+/* PRICING GUIDE */
+.pricing-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0;}
+@media(max-width:540px){.pricing-tiers{grid-template-columns:1fr;}}
+.tier-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;position:relative;transition:border-color .2s;}
+.tier-card.featured{border-color:var(--accent);}
+.tier-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:10px;padding:3px 12px;border-radius:100px;background:var(--accent);color:#000;font-weight:700;letter-spacing:.06em;white-space:nowrap;}
+.tier-name{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:4px;}
+.tier-price{font-family:var(--font-mono);font-size:22px;color:var(--accent);font-weight:500;margin-bottom:14px;}
+.tier-list{list-style:none;display:grid;gap:7px;}
+.tier-list li{font-size:13px;color:var(--muted);display:flex;gap:7px;}
+.tier-list li::before{content:'✓';color:var(--accent4);flex-shrink:0;}
+
+/* QUIZ */
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.q-lbl{font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+.q-bar-wrap{width:90px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.q-bar-fill{height:100%;background:var(--accent);transition:width .4s;}
+.q-question{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:18px;}
+.q-opts{display:grid;gap:9px;}
+.q-opt{padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;font-size:14px;font-family:var(--font-body);color:var(--text);text-align:left;transition:all .2s;}
+.q-opt:hover:not(.dis){border-color:var(--accent);background:rgba(0,200,255,0.04);}
+.q-opt.correct{border-color:var(--success);background:rgba(6,214,160,0.08);color:var(--success);}
+.q-opt.wrong{border-color:var(--error);background:rgba(255,92,92,0.08);color:var(--error);}
+.q-opt.dis{cursor:default;}
+.q-fb{margin-top:14px;padding:12px 16px;border-radius:var(--rsm);font-size:13.5px;display:none;animation:fadeIn .3s;}
+.q-fb.correct{background:rgba(6,214,160,0.08);border:1px solid var(--success);color:var(--success);display:block;}
+.q-fb.wrong{background:rgba(255,92,92,0.08);border:1px solid var(--error);color:var(--error);display:block;}
+.q-next{margin-top:14px;display:none;padding:11px 22px;background:var(--accent);color:#000;border:none;border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;}
+.q-next:hover{opacity:.85;}
+.q-result{text-align:center;padding:16px 0;display:none;}
+.q-score{font-family:var(--font-display);font-size:60px;font-weight:700;color:var(--accent);}
+.q-msg{font-size:14px;color:var(--muted);margin-top:8px;}
+.q-restart{margin-top:18px;padding:11px 26px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
+.q-restart:hover{background:rgba(0,200,255,0.08);}
+
+/* NEXT MODULE CARD */
+.next-module{background:linear-gradient(135deg,rgba(255,92,92,0.06),rgba(255,209,102,0.06));border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.nm-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;margin-bottom:6px;}
+.nm-title{font-family:var(--font-display);font-size:24px;font-weight:700;}
+.nm-title em{font-style:italic;color:var(--accent3);}
+.nm-btn{padding:12px 22px;background:transparent;border:1px solid var(--accent3);color:var(--accent3);border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nm-btn:hover{background:rgba(255,209,102,0.08);}
+
+footer{border-top:1px solid var(--border);padding:28px 0;margin-top:60px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;}
+.footer-brand{color:var(--accent);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+[data-lang="es"] .en{display:none;}
+[data-lang="en"] .es{display:none;}
+</style>
+</head>
+<body>
+
+<div class="prog"><div class="prog-inner"><div class="prog-track"><div class="prog-fill" id="pFill"></div></div></div></div>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="kb-badge">Denysoft KB · Design Series</span>
+      <span class="prereq-badge">⚠ <span class="en">Requires Logo Design 101</span><span class="es">Requiere Logo Design 101</span></span>
+    </div>
+    <div class="ctrls">
+      <button class="btn-c" id="langBtn" onclick="toggleLang()">🌐 ES</button>
+      <button class="btn-c" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+    </div>
+  </div>
+  <div class="eyebrow en">Graphic Design · Module 02</div>
+  <div class="eyebrow es">Diseño Gráfico · Módulo 02</div>
+  <h1 class="hero-title"><em>Logo</em><br><span class="en">Design 201</span><span class="es">Design 201</span></h1>
+  <p class="hero-sub en">Advanced process, professional typography systems, client briefs, and a full real-world case study: building a logo for <strong>Invercasa</strong> — a Salvadoran real estate firm.</p>
+  <p class="hero-sub es">Proceso avanzado, sistemas tipográficos profesionales, briefs de clientes y un caso de estudio completo del mundo real: construyendo un logo para <strong>Invercasa</strong> — firma inmobiliaria salvadoreña.</p>
+  <div class="hero-meta">
+    <div class="meta-i">⏱ <span>~60 min</span></div>
+    <div class="meta-i">📊 <span class="en">Intermediate</span><span class="es">Intermedio</span></div>
+    <div class="meta-i">🎯 <span class="en">7 Sections</span><span class="es">7 Secciones</span></div>
+    <div class="meta-i">🏢 <span class="en">Live Case Study</span><span class="es">Caso de Estudio Real</span></div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <span class="bc-link">Denysoft KB</span>
+  <span class="bc-sep">›</span>
+  <span class="bc-link">Design Series</span>
+  <span class="bc-sep">›</span>
+  <span>Logo Design 201</span>
+</div>
+
+<!-- TOC -->
+<nav class="toc reveal">
+  <div class="toc-title en">Contents</div>
+  <div class="toc-title es">Contenido</div>
+  <div class="toc-grid">
+    <a class="toc-item" href="#s1"><span class="toc-n">01</span><span class="en">Reading the Brief Like a Pro</span><span class="es">Leer el Brief como un Pro</span></a>
+    <a class="toc-item" href="#s2"><span class="toc-n">02</span><span class="en">Typography Systems</span><span class="es">Sistemas Tipográficos</span></a>
+    <a class="toc-item" href="#s3"><span class="toc-n">03</span><span class="en">Proportion & Spacing</span><span class="es">Proporción & Espacio</span></a>
+    <a class="toc-item" href="#s4"><span class="toc-n">04</span><span class="en">Case Study: Invercasa</span><span class="es">Caso de Estudio: Invercasa</span></a>
+    <a class="toc-item" href="#s5"><span class="toc-n">05</span><span class="en">Professional Delivery</span><span class="es">Entrega Profesional</span></a>
+    <a class="toc-item" href="#s6"><span class="toc-n">06</span><span class="en">Pricing Your Work</span><span class="es">Poner Precio a tu Trabajo</span></a>
+    <a class="toc-item" href="#s7"><span class="toc-n">07</span><span class="en">Quiz</span><span class="es">Quiz</span></a>
+  </div>
+</nav>
+
+<!-- S1: BRIEF -->
+<section class="section reveal" id="s1">
+  <div class="sec-label en">Section 01</div><div class="sec-label es">Sección 01</div>
+  <h2 class="en">Reading the Brief Like a Pro</h2>
+  <h2 class="es">Leer el Brief como un Pro</h2>
+  <p class="en">The brief is your foundation. A designer who can extract a precise strategic direction from a vague client description is worth 3x one who just "makes things look nice." Most amateurs rush past the brief — professionals live in it.</p>
+  <p class="es">El brief es tu fundamento. Un diseñador que puede extraer una dirección estratégica precisa de una descripción vaga del cliente vale 3x más que uno que solo "hace que las cosas se vean bonitas." La mayoría de los amateurs se saltan el brief — los profesionales viven en él.</p>
+
+  <div class="callout gold en">💡 <strong>The rule:</strong> Never start designing until you can answer these 4 questions in writing: Who is the client? Who is their audience? What do they want to communicate? What makes them different?</div>
+  <div class="callout gold es">💡 <strong>La regla:</strong> Nunca empieces a diseñar hasta que puedas responder estas 4 preguntas por escrito: ¿Quién es el cliente? ¿Quién es su audiencia? ¿Qué quieren comunicar? ¿Qué los hace diferentes?</div>
+
+  <p class="en">Use the tool below to practice extracting design direction from a client brief.</p>
+  <p class="es">Usa la herramienta a continuación para practicar cómo extraer dirección de diseño de un brief de cliente.</p>
+
+  <!-- BRIEF ANALYZER TOOL -->
+  <div class="brief-tool">
+    <h3 class="en">🔍 Brief Analyzer</h3><h3 class="es">🔍 Analizador de Brief</h3>
+    <div class="brief-sub en">Fill in the client info and get a strategic design direction.</div>
+    <div class="brief-sub es">Completa la información del cliente y obtén una dirección estratégica de diseño.</div>
+    <div class="brief-grid">
+      <div class="bf-field"><label class="en">BUSINESS TYPE</label><label class="es">TIPO DE NEGOCIO</label>
+        <select id="bType">
+          <option value="realestate" class="en">Real Estate / Inmobiliaria</option>
+          <option value="restaurant" class="en">Restaurant / Restaurante</option>
+          <option value="tech" class="en">Tech / Software</option>
+          <option value="legal" class="en">Legal / Law Firm</option>
+          <option value="health" class="en">Health / Wellness</option>
+          <option value="retail" class="en">Retail / Tienda</option>
+        </select>
+      </div>
+      <div class="bf-field"><label class="en">TARGET AUDIENCE</label><label class="es">AUDIENCIA OBJETIVO</label>
+        <select id="bAud">
+          <option value="premium">Premium / High-income</option>
+          <option value="young">Young / Millennials</option>
+          <option value="family">Family / Middle class</option>
+          <option value="corporate">Corporate / B2B</option>
+          <option value="diaspora">Diaspora / Expatriates</option>
+        </select>
+      </div>
+      <div class="bf-field"><label class="en">KEY VALUES (pick feel)</label><label class="es">VALORES CLAVE (elige la sensación)</label>
+        <select id="bVibe">
+          <option value="trust">Trust, Stability, Heritage</option>
+          <option value="modern">Modern, Clean, Innovative</option>
+          <option value="luxury">Luxury, Exclusive, Prestige</option>
+          <option value="friendly">Friendly, Accessible, Warm</option>
+          <option value="bold">Bold, Energetic, Disruptive</option>
+        </select>
+      </div>
+      <div class="bf-field"><label class="en">MAIN COMPETITOR FEEL</label><label class="es">SENSACIÓN DEL COMPETIDOR</label>
+        <select id="bComp">
+          <option value="generic">Generic, no clear identity</option>
+          <option value="corporate">Very corporate and stiff</option>
+          <option value="outdated">Outdated and traditional</option>
+          <option value="modern">Already modern and digital</option>
+        </select>
+      </div>
+    </div>
+    <button class="brief-btn" onclick="analyzeBrief()">
+      <span class="en">→ Generate Design Direction</span><span class="es">→ Generar Dirección de Diseño</span>
+    </button>
+    <div class="brief-output" id="briefOut"></div>
+  </div>
+
+  <div class="callout warn en">⚠️ <strong>Red flag briefing moments:</strong> "I want something clean and modern" (too vague), "Make it like Apple but for real estate" (imitation, not identity), "My cousin has a logo idea I want you to execute" (you're a printer, not a designer).</div>
+  <div class="callout warn es">⚠️ <strong>Momentos de alerta en el brief:</strong> "Quiero algo limpio y moderno" (demasiado vago), "Hazlo como Apple pero para inmobiliaria" (imitación, no identidad), "Mi primo tiene una idea de logo que quiero que ejecutes" (eres una impresora, no un diseñador).</div>
+</section>
+
+<hr class="dv">
+
+<!-- S2: TYPOGRAPHY -->
+<section class="section reveal" id="s2">
+  <div class="sec-label en">Section 02</div><div class="sec-label es">Sección 02</div>
+  <h2 class="en">Typography Systems for Logos</h2>
+  <h2 class="es">Sistemas Tipográficos para Logos</h2>
+  <p class="en">Typography is not decoration — it's <strong>personality made visible</strong>. The typeface you choose communicates before anyone reads a single word. In logo design, font selection is a strategic decision, not an aesthetic preference.</p>
+  <p class="es">La tipografía no es decoración — es <strong>personalidad hecha visible</strong>. La fuente que eliges comunica antes de que nadie lea una sola palabra. En el diseño de logos, la selección de fuentes es una decisión estratégica, no una preferencia estética.</p>
+
+  <p class="en">Tap each category to understand when and why to use it.</p>
+  <p class="es">Toca cada categoría para entender cuándo y por qué usarla.</p>
+
+  <div class="font-compare">
+    <div class="font-card" onclick="showFont('serif',this)">
+      <div class="fc-tag">Classic</div>
+      <div class="fc-label en">SERIF TYPEFACES</div><div class="fc-label es">FUENTES SERIF</div>
+      <div class="fc-sample" style="font-family:'Cormorant Garamond',serif;">Invercasa</div>
+      <div class="fc-meta en">Garamond, Playfair, Times — Trust & Heritage</div>
+      <div class="fc-meta es">Garamond, Playfair, Times — Confianza & Herencia</div>
+    </div>
+    <div class="font-card" onclick="showFont('sans',this)">
+      <div class="fc-tag">Modern</div>
+      <div class="fc-label en">SANS-SERIF TYPEFACES</div><div class="fc-label es">FUENTES SIN SERIFA</div>
+      <div class="fc-sample" style="font-family:'Outfit',sans-serif;font-weight:800;">Invercasa</div>
+      <div class="fc-meta en">Futura, Helvetica, Outfit — Clean & Modern</div>
+      <div class="fc-meta es">Futura, Helvetica, Outfit — Limpio & Moderno</div>
+    </div>
+    <div class="font-card" onclick="showFont('display',this)">
+      <div class="fc-tag">Unique</div>
+      <div class="fc-label en">DISPLAY / DECORATIVE</div><div class="fc-label es">DISPLAY / DECORATIVA</div>
+      <div class="fc-sample" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;">Invercasa</div>
+      <div class="fc-meta en">Custom lettering, script — Strong Personality</div>
+      <div class="fc-meta es">Lettering personalizado, script — Fuerte Personalidad</div>
+    </div>
+    <div class="font-card" onclick="showFont('mono',this)">
+      <div class="fc-tag">Tech</div>
+      <div class="fc-label en">MONOSPACE / GEOMETRIC</div><div class="fc-label es">MONOESPACIADA / GEOMÉTRICA</div>
+      <div class="fc-sample" style="font-family:'IBM Plex Mono',monospace;font-size:22px;">Invercasa</div>
+      <div class="fc-meta en">IBM Plex, Courier — Tech & Precision</div>
+      <div class="fc-meta es">IBM Plex, Courier — Tecnología & Precisión</div>
+    </div>
+  </div>
+  <div class="font-detail" id="fontDetail"></div>
+
+  <div class="callout en" style="margin-top:20px;">📐 <strong>Pro rule — Max 2 fonts per logo system:</strong> One for the wordmark/logotype, one for the tagline or descriptor. More than 2 = visual chaos. The tension between two well-chosen fonts creates the personality.</div>
+  <div class="callout es" style="margin-top:20px;">📐 <strong>Regla pro — Máximo 2 fuentes por sistema de logo:</strong> Una para el wordmark/logotipo, una para el tagline o descriptor. Más de 2 = caos visual. La tensión entre dos fuentes bien elegidas crea la personalidad.</div>
+
+  <h3 style="font-family:var(--font-display);font-size:20px;margin:28px 0 12px" class="en">Font Pairing Cheat Sheet</h3>
+  <h3 style="font-family:var(--font-display);font-size:20px;margin:28px 0 12px" class="es">Guía de Combinaciones de Fuentes</h3>
+  <div style="display:grid;gap:10px;margin-bottom:8px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div><span style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;">Serif</span> <span style="color:var(--muted);font-size:13px;">+</span> <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--muted);">Monospace</span></div>
+      <span class="tag gold en">Real Estate · Law · Finance</span><span class="tag gold es">Inmobiliaria · Legal · Finanzas</span>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div><span style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;">Sans Bold</span> <span style="color:var(--muted);font-size:13px;">+</span> <span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--muted);">Sans Light</span></div>
+      <span class="tag hi en">Tech · Startup · Health</span><span class="tag hi es">Tech · Startup · Salud</span>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div><span style="font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;">Display Italic</span> <span style="color:var(--muted);font-size:13px;">+</span> <span style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.1em;">UPPERCASE SANS</span></div>
+      <span class="tag en" style="color:var(--accent4);border-color:rgba(6,214,160,.3);background:rgba(6,214,160,.06)">Luxury · Fashion · Premium</span>
+      <span class="tag es" style="color:var(--accent4);border-color:rgba(6,214,160,.3);background:rgba(6,214,160,.06)">Lujo · Moda · Premium</span>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- S3: PROPORTION -->
+<section class="section reveal" id="s3">
+  <div class="sec-label en">Section 03</div><div class="sec-label es">Sección 03</div>
+  <h2 class="en">Proportion & Spacing: The Invisible Craft</h2>
+  <h2 class="es">Proporción & Espacio: El Arte Invisible</h2>
+  <p class="en">Two designers can use the same font and same symbol and produce completely different results — because of proportion and spacing. This is what separates amateur logos from professional ones. You feel the difference before you can name it.</p>
+  <p class="es">Dos diseñadores pueden usar la misma fuente y el mismo símbolo y producir resultados completamente diferentes — por la proporción y el espacio. Esto es lo que separa los logos amateur de los profesionales. Sientes la diferencia antes de poder nombrarla.</p>
+
+  <!-- PROPORTION DEMO -->
+  <div class="proportion-demo">
+    <h3 class="en">⚖️ Live Proportion Lab</h3><h3 class="es">⚖️ Lab de Proporción en Vivo</h3>
+    <div class="prop-slider-wrap">
+      <label class="en">MARK SIZE: <span id="markSizeVal">52</span>px</label>
+      <label class="es">TAMAÑO DEL SÍMBOLO: <span id="markSizeVal2">52</span>px</label>
+      <input type="range" id="markSize" min="32" max="90" value="52" oninput="updateProp()">
+    </div>
+    <div class="prop-slider-wrap">
+      <label class="en">LETTER SPACING: <span id="trackVal">0</span>px</label>
+      <label class="es">ESPACIO ENTRE LETRAS: <span id="trackVal2">0</span>px</label>
+      <input type="range" id="tracking" min="-2" max="12" value="0" oninput="updateProp()">
+    </div>
+    <div class="prop-slider-wrap">
+      <label class="en">FONT WEIGHT: <span id="weightVal">700</span></label>
+      <label class="es">PESO DE FUENTE: <span id="weightVal2">700</span></label>
+      <input type="range" id="fontWeight" min="300" max="900" step="100" value="700" oninput="updateProp()">
+    </div>
+    <div class="prop-preview">
+      <div class="prop-mark" id="propMark" style="width:52px;height:52px;font-size:24px;border-radius:10px;">I</div>
+      <div class="prop-text-block">
+        <div class="prop-name" id="propName" style="font-size:24px;letter-spacing:0px;font-weight:700;font-family:'Cormorant Garamond',serif;">Invercasa</div>
+        <div class="prop-sub" id="propSub" style="font-size:9px;">BIENES RAÍCES · EL SALVADOR</div>
+      </div>
+    </div>
+    <div class="prop-hint en">💡 Notice how small changes to proportion and spacing completely change the logo's personality.</div>
+    <div class="prop-hint es">💡 Observa cómo pequeños cambios en la proporción y el espacio cambian completamente la personalidad del logo.</div>
+  </div>
+
+  <div class="callout green en">✅ <strong>Golden ratio in logos:</strong> The mark should relate to the wordmark height at approximately 1:1 to 1.6:1. This creates visual balance without mathematical rigidity. Your eye knows when something is "right."</div>
+  <div class="callout green es">✅ <strong>Proporción áurea en logos:</strong> El símbolo debe relacionarse con la altura del wordmark en aproximadamente 1:1 a 1.6:1. Esto crea equilibrio visual sin rigidez matemática. Tu ojo sabe cuándo algo está "bien."</div>
+</section>
+
+<hr class="dv">
+
+<!-- S4: CASE STUDY -->
+<section class="section reveal" id="s4">
+  <div class="sec-label en">Section 04 — Case Study</div><div class="sec-label es">Sección 04 — Caso de Estudio</div>
+  <h2 class="en">Building a Logo: Start to Finish</h2>
+  <h2 class="es">Construyendo un Logo: De Inicio a Fin</h2>
+  <p class="en">We're going to walk through the complete professional process for a real client scenario — step by step, decision by decision. Follow along and make the same choices a professional designer would.</p>
+  <p class="es">Vamos a recorrer el proceso profesional completo para un escenario de cliente real — paso a paso, decisión por decisión. Sigue el proceso y toma las mismas decisiones que tomaría un diseñador profesional.</p>
+
+  <!-- CLIENT HEADER -->
+  <div class="cs-header">
+    <div class="eyebrow en" style="font-size:10px;">THE CLIENT</div>
+    <div class="eyebrow es" style="font-size:10px;">EL CLIENTE</div>
+    <div class="cs-client-name"><em>Invercasa</em> SV</div>
+    <p style="color:var(--muted);font-size:14px;margin:6px 0 0;" class="en">A Salvadoran real estate investment firm serving local buyers, diaspora clients in the US, and international investors looking at El Salvador's growing property market — including Bitcoin-adjacent opportunities post-Chivo.</p>
+    <p style="color:var(--muted);font-size:14px;margin:6px 0 0;" class="es">Firma salvadoreña de inversión inmobiliaria que atiende a compradores locales, clientes de la diáspora en EE.UU., e inversores internacionales interesados en el creciente mercado inmobiliario de El Salvador — incluyendo oportunidades post-Chivo.</p>
+    <div class="cs-client-meta">
+      <span class="cs-meta-pill">🇸🇻 El Salvador</span>
+      <span class="cs-meta-pill en">Real Estate</span><span class="cs-meta-pill es">Inmobiliaria</span>
+      <span class="cs-meta-pill en">Premium Positioning</span><span class="cs-meta-pill es">Posicionamiento Premium</span>
+      <span class="cs-meta-pill en">Diaspora Market</span><span class="cs-meta-pill es">Mercado Diáspora</span>
+    </div>
+  </div>
+
+  <div class="case-study">
+    <div class="stepper-nav" id="stepNav">
+      <button class="step-tab active" onclick="goStep(0)"><span class="en">1. Brief</span><span class="es">1. Brief</span></button>
+      <button class="step-tab" onclick="goStep(1)"><span class="en">2. Research</span><span class="es">2. Investigación</span></button>
+      <button class="step-tab" onclick="goStep(2)"><span class="en">3. Concepts</span><span class="es">3. Conceptos</span></button>
+      <button class="step-tab" onclick="goStep(3)"><span class="en">4. Refinement</span><span class="es">4. Refinamiento</span></button>
+      <button class="step-tab" onclick="goStep(4)"><span class="en">5. Final</span><span class="es">5. Final</span></button>
+    </div>
+    <div class="stepper-body">
+
+      <!-- STEP 0: BRIEF -->
+      <div class="step-panel active" id="sp0">
+        <div class="step-num-label en">STEP 01 / 05 — DISCOVERY & BRIEF</div>
+        <div class="step-num-label es">PASO 01 / 05 — DISCOVERY & BRIEF</div>
+        <div class="step-title en">What did the client tell us?</div>
+        <div class="step-title es">¿Qué nos dijo el cliente?</div>
+        <p class="en" style="margin-top:10px;">After a 45-minute discovery call, here's what we extracted from Invercasa's stakeholders:</p>
+        <p class="es" style="margin-top:10px;">Después de una llamada de discovery de 45 minutos, esto es lo que extrajimos de los stakeholders de Invercasa:</p>
+        <div class="insight-grid">
+          <div class="insight-box"><div class="ib-label en">WHO THEY ARE</div><div class="ib-label es">QUIÉNES SON</div><div class="ib-val en">Premium real estate investment firm in El Salvador. Operating since 2012. National reach with diaspora arm in LA & Houston.</div><div class="ib-val es">Firma premium de inversión inmobiliaria en El Salvador. Operando desde 2012. Alcance nacional con brazo para la diáspora en LA & Houston.</div></div>
+          <div class="insight-box"><div class="ib-label en">WHO THEY SERVE</div><div class="ib-label es">A QUIÉN SIRVEN</div><div class="ib-val en">Local professionals, diaspora Salvadorans (remittance investors), and international buyers attracted to El Salvador's Bitcoin economy.</div><div class="ib-val es">Profesionales locales, salvadoreños de la diáspora (inversores de remesas) e inversores internacionales atraídos por la economía Bitcoin de El Salvador.</div></div>
+          <div class="insight-box"><div class="ib-label en">WHAT THEY WANT</div><div class="ib-label es">QUÉ QUIEREN</div><div class="ib-val en">"Trust, professionalism, stability. We want to feel like we've been here for 100 years but think like a modern firm."</div><div class="ib-val es">"Confianza, profesionalismo, estabilidad. Queremos sentir que llevamos 100 años aquí pero pensamos como una firma moderna."</div></div>
+          <div class="insight-box"><div class="ib-label en">THE PROBLEM</div><div class="ib-label es">EL PROBLEMA</div><div class="ib-val en">Current logo is generic — a blue house with the name in Arial. It looks like 200 other real estate firms in the region. Zero differentiation.</div><div class="ib-val es">El logo actual es genérico — una casa azul con el nombre en Arial. Se parece a 200 firmas inmobiliarias más en la región. Cero diferenciación.</div></div>
+        </div>
+        <div class="callout gold en">🎯 <strong>Our design direction:</strong> Heritage + Modern tension. Serif confidence with contemporary restraint. Colors: deep navy (trust) + gold (premium) + white space. No houses. No keys. No clip art.</div>
+        <div class="callout gold es">🎯 <strong>Nuestra dirección de diseño:</strong> Tensión Herencia + Moderno. Confianza serif con contención contemporánea. Colores: azul marino profundo (confianza) + dorado (premium) + espacio blanco. Sin casas. Sin llaves. Sin clipart.</div>
+        <div style="text-align:right;margin-top:18px;"><button class="brief-btn" onclick="goStep(1)"><span class="en">Next: Research →</span><span class="es">Siguiente: Investigación →</span></button></div>
+      </div>
+
+      <!-- STEP 1: RESEARCH -->
+      <div class="step-panel" id="sp1">
+        <div class="step-num-label en">STEP 02 / 05 — RESEARCH & MOODBOARD</div>
+        <div class="step-num-label es">PASO 02 / 05 — INVESTIGACIÓN & MOODBOARD</div>
+        <div class="step-title en">Competitor landscape & visual direction</div>
+        <div class="step-title es">Panorama competitivo y dirección visual</div>
+        <p class="en" style="margin-top:10px;">We analyzed 12 competitors in the Salvadoran and Central American real estate market. Finding: 90% use blue + white + a generic house/building icon. The opportunity is to own a completely different visual territory.</p>
+        <p class="es" style="margin-top:10px;">Analizamos 12 competidores en el mercado inmobiliario salvadoreño y centroamericano. Hallazgo: el 90% usa azul + blanco + un ícono genérico de casa/edificio. La oportunidad es apropiarse de un territorio visual completamente diferente.</p>
+        <div class="moodboard">
+          <div class="mood-tile" style="background:rgba(15,30,50,0.8);border:1px solid var(--border);">
+            <div class="mood-tile-icon">🌊</div>
+            <div class="mood-tile-label" style="color:#a0b4c8;">Deep Navy</div>
+          </div>
+          <div class="mood-tile" style="background:rgba(180,145,60,0.15);border:1px solid rgba(180,145,60,0.3);">
+            <div class="mood-tile-icon">✦</div>
+            <div class="mood-tile-label" style="color:#c8a84b;">Gold Accent</div>
+          </div>
+          <div class="mood-tile" style="background:rgba(240,235,225,0.08);border:1px solid var(--border);">
+            <div class="mood-tile-icon">□</div>
+            <div class="mood-tile-label" style="color:var(--muted);">White Space</div>
+          </div>
+          <div class="mood-tile" style="background:rgba(20,20,20,0.4);border:1px solid var(--border);">
+            <div class="mood-tile-icon" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;font-style:italic;">Aa</div>
+            <div class="mood-tile-label" style="color:var(--muted);">Serif Italic</div>
+          </div>
+          <div class="mood-tile" style="background:rgba(10,20,35,0.6);border:1px solid var(--border);">
+            <div class="mood-tile-icon">🏛</div>
+            <div class="mood-tile-label" style="color:var(--muted);">Architecture</div>
+          </div>
+          <div class="mood-tile" style="background:rgba(15,25,15,0.6);border:1px solid var(--border);">
+            <div class="mood-tile-icon">🌴</div>
+            <div class="mood-tile-label" style="color:var(--muted);">El Salvador</div>
+          </div>
+        </div>
+        <div class="callout en">📌 <strong>Key insight:</strong> Diaspora clients in the US compare us to US real estate brands. We need to feel credible at that level — not like a local broker with a clipart logo. The brand must pass the "would a Miami investor trust this?" test.</div>
+        <div class="callout es">📌 <strong>Insight clave:</strong> Los clientes de la diáspora en EE.UU. nos comparan con marcas inmobiliarias americanas. Necesitamos sentir credibilidad a ese nivel — no como un corredor local con logo de clipart. La marca debe pasar la prueba "¿confiaría un inversor de Miami en esto?"</div>
+        <div style="display:flex;justify-content:space-between;margin-top:18px;"><button class="brief-btn" style="background:var(--surface);color:var(--text);border:1px solid var(--border);" onclick="goStep(0)"><span class="en">← Back</span><span class="es">← Atrás</span></button><button class="brief-btn" onclick="goStep(2)"><span class="en">Next: Concepts →</span><span class="es">Siguiente: Conceptos →</span></button></div>
+      </div>
+
+      <!-- STEP 2: CONCEPTS -->
+      <div class="step-panel" id="sp2">
+        <div class="step-num-label en">STEP 03 / 05 — CONCEPT DEVELOPMENT</div>
+        <div class="step-num-label es">PASO 03 / 05 — DESARROLLO DE CONCEPTOS</div>
+        <div class="step-title en">3 directions. Choose the strongest.</div>
+        <div class="step-title es">3 direcciones. Elige la más fuerte.</div>
+        <p class="en" style="margin-top:10px;">After sketching 30+ ideas, we refined to 3 distinct directions. As a professional, you never show the client 10 options — you show 2 or 3 strong ones. Which would you present?</p>
+        <p class="es" style="margin-top:10px;">Después de bocetar 30+ ideas, refinamos a 3 direcciones distintas. Como profesional, nunca le muestras al cliente 10 opciones — le muestras 2 o 3 fuertes. ¿Cuál presentarías?</p>
+        <div class="concepts-grid">
+          <div class="concept-card" onclick="pickConcept(0,this)">
+            <div class="cc-badge">✓ SELECTED</div>
+            <div class="cc-logo-preview" style="background:#0f1e32;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:38px;height:38px;background:linear-gradient(135deg,#c8a84b,#e8c547);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#0f1e32;">I</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#f0e8d8;">Invercasa</div>
+              </div>
+            </div>
+            <div class="cc-name en">Direction A: Heritage Mark</div>
+            <div class="cc-name es">Dirección A: Marca Heritage</div>
+            <div class="cc-desc en">Serif wordmark + geometric initial mark in gold. Classic, trust-forward. Strong with diaspora and premium buyers.</div>
+            <div class="cc-desc es">Wordmark serif + marca inicial geométrica en dorado. Clásico, orientado a la confianza. Fuerte con la diáspora y compradores premium.</div>
+          </div>
+          <div class="concept-card" onclick="pickConcept(1,this)">
+            <div class="cc-badge">✓ SELECTED</div>
+            <div class="cc-logo-preview" style="background:#f5f3ee;">
+              <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:#1a1a24;letter-spacing:-.02em;">INVERCASA<span style="color:#22a050;font-size:12px;font-weight:300;letter-spacing:.15em;display:block;margin-top:2px;">BIENES RAÍCES</span></div>
+            </div>
+            <div class="cc-name en">Direction B: Modern Sans</div>
+            <div class="cc-name es">Dirección B: Sans Moderno</div>
+            <div class="cc-desc en">Bold all-caps wordmark. No mark, just strong typography. Clean, scalable, digital-first. Better for young/tech audience.</div>
+            <div class="cc-desc es">Wordmark negrita en mayúsculas. Sin símbolo, solo tipografía fuerte. Limpio, escalable, digital-first. Mejor para audiencia joven/tech.</div>
+          </div>
+          <div class="concept-card" onclick="pickConcept(2,this)">
+            <div class="cc-badge">✓ SELECTED</div>
+            <div class="cc-logo-preview" style="background:#0a0a0f;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:42px;height:42px;border:2px solid #c8a84b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#c8a84b;">IV</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#f0e8d8;font-style:italic;">Invercasa<span style="display:block;font-size:8px;letter-spacing:.18em;font-style:normal;color:#6b7d8f;">EST. 2012</span></div>
+              </div>
+            </div>
+            <div class="cc-name en">Direction C: Emblem Prestige</div>
+            <div class="cc-name es">Dirección C: Emblema Prestigio</div>
+            <div class="cc-desc en">Circular lettermark emblem. Italic serif + founding year. Very premium feel, but harder to scale small.</div>
+            <div class="cc-desc es">Emblema circular lettermark. Serif itálica + año de fundación. Sensación muy premium, pero más difícil de escalar pequeño.</div>
+          </div>
+        </div>
+        <div class="concept-verdict" id="conceptVerdict"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:18px;"><button class="brief-btn" style="background:var(--surface);color:var(--text);border:1px solid var(--border);" onclick="goStep(1)"><span class="en">← Back</span><span class="es">← Atrás</span></button><button class="brief-btn" onclick="goStep(3)"><span class="en">Next: Refinement →</span><span class="es">Siguiente: Refinamiento →</span></button></div>
+      </div>
+
+      <!-- STEP 3: REFINEMENT -->
+      <div class="step-panel" id="sp3">
+        <div class="step-num-label en">STEP 04 / 05 — DIGITAL REFINEMENT</div>
+        <div class="step-num-label es">PASO 04 / 05 — REFINAMIENTO DIGITAL</div>
+        <div class="step-title en">From rough to refined</div>
+        <div class="step-title es">De boceto a refinado</div>
+        <p class="en" style="margin-top:10px;">Direction A won the client review. Now we take it through 3 stages of digital refinement — each pass tightening proportions, adjusting spacing, and testing in real contexts.</p>
+        <p class="es" style="margin-top:10px;">La Dirección A ganó en la revisión del cliente. Ahora la llevamos por 3 etapas de refinamiento digital — cada pasada ajusta proporciones, espacio y prueba en contextos reales.</p>
+        <div class="refine-stages">
+          <div class="refine-card">
+            <div class="refine-stage-label en">STAGE 1 — ROUGH DIGITAL</div>
+            <div class="refine-stage-label es">ETAPA 1 — DIGITAL BRUTO</div>
+            <div class="refine-visual" style="background:#0f1e32;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:32px;height:32px;background:#c8a84b;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#0f1e32;">I</div>
+                <span style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#d0c8b8;">Invercasa</span>
+              </div>
+            </div>
+            <div class="refine-note en">Basic shapes. Proportions off. Font too thin. No clear hierarchy.</div>
+            <div class="refine-note es">Formas básicas. Proporciones incorrectas. Fuente muy delgada. Sin jerarquía clara.</div>
+          </div>
+          <div class="refine-card">
+            <div class="refine-stage-label en">STAGE 2 — ADJUSTED</div>
+            <div class="refine-stage-label es">ETAPA 2 — AJUSTADO</div>
+            <div class="refine-visual" style="background:#0f1e32;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:42px;height:42px;background:linear-gradient(135deg,#b8941e,#e8c547);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#0a1420;">I</div>
+                <div>
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:#f0e8d8;">Invercasa</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;color:#8a9eb2;">BIENES RAÍCES</div>
+                </div>
+              </div>
+            </div>
+            <div class="refine-note en">Better proportion. Mark weight matches wordmark. Tagline added in mono.</div>
+            <div class="refine-note es">Mejor proporción. Peso del símbolo coincide con wordmark. Tagline agregado en mono.</div>
+          </div>
+          <div class="refine-card">
+            <div class="refine-stage-label en">STAGE 3 — FINAL</div>
+            <div class="refine-stage-label es">ETAPA 3 — FINAL</div>
+            <div class="refine-visual" style="background:#0a1420;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:46px;height:46px;background:linear-gradient(135deg,#c8a84b,#f0d060);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#0a1420;letter-spacing:-.02em;">I</div>
+                <div>
+                  <div style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:#f0e8d8;letter-spacing:.01em;">Invercasa</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;color:#6b7d8f;margin-top:2px;text-transform:uppercase;">Bienes Raíces · SV</div>
+                </div>
+              </div>
+            </div>
+            <div class="refine-note en">Perfect balance. Tight spacing. Mark and wordmark in harmony. Ready for color testing.</div>
+            <div class="refine-note es">Balance perfecto. Espacio ajustado. Símbolo y wordmark en armonía. Listo para prueba de color.</div>
+          </div>
+        </div>
+        <div class="callout green en">✅ <strong>What changed between Stage 1 and 3:</strong> Mark size increased 15%, corner radius softened, font tracking adjusted from 0 to +10, tagline weight reduced, vertical rhythm corrected, and color gradient refined for depth.</div>
+        <div class="callout green es">✅ <strong>Qué cambió entre Etapa 1 y 3:</strong> Tamaño del símbolo aumentado 15%, radio de esquinas suavizado, tracking de fuente ajustado de 0 a +10, peso del tagline reducido, ritmo vertical corregido y gradiente de color refinado para profundidad.</div>
+        <div style="display:flex;justify-content:space-between;margin-top:18px;"><button class="brief-btn" style="background:var(--surface);color:var(--text);border:1px solid var(--border);" onclick="goStep(2)"><span class="en">← Back</span><span class="es">← Atrás</span></button><button class="brief-btn" onclick="goStep(4)"><span class="en">Next: Final →</span><span class="es">Siguiente: Final →</span></button></div>
+      </div>
+
+      <!-- STEP 4: FINAL -->
+      <div class="step-panel" id="sp4">
+        <div class="step-num-label en">STEP 05 / 05 — FINAL LOGO SYSTEM</div>
+        <div class="step-num-label es">PASO 05 / 05 — SISTEMA DE LOGO FINAL</div>
+        <div class="step-title en">The Invercasa brand system</div>
+        <div class="step-title es">El sistema de marca Invercasa</div>
+        <p class="en" style="margin-top:10px;">A complete logo is not a single file — it's a system of variants that work across every context. Here is the full Invercasa logo system.</p>
+        <p class="es" style="margin-top:10px;">Un logo completo no es un solo archivo — es un sistema de variantes que funciona en cada contexto. Aquí está el sistema completo de logo Invercasa.</p>
+        <div class="logo-showcase">
+          <div class="showcase-logo">
+            <div class="sl-mark">I</div>
+            <div class="sl-text">
+              <div class="sl-name">Invercasa</div>
+              <div class="sl-tag">Bienes Raíces · El Salvador</div>
+            </div>
+          </div>
+          <div class="showcase-variants">
+            <div class="sv-item" style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.15);">
+              <div class="sv-mark" style="font-family:'Cormorant Garamond',serif;color:#f0e8d8;font-size:14px;">Invercasa</div>
+              <div style="margin-top:6px;font-size:9px;">Horizontal</div>
+            </div>
+            <div class="sv-item" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);">
+              <div class="sv-mark" style="font-family:'Cormorant Garamond',serif;color:#0a1420;font-size:14px;background:#f0e8d8;padding:6px 10px;border-radius:4px;">Invercasa</div>
+              <div style="margin-top:6px;font-size:9px;">Light BG</div>
+            </div>
+            <div class="sv-item" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);">
+              <div class="sv-mark" style="font-family:'Cormorant Garamond',serif;color:#888;font-size:14px;">Invercasa</div>
+              <div style="margin-top:6px;font-size:9px;">Monochrome</div>
+            </div>
+            <div class="sv-item" style="background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.2);">
+              <div class="sv-mark" style="width:36px;height:36px;background:linear-gradient(135deg,#c8a84b,#f0d060);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#0a1420;margin:0 auto 6px;">I</div>
+              <div style="font-size:9px;">Icon only</div>
+            </div>
+          </div>
+        </div>
+        <div class="tag-row" style="margin-top:16px;">
+          <span class="tag gold">HEX #C8A84B</span>
+          <span class="tag gold">HEX #0A1420</span>
+          <span class="tag hi">Cormorant Garamond 700</span>
+          <span class="tag">IBM Plex Mono 400</span>
+        </div>
+        <div style="display:flex;justify-content:flex-start;margin-top:18px;"><button class="brief-btn" style="background:var(--surface);color:var(--text);border:1px solid var(--border);" onclick="goStep(3)"><span class="en">← Back</span><span class="es">← Atrás</span></button></div>
+      </div>
+
+    </div><!-- /stepper-body -->
+  </div><!-- /case-study -->
+</section>
+
+<hr class="dv">
+
+<!-- S5: DELIVERY -->
+<section class="section reveal" id="s5">
+  <div class="sec-label en">Section 05</div><div class="sec-label es">Sección 05</div>
+  <h2 class="en">Professional Delivery Standards</h2>
+  <h2 class="es">Estándares de Entrega Profesional</h2>
+  <p class="en">Delivery is where amateurs and professionals split. Anyone can design a logo — not everyone delivers a complete, organized, professional package that the client can actually use without calling you every week.</p>
+  <p class="es">La entrega es donde se separan amateurs y profesionales. Cualquiera puede diseñar un logo — no todos entregan un paquete completo, organizado y profesional que el cliente puede usar sin llamarte cada semana.</p>
+  <div class="deliverables-grid">
+    <div class="del-item"><div class="del-icon">📐</div><div><div class="del-name">SVG — Master File</div><div class="del-desc en">The vector source. Infinitely scalable. This is what goes to printers, signage makers, embroidery shops.</div><div class="del-desc es">El archivo vectorial fuente. Infinitamente escalable. Esto va a impresoras, letreros y bordados.</div></div></div>
+    <div class="del-item"><div class="del-icon">🖼</div><div><div class="del-name">PNG — Screen Use</div><div class="del-desc en">Transparent background. Sizes: 512px, 1024px, 2048px. For web, social, digital presentations.</div><div class="del-desc es">Fondo transparente. Tamaños: 512px, 1024px, 2048px. Para web, redes sociales, presentaciones digitales.</div></div></div>
+    <div class="del-item"><div class="del-icon">📄</div><div><div class="del-name">PDF — Print Ready</div><div class="del-desc en">CMYK color mode. Includes bleed and safe areas. For business cards, brochures, signage.</div><div class="del-desc es">Modo de color CMYK. Incluye sangrado y áreas seguras. Para tarjetas, folletos y señalética.</div></div></div>
+    <div class="del-item"><div class="del-icon">🌗</div><div><div class="del-name">Dark & Light Variants</div><div class="del-desc en">Logo on dark background + logo on light background. Both fully tested. Never assume one works for all.</div><div class="del-desc es">Logo en fondo oscuro + logo en fondo claro. Ambos completamente probados. Nunca asumas que uno sirve para todo.</div></div></div>
+    <div class="del-item"><div class="del-icon">⬛</div><div><div class="del-name">Monochrome / B&W</div><div class="del-desc en">Used for stamps, faxes, legal documents, embossing, watermarks. If it doesn't work in black — it's broken.</div><div class="del-desc es">Usado para sellos, documentos legales, grabado y marcas de agua. Si no funciona en negro — está roto.</div></div></div>
+    <div class="del-item"><div class="del-icon">🔳</div><div><div class="del-name">Favicon / App Icon</div><div class="del-desc en">Simplified mark at 32×32 and 512×512. Often just the initial or simplified symbol — detail disappears at this size.</div><div class="del-desc es">Símbolo simplificado a 32×32 y 512×512. A menudo solo la inicial o símbolo simplificado — el detalle desaparece a ese tamaño.</div></div></div>
+    <div class="del-item"><div class="del-icon">📖</div><div><div class="del-name">Mini Brand Guide PDF</div><div class="del-desc en">1–4 pages: color codes (HEX/RGB/CMYK/Pantone), typography, clear space rules, do's and don'ts. Non-negotiable.</div><div class="del-desc es">1–4 páginas: códigos de color (HEX/RGB/CMYK/Pantone), tipografía, reglas de espacio limpio, lo que se debe y no hacer. No negociable.</div></div></div>
+    <div class="del-item"><div class="del-icon">📁</div><div><div class="del-name">Organized Folder Structure</div><div class="del-desc en">Name files clearly: InvercasaLogo_Horizontal_Dark.svg — not "final_v3_ACTUAL.ai". Client must find any file in 10 seconds.</div><div class="del-desc es">Nombra archivos claramente: InvercasaLogo_Horizontal_Oscuro.svg — no "final_v3_REAL.ai". El cliente debe encontrar cualquier archivo en 10 segundos.</div></div></div>
+  </div>
+  <div class="callout warn en">⚠️ <strong>The AICP format:</strong> Always deliver in this order: AI/SVG (source) → PDF (print) → PNG (screen) → Guidelines. Label everything with the client name and variant. Zip and label the folder before sending.</div>
+  <div class="callout warn es">⚠️ <strong>El formato AICP:</strong> Siempre entrega en este orden: AI/SVG (fuente) → PDF (impresión) → PNG (pantalla) → Guías. Etiqueta todo con el nombre del cliente y la variante. Comprime y etiqueta la carpeta antes de enviar.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S6: PRICING -->
+<section class="section reveal" id="s6">
+  <div class="sec-label en">Section 06</div><div class="sec-label es">Sección 06</div>
+  <h2 class="en">Pricing Your Logo Work</h2>
+  <h2 class="es">Poniendo Precio a tu Trabajo de Logo</h2>
+  <p class="en">Most designers undercharge because they price by hours, not by value. A logo for Invercasa is not "8 hours × $25/hr = $200." It's the visual foundation of a brand that generates millions in transactions. Price accordingly.</p>
+  <p class="es">La mayoría de los diseñadores cobran de menos porque ponen precio por horas, no por valor. Un logo para Invercasa no es "8 horas × $25/hr = $200." Es la base visual de una marca que genera millones en transacciones. Cobra en consecuencia.</p>
+  <div class="pricing-tiers">
+    <div class="tier-card">
+      <div class="tier-name en">Starter</div><div class="tier-name es">Inicial</div>
+      <div class="tier-price en">$300–$800</div><div class="tier-price es">$300–$800</div>
+      <ul class="tier-list">
+        <li class="en">1 logo direction</li><li class="es">1 dirección de logo</li>
+        <li class="en">2 revision rounds</li><li class="es">2 rondas de revisión</li>
+        <li class="en">PNG + SVG delivery</li><li class="es">Entrega PNG + SVG</li>
+        <li class="en">Basic color palette</li><li class="es">Paleta de colores básica</li>
+        <li class="en">Solopreneurs / micro businesses</li><li class="es">Solopreneurs / micro negocios</li>
+      </ul>
+    </div>
+    <div class="tier-card featured">
+      <div class="tier-badge en">RECOMMENDED</div><div class="tier-badge es">RECOMENDADO</div>
+      <div class="tier-name en">Professional</div><div class="tier-name es">Profesional</div>
+      <div class="tier-price en">$1,500–$4,000</div><div class="tier-price es">$1,500–$4,000</div>
+      <ul class="tier-list">
+        <li class="en">3 logo directions</li><li class="es">3 direcciones de logo</li>
+        <li class="en">3 revision rounds</li><li class="es">3 rondas de revisión</li>
+        <li class="en">Full file package</li><li class="es">Paquete de archivos completo</li>
+        <li class="en">All variants</li><li class="es">Todas las variantes</li>
+        <li class="en">Mini brand guide</li><li class="es">Mini guía de marca</li>
+        <li class="en">SMEs & established businesses</li><li class="es">PYMEs & negocios establecidos</li>
+      </ul>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name en">Brand System</div><div class="tier-name es">Sistema de Marca</div>
+      <div class="tier-price en">$5,000–$20,000+</div><div class="tier-price es">$5,000–$20,000+</div>
+      <ul class="tier-list">
+        <li class="en">Full brand strategy</li><li class="es">Estrategia de marca completa</li>
+        <li class="en">Logo + identity system</li><li class="es">Logo + sistema de identidad</li>
+        <li class="en">Full brand guidelines</li><li class="es">Guía de marca completa</li>
+        <li class="en">Stationery + templates</li><li class="es">Papelería + plantillas</li>
+        <li class="en">Large corps / rebrands</li><li class="es">Grandes empresas / rebrands</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout gold en">💡 <strong>For El Salvador & LATAM context:</strong> Local market rates are lower, but diaspora and international clients pay international rates. If Invercasa serves US-based clients — price at US rates. Never discount internationally because you're physically in El Salvador.</div>
+  <div class="callout gold es">💡 <strong>Para el contexto de El Salvador & LATAM:</strong> Las tarifas del mercado local son más bajas, pero los clientes de la diáspora e internacionales pagan tarifas internacionales. Si Invercasa sirve a clientes con base en EE.UU. — cobra a tarifas estadounidenses. Nunca descuentes internacionalmente porque físicamente estás en El Salvador.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S7: QUIZ -->
+<section class="section reveal" id="s7">
+  <div class="sec-label en">Section 07</div><div class="sec-label es">Sección 07</div>
+  <h2 class="en">Knowledge Check</h2><h2 class="es">Quiz Final</h2>
+  <p class="en">6 advanced questions — no basic stuff. Let's see how you think at the 201 level.</p>
+  <p class="es">6 preguntas avanzadas — nada básico. Veamos cómo piensas en el nivel 201.</p>
+  <div class="quiz-box">
+    <div id="qA">
+      <div class="quiz-head">
+        <div class="q-lbl" id="qLbl">Question 1 / 6</div>
+        <div class="q-bar-wrap"><div class="q-bar-fill" id="qBar" style="width:16.6%"></div></div>
+      </div>
+      <div class="q-question" id="qQ"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <button class="q-next" id="qNext" onclick="nextQ()"></button>
+    </div>
+    <div class="q-result" id="qR">
+      <div class="q-score" id="qSc"></div>
+      <div class="q-msg" id="qMsg"></div>
+      <button class="q-restart" onclick="restartQ()"><span class="en">↺ Restart</span><span class="es">↺ Reiniciar</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT MODULE -->
+<div class="next-module reveal">
+  <div>
+    <div class="nm-label en">UP NEXT IN THE SERIES</div>
+    <div class="nm-label es">LO SIGUIENTE EN LA SERIE</div>
+    <div class="nm-title en">Logo Design <em>301</em><br><span style="font-size:16px;font-family:var(--font-body);color:var(--muted);font-style:normal;">AI-Powered Logo Design</span></div>
+    <div class="nm-title es">Logo Design <em>301</em><br><span style="font-size:16px;font-family:var(--font-body);color:var(--muted);font-style:normal;">Diseño de Logo con IA</span></div>
+  </div>
+  <button class="nm-btn en">Coming Soon →</button>
+  <button class="nm-btn es">Próximamente →</button>
+</div>
+
+<footer>
+  <div><span class="footer-brand">Denysoft KB</span> · Logo Design 201</div>
+  <div class="en">Graphic Design Series · 2025</div>
+  <div class="es">Serie de Diseño Gráfico · 2025</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// THEME / LANG
+function toggleTheme(){
+  const h=document.documentElement,b=document.getElementById('themeBtn'),d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');b.textContent=d?'🌙 Dark':'☀️ Light';
+}
+function toggleLang(){
+  const h=document.documentElement,b=document.getElementById('langBtn'),e=h.getAttribute('data-lang')==='en';
+  h.setAttribute('data-lang',e?'es':'en');b.textContent=e?'🌐 EN':'🌐 ES';renderQ();
+}
+
+// PROGRESS
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('pFill').style.width=(s/t*100)+'%';
+});
+
+// REVEAL
+const revEls=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.1});
+revEls.forEach(el=>obs.observe(el));
+
+// BRIEF ANALYZER
+const briefData={
+  realestate:{trust:{logo:'Serif wordmark + geometric mark',colors:'Navy + Gold + White',fonts:'Cormorant / Garamond + IBM Plex Mono',avoid:'Houses, keys, clip art buildings',position:'Luxury real estate firm, not a broker'},modern:{logo:'Bold sans-serif combination mark',colors:'Dark charcoal + Electric blue + White',fonts:'Outfit Black + Outfit Light',avoid:'Traditional serif, earth tones',position:'Tech-forward property platform'},luxury:{logo:'Custom lettering + emblem system',colors:'Black + Gold + Off-white',fonts:'Custom display + Geometric sans',avoid:'Clip art, stock icons, generic blues',position:'Ultra-premium investment firm'},friendly:{logo:'Rounded sans + illustrated mark',colors:'Warm orange + Cream + Forest green',fonts:'Rounded sans-serif + Matching tagline',avoid:'Cold blues, sharp geometry, formal serif',position:'Accessible, community-focused real estate'},bold:{logo:'High-contrast lettermark + strong wordmark',colors:'Coral + Black + White',fonts:'Heavy display + Light mono',avoid:'Pastels, traditional palettes, decorative fonts',position:'Disruptive new real estate brand'}},
+  restaurant:{trust:{logo:'Classic script + simple symbol',colors:'Deep burgundy + Cream + Gold',fonts:'Playfair Script + Garamond',avoid:'Sans-serif technicality, neons',position:'Established traditional restaurant'},modern:{logo:'Geometric wordmark + icon',colors:'White + Black + One bold accent',fonts:'Geometric sans-serif',avoid:'Script, ornate decoration',position:'Contemporary dining experience'},luxury:{logo:'Minimal wordmark, no mark',colors:'Black + Gold + White space',fonts:'Thin serif or custom lettering',avoid:'Busy symbols, many colors',position:'Fine dining, upscale experience'},friendly:{logo:'Illustrated mascot or icon + warm wordmark',colors:'Warm yellow + Orange + Brown',fonts:'Rounded friendly sans-serif',avoid:'Cold grays, sharp angles',position:'Family-friendly neighborhood spot'},bold:{logo:'Strong wordmark + contrasting colors',colors:'Red + Yellow + Black',fonts:'Heavy condensed sans-serif',avoid:'Subtle palettes, thin fonts',position:'Bold food brand with strong identity'}},
+  tech:{trust:{logo:'Clean wordmark + simple geometric mark',colors:'Blue + White + Light gray',fonts:'Geometric sans-serif',avoid:'Script, serif, decorative',position:'Reliable enterprise software'},modern:{logo:'Minimal wordmark or lettermark',colors:'Dark + One neon accent',fonts:'Thin or medium weight sans',avoid:'Gradients, shadows, 3D effects',position:'Cutting-edge tech product'},luxury:{logo:'Custom wordmark + refined palette',colors:'Black + Silver + White',fonts:'Thin premium sans-serif',avoid:'Bright colors, playful fonts',position:'Premium SaaS or enterprise platform'},friendly:{logo:'Colorful icon + approachable wordmark',colors:'Multi-color palette (2–3)',fonts:'Rounded sans-serif',avoid:'Dark heavy designs',position:'Consumer app or platform'},bold:{logo:'Strong wordmark + vibrant mark',colors:'Bold gradient or contrast pair',fonts:'Display weight sans-serif',avoid:'Conservative palettes',position:'Disruptive tech startup'}},
+  legal:{trust:{logo:'Traditional serif wordmark or lettermark',colors:'Navy + Dark gray + Gold',fonts:'Times / Garamond serif',avoid:'Bright colors, sans-serif, playful icons',position:'Established law firm'},modern:{logo:'Clean sans-serif wordmark + subtle mark',colors:'Charcoal + Blue + White',fonts:'Geometric sans-serif medium weight',avoid:'Script, excessive decoration',position:'Modern legal services firm'},luxury:{logo:'Premium serif or custom lettering',colors:'Black + Gold + White',fonts:'High-contrast serif',avoid:'Casual fonts, bright colors',position:'High-net-worth legal advisory'},friendly:{logo:'Approachable sans + simple icon',colors:'Blue + Green + Light gray',fonts:'Rounded sans-serif',avoid:'Heavy dark palettes',position:'Accessible community legal aid'},bold:{logo:'Strong sans wordmark + graphic element',colors:'Red + Navy + White',fonts:'Bold condensed sans',avoid:'Traditional passive designs',position:'Aggressive litigation firm'}},
+  health:{trust:{logo:'Clean wordmark + medical cross or leaf',colors:'Blue + Green + White',fonts:'Clean sans-serif',avoid:'Script, dark heavy colors',position:'Trusted healthcare provider'},modern:{logo:'Minimal wordmark + abstract health mark',colors:'Teal + White + Light accent',fonts:'Geometric sans medium',avoid:'Traditional clip art',position:'Modern health tech or clinic'},luxury:{logo:'Premium wordmark, minimal',colors:'Black + Sage green + Gold',fonts:'Thin serif or sans',avoid:'Clinical blue/white stereotypes',position:'Premium wellness brand'},friendly:{logo:'Warm illustrated mark + friendly wordmark',colors:'Warm coral + Soft green + Cream',fonts:'Rounded sans-serif',avoid:'Cold clinical colors',position:'Friendly community health center'},bold:{logo:'Strong mark + confident wordmark',colors:'Vibrant green + White + Black',fonts:'Bold sans-serif',avoid:'Weak pastels',position:'Bold health movement brand'}},
+  retail:{trust:{logo:'Classic wordmark + traditional mark',colors:'Navy or Forest green + Gold',fonts:'Serif or refined sans',avoid:'Trend-chasing styles',position:'Established retail institution'},modern:{logo:'Clean combination mark',colors:'Black + White + One accent',fonts:'Modern sans-serif',avoid:'Traditional serif, overly decorative',position:'Contemporary retail brand'},luxury:{logo:'Minimal wordmark or monogram',colors:'Black + Gold + White',fonts:'Thin luxury sans or serif',avoid:'Busy logos, many colors',position:'Luxury goods retailer'},friendly:{logo:'Colorful icon + warm wordmark',colors:'Bright, warm multi-color',fonts:'Rounded approachable sans',avoid:'Cold minimal designs',position:'Friendly neighborhood store'},bold:{logo:'High-impact wordmark or mark',colors:'Vibrant contrast pair',fonts:'Display weight',avoid:'Safe conservative designs',position:'Energetic retail brand'}}
+};
+
+function analyzeBrief(){
+  const type=document.getElementById('bType').value;
+  const aud=document.getElementById('bAud').value;
+  const vibe=document.getElementById('bVibe').value;
+  const comp=document.getElementById('bComp').value;
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const vibeKey=vibe==='trust'?'trust':vibe==='modern'?'modern':vibe==='luxury'?'luxury':vibe==='friendly'?'friendly':'bold';
+  const d=briefData[type]?.[vibeKey]||briefData.realestate.trust;
+  const compAdvice={
+    generic:es?'Diferenciación alta — el mercado está vacío de identidades fuertes. Cualquier esfuerzo real de diseño te destacará.':'High differentiation opportunity — the market is starved of strong identities. Any real design effort will stand out.',
+    corporate:es?'Oportunidad de parecer más humano y accesible manteniendo el profesionalismo.':'Opportunity to feel more human and approachable while keeping professionalism.',
+    outdated:es?'Posiciónate como el moderno. Evita cualquier visual que sugiera herencia o tradición excesiva.':'Position as the modern choice. Avoid any visual that suggests excessive heritage or tradition.',
+    modern:es?'El mercado ya está moderno — diferénciate con carácter, no solo con limpieza. Necesitas una fuerte personalidad.':'The market is already modern — differentiate through character, not just cleanness. You need strong personality.'
+  };
+  const out=document.getElementById('briefOut');
+  out.innerHTML=`
+    <div class="brief-card"><div class="brief-card-title en">STRATEGIC DIRECTION</div><div class="brief-card-title es">DIRECCIÓN ESTRATÉGICA</div>
+    <ul>
+      <li><strong class="en">Logo Type:</strong><strong class="es">Tipo de Logo:</strong> ${d.logo}</li>
+      <li><strong class="en">Color Direction:</strong><strong class="es">Dirección de Color:</strong> ${d.colors}</li>
+      <li><strong class="en">Typography:</strong><strong class="es">Tipografía:</strong> ${d.fonts}</li>
+      <li><strong class="en">Brand Position:</strong><strong class="es">Posición de Marca:</strong> ${d.position}</li>
+    </ul></div>
+    <div class="brief-card"><div class="brief-card-title en">WHAT TO AVOID</div><div class="brief-card-title es">QUÉ EVITAR</div>
+    <ul><li>${d.avoid}</li></ul></div>
+    <div class="brief-card"><div class="brief-card-title en">COMPETITOR INSIGHT</div><div class="brief-card-title es">INSIGHT DE COMPETIDOR</div>
+    <ul><li>${compAdvice[comp]||compAdvice.generic}</li></ul></div>`;
+  out.classList.add('show');
+}
+
+// FONT DETAILS
+const fontData={
+  serif:{en:{t:'Serif Typefaces',desc:'Serifs have small decorative strokes at the ends of letterforms. They evoke authority, tradition, and trustworthiness — built over centuries of printed matter. In logos, serif typefaces communicate that a brand has been here and will stay here.',use:'Real estate, law, finance, luxury goods, publishing, premium hospitality. Any brand that needs to communicate heritage, trust, and permanence.',pairs:'Pair with a clean monospace for the tagline (IBM Plex Mono) or a light geometric sans for contrast.',avoid:'Tech startups, youth brands, fast food — anywhere that needs to feel agile or casual.',examples:'Invercasa · The New York Times · Vogue · Tiffany & Co. · Harvard'},es:{t:'Fuentes Serif',desc:'Las serif tienen pequeños trazos decorativos al final de las letras. Evocan autoridad, tradición y confiabilidad — construidas durante siglos de material impreso. En logos, las serif comunican que una marca ha estado aquí y se quedará aquí.',use:'Inmobiliaria, legal, finanzas, bienes de lujo, publicaciones, hotelería premium. Cualquier marca que necesite comunicar herencia, confianza y permanencia.',pairs:'Combina con una monoespaciada limpia para el tagline (IBM Plex Mono) o una sans geométrica ligera para contraste.',avoid:'Startups tech, marcas juveniles, comida rápida — donde se necesita sentir ágil o casual.',examples:'Invercasa · The New York Times · Vogue · Tiffany & Co. · Harvard'}},
+  sans:{en:{t:'Sans-Serif Typefaces',desc:'Sans-serifs lack the decorative strokes of serifs, giving them a clean, modern, and neutral appearance. They dominate the digital world because they render clearly at all sizes on screens. They communicate innovation, accessibility, and forward-thinking.',use:'Tech, SaaS, healthcare, fintech, consumer apps, retail, agencies. Brands that need to feel current, accessible, and scalable.',pairs:'Pair heavy weight (Black/ExtraBold) for the brand name with Light for descriptors. Or contrast with an italic serif for a refined touch.',avoid:'Ultra-traditional sectors where heritage matters more than modernity (private banking, law firms with 100-year history).',examples:'Google · Apple · Airbnb · Spotify · LinkedIn'},es:{t:'Fuentes Sans-Serif',desc:'Las sans-serif carecen de los trazos decorativos de las serif, dándoles una apariencia limpia, moderna y neutra. Dominan el mundo digital porque se renderizan claramente en pantallas. Comunican innovación, accesibilidad y visión de futuro.',use:'Tech, SaaS, salud, fintech, apps de consumo, retail, agencias. Marcas que necesitan sentirse actuales, accesibles y escalables.',pairs:'Combina el peso heavy (Black/ExtraBold) para el nombre de marca con Light para descriptores. O contrasta con una serif itálica para un toque refinado.',avoid:'Sectores ultra-tradicionales donde la herencia importa más que la modernidad (banca privada, despachos con 100 años de historia).',examples:'Google · Apple · Airbnb · Spotify · LinkedIn'}},
+  display:{en:{t:'Display / Decorative Typefaces',desc:'Display typefaces are designed for large sizes — headlines, logos, posters. They carry the most personality of any type category. A well-chosen display font can make a brand instantly recognizable. But they require more skill to use correctly.',use:'Fashion, luxury, food & beverage, entertainment, creative agencies, boutique brands. Any brand willing to commit to strong visual character.',pairs:'Almost always paired with a neutral sans-serif or monospace for supporting text. Never two display fonts together.',avoid:'Do not use decorative fonts for body copy or small text — they become unreadable. Avoid them when neutrality and clarity are critical (hospitals, airports, legal).',examples:'Tiffany & Co. · Jack Daniel\'s · Coca-Cola wordmark · Disney'},es:{t:'Fuentes Display / Decorativas',desc:'Las fuentes display están diseñadas para tamaños grandes — titulares, logos, afiches. Llevan la mayor personalidad de cualquier categoría tipográfica. Una fuente display bien elegida puede hacer que una marca sea instantáneamente reconocible. Pero requieren más habilidad para usarse correctamente.',use:'Moda, lujo, alimentos y bebidas, entretenimiento, agencias creativas, marcas boutique. Cualquier marca dispuesta a comprometerse con un fuerte carácter visual.',pairs:'Casi siempre se combinan con una sans-serif neutral o monoespaciada para texto de apoyo. Nunca dos fuentes display juntas.',avoid:'No uses fuentes decorativas para texto de cuerpo o texto pequeño — se vuelven ilegibles. Evítalas cuando la neutralidad y claridad son críticas (hospitales, aeropuertos, legal).',examples:'Tiffany & Co. · Jack Daniel\'s · Wordmark de Coca-Cola · Disney'}},
+  mono:{en:{t:'Monospace / Geometric Typefaces',desc:'Every character occupies the same width. Originally from typewriters and code terminals, monospace fonts now signal precision, technology, and systematic thinking. In logo design, they\'re typically used as secondary elements — taglines, descriptors — rather than primary wordmarks.',use:'Tech, software, engineering, cryptocurrency, data companies, cybersecurity. Also powerful as a secondary font in premium brands (contrast with serif).',pairs:'Strongest when paired with a classic serif wordmark — the contrast between organic and mechanical creates memorable tension (e.g., Invercasa: Garamond + IBM Plex Mono).',avoid:'Avoid as a primary wordmark unless the brand explicitly wants a tech or code identity. Can feel cold or impersonal in consumer-facing brands.',examples:'IBM · GitHub · Oracle · Most coding tools and dev platforms'},es:{t:'Fuentes Monoespaciadas / Geométricas',desc:'Cada carácter ocupa el mismo ancho. Originalmente de máquinas de escribir y terminales de código, las fuentes monoespaciadas ahora señalan precisión, tecnología y pensamiento sistemático. En diseño de logos, típicamente se usan como elementos secundarios — taglines, descriptores — en lugar de wordmarks primarios.',use:'Tech, software, ingeniería, criptomonedas, empresas de datos, ciberseguridad. También poderosas como fuente secundaria en marcas premium (contraste con serif).',pairs:'Más fuertes cuando se combinan con un wordmark serif clásico — el contraste entre orgánico y mecánico crea tensión memorable (ej. Invercasa: Garamond + IBM Plex Mono).',avoid:'Evita como wordmark primario a menos que la marca quiera explícitamente una identidad tech o de código. Puede sentirse frío o impersonal en marcas de consumo.',examples:'IBM · GitHub · Oracle · La mayoría de herramientas de desarrollo'}}
+};
+
+function showFont(k,el){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.querySelectorAll('.font-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const d=es?fontData[k].es:fontData[k].en;
+  const det=document.getElementById('fontDetail');
+  det.innerHTML=`<div style="margin-bottom:14px;"><strong style="font-family:var(--font-display);font-size:18px;">${d.t}</strong></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:12px;">${d.desc}</p>
+  <div style="display:grid;gap:8px;">
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 14px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;">${es?'USAR EN':'USE FOR'}</span><div style="font-size:13px;margin-top:5px;">${d.use}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 14px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent4);letter-spacing:.1em;">${es?'COMBINAR CON':'PAIR WITH'}</span><div style="font-size:13px;margin-top:5px;">${d.pairs}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 14px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent2);letter-spacing:.1em;">${es?'EVITAR EN':'AVOID FOR'}</span><div style="font-size:13px;margin-top:5px;">${d.avoid}</div></div>
+    <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 14px;"><span style="font-family:var(--font-mono);font-size:10px;color:var(--accent3);letter-spacing:.1em;">${es?'EJEMPLOS REALES':'REAL EXAMPLES'}</span><div style="font-size:13px;margin-top:5px;">${d.examples}</div></div>
+  </div>`;
+  det.classList.add('show');
+}
+
+// PROPORTION DEMO
+function updateProp(){
+  const ms=parseInt(document.getElementById('markSize').value);
+  const tr=parseInt(document.getElementById('tracking').value);
+  const fw=parseInt(document.getElementById('fontWeight').value);
+  document.getElementById('markSizeVal').textContent=ms;
+  document.getElementById('markSizeVal2').textContent=ms;
+  document.getElementById('trackVal').textContent=tr;
+  document.getElementById('trackVal2').textContent=tr;
+  document.getElementById('weightVal').textContent=fw;
+  document.getElementById('weightVal2').textContent=fw;
+  const mark=document.getElementById('propMark');
+  mark.style.width=ms+'px';mark.style.height=ms+'px';
+  mark.style.fontSize=(ms*.46)+'px';
+  mark.style.borderRadius=(ms*.18)+'px';
+  const nm=document.getElementById('propName');
+  nm.style.fontSize=(ms*.44)+'px';
+  nm.style.letterSpacing=tr+'px';
+  nm.style.fontWeight=fw;
+  document.getElementById('propSub').style.fontSize=(ms*.16)+'px';
+}
+
+// STEPPER
+function goStep(i){
+  document.querySelectorAll('.step-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  document.querySelectorAll('.step-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+}
+
+// CONCEPTS
+const conceptVerdicts={
+  0:{en:'<strong>Direction A: Heritage Mark</strong> — This is the recommended choice for Invercasa. The serif wordmark + gold geometric initial mark communicates trust, premium positioning, and permanence — exactly what diaspora buyers and international investors need to see. It\'s differentiated from the market and scales across all formats.',es:'<strong>Dirección A: Marca Heritage</strong> — Esta es la elección recomendada para Invercasa. El wordmark serif + marca inicial geométrica en dorado comunica confianza, posicionamiento premium y permanencia — exactamente lo que los compradores de la diáspora e inversores internacionales necesitan ver. Está diferenciada del mercado y escala en todos los formatos.'},
+  1:{en:'<strong>Direction B: Modern Sans</strong> — Good for a younger or tech-forward real estate brand, but not ideal for Invercasa\'s specific positioning. It would blend into the competition and loses the "premium" signal the client needs. Works better for a proptech startup than an established investment firm.',es:'<strong>Dirección B: Sans Moderno</strong> — Bueno para una marca inmobiliaria joven o tech-forward, pero no ideal para el posicionamiento específico de Invercasa. Se mezclaría con la competencia y pierde la señal "premium" que el cliente necesita. Funciona mejor para una startup proptech que para una firma de inversión establecida.'},
+  2:{en:'<strong>Direction C: Emblem Prestige</strong> — Beautiful and prestigious, but the emblem format has a scaling problem — at favicon size, the "IV" and "EST. 2012" become unreadable. Also harder to use in digital contexts. Better for a physical product brand. A strong runner-up, but Direction A wins on versatility.',es:'<strong>Dirección C: Emblema Prestigio</strong> — Hermoso y prestigioso, pero el formato emblema tiene un problema de escala — en tamaño favicon, el "IV" y "EST. 2012" se vuelven ilegibles. También más difícil de usar en contextos digitales. Mejor para una marca de producto físico. Un fuerte segundo lugar, pero la Dirección A gana en versatilidad.'}
+};
+
+function pickConcept(i,el){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.querySelectorAll('.concept-card').forEach(c=>c.classList.remove('picked'));
+  el.classList.add('picked');
+  const v=document.getElementById('conceptVerdict');
+  const d=conceptVerdicts[i];
+  v.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.1em;margin-bottom:8px;">VERDICT</div><p style="font-size:14px;margin:0;">${es?d.es:d.en}</p>`;
+  v.classList.add('show');
+}
+
+// QUIZ
+const qData=[
+  {q:{en:'A client says "I want something clean and modern." What is the professional response?',es:'Un cliente dice "Quiero algo limpio y moderno." ¿Cuál es la respuesta profesional?'},o:{en:['Start designing immediately — you know what they mean','Ask deeper questions: Who is your audience, what makes you different, what do competitors look like?','Show them 10 options and let them pick what feels right','Tell them clean and modern is too generic and refuse the project'],es:['Empezar a diseñar de inmediato — sabes lo que quieren decir','Hacer preguntas más profundas: ¿Quién es tu audiencia, qué te hace diferente, cómo se ven los competidores?','Mostrarles 10 opciones y dejarles elegir lo que se siente bien','Decirles que limpio y moderno es muy genérico y rechazar el proyecto']},c:1,e:{en:'✅ "Clean and modern" is not a brief — it\'s a feeling. Your job is to extract specific strategic information before any pixel is moved. The real brief lives in the questions, not the first answer.',es:'✅ "Limpio y moderno" no es un brief — es una sensación. Tu trabajo es extraer información estratégica específica antes de mover cualquier píxel. El brief real vive en las preguntas, no en la primera respuesta.'}},
+  {q:{en:'For Invercasa, why was a serif typeface chosen over a sans-serif?',es:'Para Invercasa, ¿por qué se eligió una fuente serif sobre una sans-serif?'},o:{en:['Serif fonts are always better for logos','Sans-serif was already used by competitors, so serif was the only option','The brand needed to communicate trust, heritage, and premium positioning — qualities serifs carry historically','The client personally preferred serif fonts'],es:['Las fuentes serif siempre son mejores para logos','Los competidores ya usaban sans-serif, así que serif era la única opción','La marca necesitaba comunicar confianza, herencia y posicionamiento premium — cualidades que las serif llevan históricamente','El cliente personalmente prefería fuentes serif']},c:2,e:{en:'✅ Every typography decision must be strategic, not aesthetic. Serif = trust, heritage, permanence. For a real estate investment firm serving diaspora clients who need to feel safe investing remotely — that signals exactly what\'s needed.',es:'✅ Cada decisión tipográfica debe ser estratégica, no estética. Serif = confianza, herencia, permanencia. Para una firma inmobiliaria que sirve a clientes de la diáspora que necesitan sentirse seguros invirtiendo de forma remota — eso señala exactamente lo que se necesita.'}},
+  {q:{en:'When presenting logo concepts to a client, how many directions should you show?',es:'Al presentar conceptos de logo a un cliente, ¿cuántas direcciones deberías mostrar?'},o:{en:['As many as possible — give them choices','Exactly 10 — clients need to see options','2 to 3 strong directions — each clearly differentiated','Just 1 — your best recommendation only'],es:['Tantas como sea posible — dales opciones','Exactamente 10 — los clientes necesitan ver opciones','2 a 3 direcciones fuertes — cada una claramente diferenciada','Solo 1 — solo tu mejor recomendación']},c:2,e:{en:'✅ 2–3 directions. Showing 10 means none of them are truly "your recommendation" — it means you\'re letting the client do your job. Each direction should represent a distinct strategic position, not just a variation.',es:'✅ 2–3 direcciones. Mostrar 10 significa que ninguna es realmente "tu recomendación" — significa que dejas que el cliente haga tu trabajo. Cada dirección debe representar una posición estratégica distinta, no solo una variación.'}},
+  {q:{en:'What is the purpose of the "clear space" rule in a brand guidelines document?',es:'¿Cuál es el propósito de la regla de "espacio limpio" en un documento de guías de marca?'},o:{en:['It tells the printer how much white ink to use','It defines the minimum empty space surrounding the logo at all times, protecting its visual integrity','It sets the minimum font size for the wordmark','It determines how close two different logos can appear on a page'],es:['Le dice a la impresora cuánta tinta blanca usar','Define el espacio vacío mínimo que rodea el logo en todo momento, protegiendo su integridad visual','Establece el tamaño mínimo de fuente para el wordmark','Determina cuán cerca pueden aparecer dos logos diferentes en una página']},c:1,e:{en:'✅ Clear space (also called the exclusion zone) ensures the logo always has breathing room — never crowded by other elements. Defined as a multiple of the x-height or a specific unit. Violating this is one of the most common brand consistency mistakes.',es:'✅ El espacio limpio (también llamado zona de exclusión) asegura que el logo siempre tenga espacio para respirar — nunca apretado por otros elementos. Se define como un múltiplo de la altura-x o una unidad específica. Violar esto es uno de los errores más comunes de consistencia de marca.'}},
+  {q:{en:'A Denysoft client in El Salvador is a real estate firm serving US-based diaspora clients. How should you price the logo project?',es:'Un cliente de Denysoft en El Salvador es una firma inmobiliaria que sirve a clientes de la diáspora con base en EE.UU. ¿Cómo deberías cotizar el proyecto de logo?'},o:{en:['Local Salvadoran market rates — since you are physically in El Salvador','US market rates — since the client\'s customers and brand perception operate at that level','Split the difference — 50% local, 50% US rates','Base it only on how many hours the project will take'],es:['Tarifas del mercado local salvadoreño — ya que físicamente estás en El Salvador','Tarifas del mercado estadounidense — ya que los clientes de la firma y la percepción de marca operan a ese nivel','División del 50% — 50% local, 50% tarifas de EE.UU.','Basarlo solo en cuántas horas tomará el proyecto']},c:1,e:{en:'✅ You price based on the market your client operates in and the value delivered — not where you sleep. If the brand must compete and be credible with US diaspora investors, it needs to be priced and built at that level. Physical location does not equal pricing ceiling.',es:'✅ El precio se basa en el mercado en el que opera tu cliente y el valor entregado — no dónde duermes. Si la marca debe competir y ser creíble con inversores de la diáspora en EE.UU., debe ser cotizada y construida a ese nivel. La ubicación física no es el techo de precios.'}},
+  {q:{en:'During refinement of the Invercasa logo, what was changed between Stage 1 and the final version?',es:'Durante el refinamiento del logo de Invercasa, ¿qué cambió entre la Etapa 1 y la versión final?'},o:{en:['The entire concept was changed to a different direction','Only the colors were adjusted — everything else stayed the same','Multiple micro-adjustments: mark size, corner radius, font tracking, tagline weight, color gradient, and vertical rhythm','The font was replaced with a completely different typeface family'],es:['El concepto completo se cambió a una dirección diferente','Solo se ajustaron los colores — todo lo demás se mantuvo igual','Múltiples micro-ajustes: tamaño del símbolo, radio de esquinas, tracking de fuente, peso del tagline, gradiente de color y ritmo vertical','La fuente se reemplazó por una familia tipográfica completamente diferente']},c:2,e:{en:'✅ Professional refinement is about micro-adjustments, not wholesale redesigns. The concept stays. What changes is: proportion, spacing, weight balance, and color nuance — until every element is in perfect harmony. This is the invisible craft that separates pros from amateurs.',es:'✅ El refinamiento profesional trata de micro-ajustes, no de rediseños completos. El concepto se mantiene. Lo que cambia es: proporción, espacio, equilibrio de peso y matiz de color — hasta que cada elemento esté en perfecta armonía. Este es el arte invisible que separa a los profesionales de los amateurs.'}}
+];
+
+let qCur=0,qScore=0,qAns=false;
+function renderQ(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.getElementById('qLbl').textContent=(es?'Pregunta':'Question')+` ${qCur+1} / ${qData.length}`;
+  document.getElementById('qBar').style.width=((qCur+1)/qData.length*100)+'%';
+  document.getElementById('qQ').textContent=es?q.q.es:q.q.en;
+  const opts=es?q.o.es:q.o.en;
+  document.getElementById('qOpts').innerHTML=opts.map((o,i)=>`<button class="q-opt" onclick="ansQ(${i})">${o}</button>`).join('');
+  document.getElementById('qFb').className='q-fb';document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').style.display='none';
+  document.getElementById('qNext').textContent=qCur<qData.length-1?(es?'Siguiente →':'Next →'):(es?'Ver resultado →':'See result →');
+  qAns=false;
+}
+function ansQ(i){
+  if(qAns)return;qAns=true;
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.querySelectorAll('.q-opt').forEach(o=>o.classList.add('dis'));
+  const ok=i===q.c;if(ok)qScore++;
+  document.querySelectorAll('.q-opt')[i].classList.add(ok?'correct':'wrong');
+  document.querySelectorAll('.q-opt')[q.c].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.textContent=es?q.e.es:q.e.en;fb.className='q-fb '+(ok?'correct':'wrong');
+  document.getElementById('qNext').style.display='inline-block';
+}
+function nextQ(){
+  qCur++;
+  if(qCur>=qData.length)showResult();else renderQ();
+}
+function showResult(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.getElementById('qA').style.display='none';
+  document.getElementById('qR').style.display='block';
+  document.getElementById('qSc').textContent=`${qScore}/${qData.length}`;
+  const m={en:['Keep reviewing the sections — the 201 concepts are key to working professionally.','Good progress! A few gaps to fill — re-read the typography and pricing sections.','Strong! You understand the professional process at a real level.','Outstanding — you think like a senior brand designer. Ready for 301.'],es:['Sigue revisando las secciones — los conceptos del 201 son clave para trabajar profesionalmente.','¡Buen progreso! Algunos vacíos que llenar — relee las secciones de tipografía y precios.','¡Sólido! Entiendes el proceso profesional a un nivel real.','Sobresaliente — piensas como un diseñador de marca senior. Listo para el 301.']};
+  const tier=qScore<=2?0:qScore<=4?1:qScore===5?2:3;
+  document.getElementById('qMsg').textContent=es?m.es[tier]:m.en[tier];
+}
+function restartQ(){
+  qCur=0;qScore=0;qAns=false;
+  document.getElementById('qA').style.display='block';
+  document.getElementById('qR').style.display='none';
+  renderQ();
+}
+
+renderQ();
+</script>
+</body>
+</html>

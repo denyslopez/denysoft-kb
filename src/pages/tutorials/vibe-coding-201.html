@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.A.R.V.I.S. // ARCHITECT PROTOCOL 201</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020b14;
+  --hud: #041828;
+  --hud2: #031220;
+  --arc: #00c8ff;
+  --arc-dim: rgba(0,200,255,0.1);
+  --arc-mid: rgba(0,200,255,0.32);
+  --gold: #ffa500;
+  --gold-dim: rgba(255,165,0,0.12);
+  --red: #ff3c3c;
+  --green: #00ff88;
+  --green-dim: rgba(0,255,136,0.1);
+  --purple: #b060ff;
+  --purple-dim: rgba(176,96,255,0.1);
+  --text: #b8e4f5;
+  --muted: #3a6a85;
+  --border: rgba(0,200,255,0.14);
+  --glow: 0 0 20px rgba(0,200,255,0.35), 0 0 40px rgba(0,200,255,0.12);
+  --glow-sm: 0 0 10px rgba(0,200,255,0.45);
+  --glow-gold: 0 0 14px rgba(255,165,0,0.45);
+  --glow-green: 0 0 14px rgba(0,255,136,0.45);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:crosshair;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,200,255,0.011) 2px,rgba(0,200,255,0.011) 4px);pointer-events:none;z-index:9999;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--arc);box-shadow:var(--glow-sm);}
+
+/* PROGRESS */
+.pb{position:fixed;top:0;left:0;right:0;height:2px;background:rgba(0,200,255,0.08);z-index:1000;}
+.pf{height:100%;background:linear-gradient(to right,var(--arc),var(--gold));box-shadow:var(--glow-sm);width:0%;transition:width .1s linear;}
+
+/* NAV */
+.nav{position:fixed;top:50%;right:22px;transform:translateY(-50%);z-index:998;display:flex;flex-direction:column;gap:9px;align-items:center;}
+.ni{display:flex;align-items:center;gap:8px;cursor:pointer;flex-direction:row-reverse;}
+.nd{width:6px;height:6px;background:var(--muted);border:1px solid var(--muted);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);transition:all .3s;}
+.ni.active .nd{background:var(--arc);border-color:var(--arc);box-shadow:var(--glow-sm);transform:scale(1.4);}
+.nl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;opacity:0;transition:all .3s;white-space:nowrap;}
+.ni:hover .nl,.ni.active .nl{opacity:1;color:var(--arc);}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+@keyframes pulse2{0%,100%{box-shadow:0 0 30px rgba(0,200,255,.7),0 0 60px rgba(0,200,255,.25)}50%{box-shadow:0 0 50px rgba(0,200,255,1),0 0 100px rgba(0,200,255,.45)}}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes radarP{0%{opacity:.6}100%{opacity:0}}
+@keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes scrollD{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes arrowP{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes typeB{0%,100%{opacity:1}50%{opacity:0}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px;position:relative;overflow:hidden;}
+.hex-bg{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zM28 100L0 84V50l28-16 28 16v34L28 100z' fill='none' stroke='%2300c8ff' stroke-width='0.5'/%3E%3C/svg%3E");}
+
+/* ARC REACTOR VISUAL */
+.arc-visual{position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:620px;height:620px;pointer-events:none;}
+.arc-ring{position:absolute;border-radius:50%;border:1px solid var(--arc);top:50%;left:50%;transform:translate(-50%,-50%);animation:radarP 4s ease-out infinite;}
+.arc-ring:nth-child(1){width:120px;height:120px;animation-delay:0s;}
+.arc-ring:nth-child(2){width:240px;height:240px;animation-delay:.7s;}
+.arc-ring:nth-child(3){width:380px;height:380px;animation-delay:1.4s;}
+.arc-ring:nth-child(4){width:530px;height:530px;animation-delay:2.1s;}
+.arc-sweep{position:absolute;width:240px;height:240px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;}
+.arc-sweep::after{content:'';position:absolute;top:50%;left:50%;width:50%;height:2px;background:linear-gradient(to right,transparent,rgba(0,200,255,.55));transform-origin:left center;animation:sweep 4s linear infinite;}
+.arc-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,255,.9) 0%,rgba(0,200,255,.2) 50%,transparent 70%);box-shadow:0 0 30px rgba(0,200,255,.8),0 0 60px rgba(0,200,255,.3);animation:pulse2 2s ease-in-out infinite;}
+
+/* HERO CONTENT */
+.chip-row{display:flex;gap:12px;margin-bottom:36px;animation:fadeIn 1s ease both;flex-wrap:wrap;}
+.chip{display:flex;align-items:center;gap:7px;border:1px solid var(--arc-mid);background:var(--arc-dim);padding:5px 13px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--arc);clip-path:polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%);}
+.chip.gold{border-color:rgba(255,165,0,.35);background:var(--gold-dim);color:var(--gold);}
+.chip.green{border-color:rgba(0,255,136,.3);background:var(--green-dim);color:var(--green);}
+.sdot{width:5px;height:5px;border-radius:50%;animation:blink 1.5s ease infinite;}
+.sdot.arc{background:var(--arc);box-shadow:0 0 6px var(--arc);}
+.sdot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+.sdot.green{background:var(--green);box-shadow:0 0 6px var(--green);}
+
+.eyebrow{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--arc);text-transform:uppercase;margin-bottom:14px;opacity:.65;animation:fadeIn 1s .1s ease both;}
+h1.hero-h{font-family:'Orbitron',sans-serif;font-size:clamp(34px,6vw,82px);font-weight:900;line-height:1;letter-spacing:-1px;margin-bottom:6px;animation:fadeIn 1s .2s ease both;}
+h1.hero-h .l1{display:block;color:var(--text);}
+h1.hero-h .l2{display:block;color:var(--arc);text-shadow:var(--glow);}
+h1.hero-h .l3{display:block;color:transparent;-webkit-text-stroke:1px rgba(0,200,255,.28);font-size:.72em;letter-spacing:2px;}
+
+.hero-sub{font-size:16px;color:var(--muted);max-width:500px;line-height:1.75;margin:26px 0 44px;font-weight:400;animation:fadeIn 1s .3s ease both;border-left:2px solid var(--arc-mid);padding-left:18px;}
+.hero-sub strong{color:var(--arc);}
+
+.metrics-row{display:flex;gap:36px;animation:fadeIn 1s .4s ease both;flex-wrap:wrap;}
+.met{display:flex;flex-direction:column;gap:3px;position:relative;padding-left:14px;}
+.met::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--arc);box-shadow:var(--glow-sm);}
+.met-v{font-family:'Orbitron',monospace;font-size:26px;font-weight:700;color:var(--arc);text-shadow:var(--glow-sm);line-height:1;}
+.met-l{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+
+.data-strip{position:absolute;bottom:28px;left:80px;right:80px;overflow:hidden;animation:fadeIn 1s .6s ease both;}
+.ds-inner{display:flex;gap:56px;animation:scrollD 22s linear infinite;white-space:nowrap;}
+.di{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;display:flex;gap:8px;}
+.di span{color:var(--arc);opacity:.65;}
+.dsep{width:1px;height:15px;background:var(--border);align-self:center;}
+
+/* SECTIONS */
+.section{padding:90px 80px;position:relative;}
+.sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.sec-tag{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--arc);text-transform:uppercase;opacity:.8;}
+.sec-ln{flex:1;height:1px;background:linear-gradient(to right,var(--arc-mid),transparent);max-width:100px;}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(24px,3.5vw,44px);font-weight:700;letter-spacing:-1px;line-height:1.1;margin-bottom:50px;color:var(--text);}
+.hi{color:var(--arc);text-shadow:var(--glow-sm);}
+.hi2{color:var(--gold);text-shadow:var(--glow-gold);}
+.hi3{color:var(--green);text-shadow:var(--glow-green);}
+.hiv{color:var(--purple);text-shadow:0 0 12px rgba(176,96,255,.4);}
+
+/* DIVIDER */
+.hdiv{height:1px;margin:0 80px;background:linear-gradient(to right,transparent,var(--arc-mid),transparent);position:relative;}
+.hdiv::before{content:'◆';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:10px;color:var(--arc);background:var(--bg);padding:0 8px;text-shadow:var(--glow-sm);}
+
+/* ========= PHASE INTRO ========= */
+.philosophy-block{background:var(--hud);border:1px solid rgba(0,200,255,.2);padding:40px 44px;position:relative;max-width:860px;margin-bottom:48px;}
+.philosophy-block::before{content:'NUEVA FILOSOFÍA';position:absolute;top:-9px;left:24px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--arc);background:var(--bg);padding:0 8px;}
+.philosophy-block p{font-size:17px;line-height:1.85;color:var(--muted);font-weight:400;}
+.philosophy-block p strong{color:var(--text);}
+.philosophy-block p em{color:var(--arc);font-style:normal;}
+
+/* ========= CASE STUDY HEADER ========= */
+.case-banner{background:linear-gradient(135deg,rgba(0,200,255,.07) 0%,rgba(255,165,0,.04) 100%);border:1px solid rgba(0,200,255,.25);padding:36px 44px;position:relative;margin-bottom:56px;clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,28px 100%,0 calc(100% - 28px));}
+.case-banner::before{content:'CASE STUDY';position:absolute;top:16px;right:44px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--gold);opacity:.6;}
+.case-client{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--gold);margin-bottom:10px;}
+.case-title{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.case-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:640px;}
+.case-tags{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;}
+.ctag{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;padding:4px 12px;border:1px solid;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.ctag.arc{color:var(--arc);border-color:var(--arc-mid);background:var(--arc-dim);}
+.ctag.gold{color:var(--gold);border-color:rgba(255,165,0,.3);background:var(--gold-dim);}
+.ctag.green{color:var(--green);border-color:rgba(0,255,136,.25);background:var(--green-dim);}
+
+/* ========= PHASE STEPS (numbered big) ========= */
+.phase-grid{display:flex;flex-direction:column;gap:2px;background:var(--border);border:1px solid var(--border);}
+.phase{background:var(--hud);overflow:hidden;cursor:pointer;transition:background .3s;}
+.phase:hover{background:#061e30;}
+.phase-header{display:flex;align-items:center;gap:20px;padding:28px 36px;user-select:none;}
+.phase-num{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--arc);text-shadow:var(--glow-sm);width:48px;flex-shrink:0;opacity:.45;transition:opacity .3s;}
+.phase.open .phase-num{opacity:1;}
+.phase-meta{flex:1;}
+.phase-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2.5px;color:var(--arc);margin-bottom:5px;opacity:.7;}
+.phase-title{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;color:var(--text);letter-spacing:.3px;}
+.phase-subtitle{font-size:14px;color:var(--muted);margin-top:4px;}
+.phase-time{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;flex-shrink:0;}
+.phase-chev{width:18px;height:18px;color:var(--muted);transition:transform .35s,color .3s;flex-shrink:0;}
+.phase.open .phase-chev{transform:rotate(180deg);color:var(--arc);}
+.phase-header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--arc);transition:width .3s;}
+.phase{position:relative;}
+.phase:hover .phase-header::before,.phase.open .phase-header::before{width:3px;}
+
+.phase-body{max-height:0;overflow:hidden;transition:max-height .55s ease;}
+.phase.open .phase-body{max-height:3000px;}
+.phase-content{padding:0 36px 40px 104px;border-top:1px solid var(--border);}
+
+/* PHASE CONTENT ELEMENTS */
+.pc-intro{font-size:15px;color:var(--muted);line-height:1.8;margin:24px 0 28px;font-weight:400;}
+.pc-intro strong{color:var(--text);}
+
+/* Thought box (architect thinking) */
+.thought-box{background:rgba(0,200,255,.04);border-left:2px solid var(--arc-mid);padding:18px 22px;margin-bottom:24px;position:relative;}
+.thought-box::before{content:'ARCHITECT THINKING';position:absolute;top:-8px;left:14px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--arc);background:var(--hud);padding:0 6px;}
+.thought-box p{font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(0,200,255,.65);line-height:1.8;}
+.thought-box p .kw{color:var(--gold);}
+.thought-box p .val{color:var(--green);}
+.thought-box p .cm{color:rgba(0,200,255,.28);}
+
+/* PRD block */
+.prd-block{background:#010d18;border:1px solid rgba(0,200,255,.18);padding:24px 28px;position:relative;margin-bottom:24px;}
+.prd-block::before{content:attr(data-label);position:absolute;top:-9px;right:18px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--arc);background:var(--hud);padding:0 8px;}
+.prd-row{display:flex;gap:0;margin-bottom:6px;font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.7;}
+.prd-key{color:var(--red);width:180px;flex-shrink:0;}
+.prd-val{color:rgba(0,200,255,.7);}
+.prd-val .s{color:var(--gold);}
+.prd-val .g{color:var(--green);}
+.prd-val .m{color:var(--muted);}
+
+/* Prompt block (what to say to AI) */
+.prompt-block{background:rgba(0,255,136,.03);border:1px solid rgba(0,255,136,.2);padding:22px 26px;position:relative;margin-bottom:20px;}
+.prompt-block::before{content:'PROMPT PARA LA AI';position:absolute;top:-9px;left:18px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--green);background:var(--hud);padding:0 8px;}
+.prompt-block p{font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(0,255,136,.7);line-height:1.85;}
+
+/* Expected output */
+.output-block{background:rgba(176,96,255,.04);border:1px solid rgba(176,96,255,.2);padding:18px 22px;position:relative;margin-bottom:20px;}
+.output-block::before{content:'OUTPUT ESPERADO';position:absolute;top:-9px;left:18px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--purple);background:var(--hud);padding:0 8px;}
+.output-block p,.output-block ul{font-size:13px;color:rgba(176,96,255,.75);line-height:1.8;}
+.output-block ul{padding-left:0;list-style:none;}
+.output-block ul li::before{content:'▷  ';color:var(--purple);}
+
+/* Warning block */
+.warn-block{background:rgba(255,60,60,.04);border:1px solid rgba(255,60,60,.2);padding:16px 20px;position:relative;margin-bottom:20px;}
+.warn-block::before{content:'⚠ ARCHITECT WARNING';position:absolute;top:-9px;left:14px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--red);background:var(--hud);padding:0 8px;}
+.warn-block p{font-size:13px;color:rgba(255,60,60,.75);line-height:1.7;}
+
+/* Tips list */
+.tips-list{display:flex;flex-direction:column;gap:10px;margin:16px 0 24px;}
+.tip{display:flex;gap:14px;align-items:flex-start;font-size:14px;line-height:1.6;color:var(--muted);}
+.tip-mark{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--arc);margin-top:2px;flex-shrink:0;letter-spacing:1px;}
+.tip strong{color:var(--text);}
+
+/* Sub-section header inside phase */
+.sub-header{display:flex;align-items:center;gap:12px;margin:32px 0 16px;}
+.sub-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--arc);letter-spacing:2px;opacity:.6;}
+.sub-title{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;}
+.sub-line{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent);}
+
+/* ========= SITE ARCHITECTURE DIAGRAM ========= */
+.arch-diagram{display:flex;flex-direction:column;gap:12px;max-width:700px;margin:24px 0;}
+.arch-row{display:flex;gap:8px;align-items:center;}
+.arch-box{background:var(--hud2);border:1px solid var(--border);padding:12px 18px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--arc);flex:1;text-align:center;position:relative;transition:border-color .3s,background .3s;}
+.arch-box:hover{border-color:var(--arc-mid);background:var(--hud);}
+.arch-box.main{border-color:var(--arc-mid);background:rgba(0,200,255,.06);font-size:13px;color:var(--text);font-family:'Orbitron',sans-serif;font-weight:700;}
+.arch-box.gold{border-color:rgba(255,165,0,.3);color:var(--gold);background:var(--gold-dim);}
+.arch-box.green{border-color:rgba(0,255,136,.25);color:var(--green);background:var(--green-dim);}
+.arch-arrow{font-size:18px;color:var(--arc-mid);flex-shrink:0;}
+.arch-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:4px;}
+
+/* ========= STACK TABLE ========= */
+.stack-table{width:100%;border-collapse:collapse;max-width:700px;margin-bottom:24px;}
+.stack-table th{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--arc);text-transform:uppercase;padding:10px 16px;text-align:left;border-bottom:1px solid var(--arc-mid);}
+.stack-table td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:top;}
+.stack-table tr:last-child td{border-bottom:none;}
+.stack-table tr:hover td{background:rgba(0,200,255,.03);}
+.st-cat{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;}
+.st-tech{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--arc);}
+.st-why{font-size:13px;color:var(--muted);}
+
+/* ========= COMPONENT CHECKLIST ========= */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:24px;}
+.comp-card{background:var(--hud);padding:20px 22px;position:relative;overflow:hidden;transition:background .25s;}
+.comp-card:hover{background:#061e30;}
+.comp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,var(--arc),transparent);opacity:0;transition:opacity .3s;}
+.comp-card:hover::before{opacity:1;}
+.cc-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--arc);letter-spacing:2px;margin-bottom:8px;opacity:.5;}
+.cc-name{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.cc-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.cc-tag{display:inline-flex;margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;padding:3px 10px;border:1px solid;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);}
+.cc-tag.conv{color:var(--green);border-color:rgba(0,255,136,.25);background:var(--green-dim);}
+.cc-tag.ui{color:var(--arc);border-color:var(--arc-mid);background:var(--arc-dim);}
+.cc-tag.data{color:var(--gold);border-color:rgba(255,165,0,.3);background:var(--gold-dim);}
+.cc-tag.seo{color:var(--purple);border-color:rgba(176,96,255,.25);background:var(--purple-dim);}
+
+/* ========= QA CHECKLIST ========= */
+.qa-list{display:flex;flex-direction:column;gap:6px;max-width:680px;}
+.qa-item{display:flex;gap:14px;align-items:flex-start;padding:10px 16px;background:var(--hud2);border:1px solid var(--border);font-size:13px;color:var(--muted);cursor:pointer;transition:all .2s;user-select:none;}
+.qa-item:hover{background:var(--hud);border-color:var(--arc-mid);}
+.qa-item.checked{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.03);}
+.qa-item.checked .qa-box{background:var(--green);border-color:var(--green);color:var(--bg);}
+.qa-item.checked .qa-text{color:var(--text);}
+.qa-box{width:18px;height:18px;border:1px solid var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s;}
+.qa-text{line-height:1.5;}
+
+/* ========= TIMELINE ROW ========= */
+.timeline-h{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:12px;}
+.tl-phase{background:var(--hud);padding:18px 16px;text-align:center;}
+.tl-num{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:var(--arc);margin-bottom:6px;}
+.tl-name{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:8px;}
+.tl-bar{height:4px;border-radius:2px;margin-bottom:6px;}
+.tl-time{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);}
+.tl-phase.active .tl-bar{background:linear-gradient(to right,var(--arc),var(--arc-mid));}
+.tl-phase:not(.active) .tl-bar{background:var(--border);}
+
+/* ========= RESULT CARDS ========= */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.result-card{background:var(--hud);padding:24px 20px;text-align:center;}
+.rc-val{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:700;line-height:1;margin-bottom:6px;}
+.rc-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);}
+.rc-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+/* FOOTER */
+.footer{padding:44px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fb{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--arc);text-shadow:var(--glow-sm);letter-spacing:1px;}
+.fsub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:1px;}
+.fm{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-align:right;}
+
+@media(max-width:768px){
+  .hero,.section{padding:56px 20px;}
+  .hdiv{margin:0 20px;}
+  .footer{padding:36px 20px;flex-direction:column;gap:14px;}
+  .nav{display:none;}
+  .phase-content{padding:0 20px 32px 20px;}
+  .data-strip,.arc-visual{display:none;}
+  .timeline-h{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="pb"><div class="pf" id="pf"></div></div>
+
+<nav class="nav" id="mnav">
+  <div class="ni active" data-s="s0"><span class="nl">INIT</span><div class="nd"></div></div>
+  <div class="ni" data-s="s1"><span class="nl">BRIEF</span><div class="nd"></div></div>
+  <div class="ni" data-s="s2"><span class="nl">ARCH</span><div class="nd"></div></div>
+  <div class="ni" data-s="s3"><span class="nl">PRD</span><div class="nd"></div></div>
+  <div class="ni" data-s="s4"><span class="nl">BUILD</span><div class="nd"></div></div>
+  <div class="ni" data-s="s5"><span class="nl">QA</span><div class="nd"></div></div>
+  <div class="ni" data-s="s6"><span class="nl">LAUNCH</span><div class="nd"></div></div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="s0">
+  <div class="hex-bg"></div>
+  <div class="arc-visual">
+    <div class="arc-ring"></div><div class="arc-ring"></div>
+    <div class="arc-ring"></div><div class="arc-ring"></div>
+    <div class="arc-sweep"></div>
+    <div class="arc-core"></div>
+  </div>
+
+  <div class="chip-row">
+    <div class="chip"><div class="sdot arc"></div>SYSTEM ONLINE</div>
+    <div class="chip gold"><div class="sdot gold"></div>NIVEL 201</div>
+    <div class="chip green"><div class="sdot green"></div>ADVANCED</div>
+  </div>
+
+  <div class="eyebrow">J.A.R.V.I.S. // ARCHITECT PROTOCOL — NIVEL 201</div>
+
+  <h1 class="hero-h">
+    <span class="l1">PROYECTO</span>
+    <span class="l2" id="tt">REAL.</span>
+    <span class="l3">DE CERO A PRODUCCIÓN</span>
+  </h1>
+
+  <p class="hero-sub">
+    Del 101 al mundo real. En este tutorial construimos un <strong>website de marketing + lead capture</strong> desde cero, aplicando cada principio del Arquitecto. Sin saltar pasos. Sin improvisar. Con la nueva filosofía.
+  </p>
+
+  <div class="metrics-row">
+    <div class="met"><span class="met-v">6</span><span class="met-l">Fases</span></div>
+    <div class="met"><span class="met-v">1</span><span class="met-l">Proyecto Real</span></div>
+    <div class="met"><span class="met-v">PRD</span><span class="met-l">Completo</span></div>
+    <div class="met"><span class="met-v">∞</span><span class="met-l">Aplicable</span></div>
+  </div>
+
+  <div class="data-strip">
+    <div class="ds-inner">
+      <div class="di">CASO<span>MARKETING WEBSITE + LEAD CAPTURE</span></div><div class="dsep"></div>
+      <div class="di">STACK<span>NEXT.JS 14 · SUPABASE · RESEND · VERCEL</span></div><div class="dsep"></div>
+      <div class="di">MÉTODO<span>ARCHITECT FIRST · PRD DRIVEN · AI EXECUTED</span></div><div class="dsep"></div>
+      <div class="di">CLIENTE<span>DENYSOFT_CASE_STUDY</span></div><div class="dsep"></div>
+      <div class="di">CASO<span>MARKETING WEBSITE + LEAD CAPTURE</span></div><div class="dsep"></div>
+      <div class="di">STACK<span>NEXT.JS 14 · SUPABASE · RESEND · VERCEL</span></div><div class="dsep"></div>
+      <div class="di">MÉTODO<span>ARCHITECT FIRST · PRD DRIVEN · AI EXECUTED</span></div><div class="dsep"></div>
+      <div class="di">CLIENTE<span>DENYSOFT_CASE_STUDY</span></div><div class="dsep"></div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S1: LA NUEVA FILOSOFÍA ====== -->
+<section class="section" id="s1">
+  <div class="sec-hd"><span class="sec-tag">BRIEFING_01</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal">LA NUEVA <span class="hi">FILOSOFÍA</span> EN PRÁCTICA</h2>
+
+  <div class="philosophy-block reveal">
+    <p>En el nivel 101 aprendiste los 4 sombreros. Ahora los <strong>usas todos al mismo tiempo</strong>, en secuencia, como lo hace un arquitecto real de software.<br><br>
+    El error más costoso en cualquier proyecto es <em>abrir el editor antes de tener claridad.</em> El Arquitecto Vibe Coder hace exactamente lo opuesto: <strong>piensa primero, define segundo, buildea tercero.</strong> La AI acelera la ejecución — pero no puede reemplazar tu pensamiento estratégico.<br><br>
+    Este tutorial te lleva por cada fase del proceso real: desde el brief del cliente hasta el deploy en producción, mostrándote exactamente qué decides tú y qué delega la AI.</p>
+  </div>
+
+  <!-- CASE STUDY BANNER -->
+  <div class="case-banner reveal">
+    <div class="case-client">CLIENT: NEXAFLOW CONSULTING SAS</div>
+    <div class="case-title">Website de Marketing B2B + Lead Capture System</div>
+    <div class="case-desc">Una consultora de automatización de procesos necesita un website que posicione su propuesta de valor, genere leads calificados, y los capture en un CRM propio. Budget limitado. Timeline: 3 semanas.</div>
+    <div class="case-tags">
+      <span class="ctag arc">B2B MARKETING</span>
+      <span class="ctag gold">LEAD CAPTURE</span>
+      <span class="ctag green">AUTOMATION</span>
+      <span class="ctag arc">NEXT.JS 14</span>
+      <span class="ctag gold">SUPABASE</span>
+      <span class="ctag green">VERCEL</span>
+    </div>
+  </div>
+
+  <!-- TIMELINE VISUAL -->
+  <div class="reveal">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;">ROADMAP // 3 SEMANAS</div>
+    <div class="timeline-h">
+      <div class="tl-phase active">
+        <div class="tl-num">F1</div>
+        <div class="tl-name">BRIEF + ARCH</div>
+        <div class="tl-bar"></div>
+        <div class="tl-time">DÍA 1-2</div>
+      </div>
+      <div class="tl-phase active">
+        <div class="tl-num">F2</div>
+        <div class="tl-name">PRD + STACK</div>
+        <div class="tl-bar"></div>
+        <div class="tl-time">DÍA 2-3</div>
+      </div>
+      <div class="tl-phase active">
+        <div class="tl-num">F3</div>
+        <div class="tl-name">BUILD AI</div>
+        <div class="tl-bar"></div>
+        <div class="tl-time">DÍA 4-12</div>
+      </div>
+      <div class="tl-phase active">
+        <div class="tl-num">F4</div>
+        <div class="tl-name">QA + REVIEW</div>
+        <div class="tl-bar"></div>
+        <div class="tl-time">DÍA 13-17</div>
+      </div>
+      <div class="tl-phase active">
+        <div class="tl-num">F5</div>
+        <div class="tl-name">LAUNCH</div>
+        <div class="tl-bar"></div>
+        <div class="tl-time">DÍA 18-21</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S2: FASE 1 — ARQUITECTURA ====== -->
+<section class="section" id="s2">
+  <div class="sec-hd"><span class="sec-tag">FASE_01</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal"><span class="hi">ARCHITECT</span> FIRST<br>Antes de Abrir el Editor</h2>
+
+  <div class="phase-grid reveal" id="phaseGrid">
+
+    <!-- PHASE 1A -->
+    <div class="phase" id="ph1a">
+      <div class="phase-header" onclick="togglePhase('ph1a')">
+        <div class="phase-num">1A</div>
+        <div class="phase-meta">
+          <div class="phase-label">ARCHITECT THINKING</div>
+          <div class="phase-title">Entender el Negocio Antes de Pensar en Código</div>
+          <div class="phase-subtitle">¿Qué necesita realmente el cliente?</div>
+        </div>
+        <div class="phase-time">DÍA 1</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">El Arquitecto hace preguntas de negocio <strong>antes de decidir cualquier cosa técnica.</strong> No preguntas de diseño — preguntas de outcomes. ¿Qué define el éxito? ¿Quién es el usuario real? ¿Cuál es la acción más importante de todo el site?</p>
+
+        <div class="thought-box">
+          <p><span class="kw">PREGUNTA 01:</span> ¿Cuál es el único objetivo de este website?<br>
+          → <span class="val">Generar leads calificados de empresas B2B que buscan automatización</span><br><br>
+          <span class="kw">PREGUNTA 02:</span> ¿Quién visita este site y qué busca?<br>
+          → <span class="val">Gerentes de operaciones 35-55 años, frustrados con procesos manuales, buscando solución confiable</span><br><br>
+          <span class="kw">PREGUNTA 03:</span> ¿Cuál es la ONE action que queremos que haga cada visitante?<br>
+          → <span class="val">Agendar una llamada de diagnóstico gratuito (formulario de lead)</span><br><br>
+          <span class="kw">PREGUNTA 04:</span> ¿Cómo sabremos que funcionó?<br>
+          → <span class="val">KPI principal: tasa de conversión visitante → lead agendado > 3%</span></p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">→ INSIGHT</span>
+          <span class="sub-title">El Mapa Mental del Arquitecto</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="tips-list">
+          <div class="tip"><span class="tip-mark">▷ KEY</span><span><strong>Todo el site sirve UNA cosa:</strong> llevar al visitante a apretar el botón de "Agenda tu diagnóstico". Cada sección, cada texto, cada imagen debe servir eso.</span></div>
+          <div class="tip"><span class="tip-mark">▷ KEY</span><span><strong>El pain point es más poderoso que el feature:</strong> "¿Cuánto te cuesta hacer eso manualmente hoy?" convierte mejor que "Nuestro sistema tiene IA".</span></div>
+          <div class="tip"><span class="tip-mark">▷ KEY</span><span><strong>Mobile-first no es opcional:</strong> El 60%+ del tráfico B2B llega de mobile. Si el formulario no funciona en iPhone, perdiste el lead.</span></div>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ No empieces a definir páginas ni componentes todavía. Primero entiende el negocio. Un website bonito con la arquitectura de contenido equivocada convierte 0%. Ocurre todo el tiempo.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 1B -->
+    <div class="phase" id="ph1b">
+      <div class="phase-header" onclick="togglePhase('ph1b')">
+        <div class="phase-num">1B</div>
+        <div class="phase-meta">
+          <div class="phase-label">SYSTEM DESIGN</div>
+          <div class="phase-title">Arquitectura del Site — Páginas, Flujos y Datos</div>
+          <div class="phase-subtitle">Dibuja antes de codear</div>
+        </div>
+        <div class="phase-time">DÍA 1-2</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">Antes de abrir Cursor o Claude, el Arquitecto dibuja el sistema completo. Páginas, flujos de usuario, datos que se capturan, integraciones. <strong>Esto toma 2 horas y evita 2 semanas de refactoring.</strong></p>
+
+        <div class="sub-header">
+          <span class="sub-num">→ SITEMAP</span>
+          <span class="sub-title">Estructura del Site</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="arch-diagram">
+          <div class="arch-row">
+            <div class="arch-box main">/ HOME — Landing Principal</div>
+          </div>
+          <div class="arch-row" style="justify-content:center;">
+            <span class="arch-arrow">↓</span>
+          </div>
+          <div class="arch-row">
+            <div class="arch-box">/servicios<br><span style="font-size:10px;color:var(--muted);">Detalle de ofertas</span></div>
+            <span class="arch-arrow">·</span>
+            <div class="arch-box gold">/agenda<br><span style="font-size:10px;color:var(--muted);">Lead capture form</span></div>
+            <span class="arch-arrow">·</span>
+            <div class="arch-box">/casos<br><span style="font-size:10px;color:var(--muted);">Case studies</span></div>
+          </div>
+          <div class="arch-row" style="justify-content:center;">
+            <span class="arch-arrow">↓</span>
+          </div>
+          <div class="arch-row">
+            <div class="arch-box green">/gracias<br><span style="font-size:10px;color:var(--muted);">Confirmación + siguiente paso</span></div>
+            <span class="arch-arrow">·</span>
+            <div class="arch-box" style="border-color:rgba(176,96,255,.3);color:var(--purple);">/admin (protegido)<br><span style="font-size:10px;color:var(--muted);">Dashboard de leads</span></div>
+          </div>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">→ DATA FLOW</span>
+          <span class="sub-title">Flujo de Datos del Lead</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="thought-box">
+          <p><span class="cm">// Flujo completo de un lead</span><br>
+          <span class="val">Visitante llega</span> → <span class="kw">Ve hero + propuesta de valor</span><br>
+          → <span class="val">Scroll a sección de dolor</span> → <span class="kw">CTA aparece</span><br>
+          → <span class="val">Click "Agenda diagnóstico"</span> → <span class="kw">Formulario carga</span><br>
+          → <span class="val">Submit: nombre, email, empresa, urgencia</span><br>
+          → <span class="kw">Supabase guarda lead</span> → <span class="val">Resend envía email confirmación</span><br>
+          → <span class="kw">Resend notifica al equipo NexaFlow</span><br>
+          → <span class="val">Redirect a /gracias</span> → <span class="kw">Lead en dashboard /admin</span></p>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ Define el modelo de datos del lead AHORA: ¿qué campos capturas? ¿qué es obligatorio? ¿qué metadata guardas (utm_source, timestamp, página de origen)? Esto afecta el schema de Supabase, el formulario, y el dashboard. Decídelo antes, no después.</p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">→ DATA MODEL</span>
+          <span class="sub-title">Schema del Lead (Supabase)</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="prd-block" data-label="SUPABASE TABLE: leads">
+          <div class="prd-row"><span class="prd-key">id</span><span class="prd-val"><span class="g">uuid</span> DEFAULT gen_random_uuid()</span></div>
+          <div class="prd-row"><span class="prd-key">name</span><span class="prd-val"><span class="g">text NOT NULL</span></span></div>
+          <div class="prd-row"><span class="prd-key">email</span><span class="prd-val"><span class="g">text NOT NULL UNIQUE</span></span></div>
+          <div class="prd-row"><span class="prd-key">company</span><span class="prd-val"><span class="g">text NOT NULL</span></span></div>
+          <div class="prd-row"><span class="prd-key">phone</span><span class="prd-val"><span class="m">text</span> <span class="m">(opcional)</span></span></div>
+          <div class="prd-row"><span class="prd-key">urgency</span><span class="prd-val"><span class="s">enum</span>: <span class="m">'immediate' | 'soon' | 'exploring'</span></span></div>
+          <div class="prd-row"><span class="prd-key">message</span><span class="prd-val"><span class="m">text (max 500 chars)</span></span></div>
+          <div class="prd-row"><span class="prd-key">source_page</span><span class="prd-val"><span class="g">text</span> <span class="m">// qué página generó el lead</span></span></div>
+          <div class="prd-row"><span class="prd-key">utm_source</span><span class="prd-val"><span class="m">text (nullable)</span></span></div>
+          <div class="prd-row"><span class="prd-key">status</span><span class="prd-val"><span class="s">enum</span>: <span class="m">'new' | 'contacted' | 'qualified' | 'closed'</span></span></div>
+          <div class="prd-row"><span class="prd-key">created_at</span><span class="prd-val"><span class="g">timestamptz</span> DEFAULT now()</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- PHASE 1C: STACK -->
+    <div class="phase" id="ph1c">
+      <div class="phase-header" onclick="togglePhase('ph1c')">
+        <div class="phase-num">1C</div>
+        <div class="phase-meta">
+          <div class="phase-label">TECH DECISIONS</div>
+          <div class="phase-title">Stack Selection — Por Qué Cada Herramienta</div>
+          <div class="phase-subtitle">Decisiones del arquitecto con justificación</div>
+        </div>
+        <div class="phase-time">DÍA 2</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">El Arquitecto no elige tecnología por moda — la elige <strong>por fit con los constraints del proyecto.</strong> Budget limitado, timeline de 3 semanas, cliente no técnico. Cada decisión tiene un por qué.</p>
+
+        <table class="stack-table">
+          <tr>
+            <th>CAPA</th><th>TECNOLOGÍA</th><th>POR QUÉ — NO OTRA</th>
+          </tr>
+          <tr>
+            <td><span class="st-cat">FRAMEWORK</span></td>
+            <td><span class="st-tech">NEXT.JS 14</span></td>
+            <td><span class="st-why">App Router + SSR nativo = SEO perfecto. La AI (Cursor/Claude) conoce Next.js más que cualquier otro framework. Máximo output.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">DATABASE + AUTH</span></td>
+            <td><span class="st-tech">SUPABASE</span></td>
+            <td><span class="st-why">PostgreSQL + Auth + Storage + Realtime en uno. El dashboard de admin usa Supabase Auth sin escribir una línea de auth custom. No Firebase: menos vendor lock-in, SQL real, mejor precio.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">EMAIL</span></td>
+            <td><span class="st-tech">RESEND</span></td>
+            <td><span class="st-why">API simple, deliverability excelente, free tier generoso (100 emails/día). Para confirmaciones de lead y notificaciones al equipo. No SendGrid: overkill para este scope.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">STYLING</span></td>
+            <td><span class="st-tech">TAILWIND CSS</span></td>
+            <td><span class="st-why">La AI genera Tailwind con precisión. Rapid iteration sin escribir CSS custom. Consistencia por defecto.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">DEPLOY</span></td>
+            <td><span class="st-tech">VERCEL</span></td>
+            <td><span class="st-why">Deploy de Next.js en segundos. CDN global incluido. Preview deployments por branch. Analytics básico gratis.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">FORMULARIOS</span></td>
+            <td><span class="st-tech">REACT HOOK FORM</span></td>
+            <td><span class="st-why">Zero re-renders. Validación integrada. La AI lo conoce perfectamente. No Formik: más pesado y verbose.</span></td>
+          </tr>
+          <tr>
+            <td><span class="st-cat">VALIDACIÓN</span></td>
+            <td><span class="st-tech">ZOD</span></td>
+            <td><span class="st-why">TypeScript-first. Mismo schema en frontend y API route = single source of truth. Previene data inconsistente desde el diseño.</span></td>
+          </tr>
+        </table>
+
+        <div class="thought-box">
+          <p><span class="cm">// Lo que decides TÚ, no la AI:</span><br>
+          <span class="kw">Tú decides:</span> <span class="val">Stack, integraciones, modelo de datos, arquitectura</span><br>
+          <span class="kw">AI decide:</span> <span class="val">Implementación específica, código, patrones internos</span><br><br>
+          <span class="cm">// Si la AI te sugiere cambiar el stack, pregúntate:</span><br>
+          <span class="kw">¿Cambia por una razón técnica válida o porque es lo que entrenó más?</span><br>
+          <span class="val">Tú tienes la última palabra siempre.</span></p>
+        </div>
+      </div></div>
+    </div>
+
+  </div><!-- end phase-grid -->
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S3: FASE 2 — PRD ====== -->
+<section class="section" id="s3">
+  <div class="sec-hd"><span class="sec-tag">FASE_02</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal">EL <span class="hi2">PRD COMPLETO</span><br>El Blueprint del Proyecto</h2>
+
+  <div class="phase-grid reveal">
+
+    <div class="phase" id="ph2a">
+      <div class="phase-header" onclick="togglePhase('ph2a')">
+        <div class="phase-num">2A</div>
+        <div class="phase-meta">
+          <div class="phase-label">PRODUCT REQUIREMENTS DOCUMENT</div>
+          <div class="phase-title">PRD Principal — El Documento que Dirige Todo</div>
+          <div class="phase-subtitle">Lo que le das a la AI como contexto base</div>
+        </div>
+        <div class="phase-time">DÍA 2-3</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">El PRD es el <strong>contrato entre tú y la AI</strong>. También es el contrato entre tú y el cliente. Escríbelo una vez, úsalo en cada sesión. La AI no tiene memoria — el PRD la da.</p>
+
+        <div class="prd-block" data-label="PRD — NEXAFLOW WEBSITE v1.0">
+          <div class="prd-row"><span class="prd-key">PROJECT</span><span class="prd-val"><span class="s">NexaFlow Consulting — Marketing Website + Lead Capture</span></span></div>
+          <div class="prd-row"><span class="prd-key">OBJECTIVE</span><span class="prd-val"><span class="g">Generar leads calificados B2B → tasa conversión objetivo: 3%+</span></span></div>
+          <div class="prd-row"><span class="prd-key">TARGET USER</span><span class="prd-val"><span class="m">Gerentes de operaciones B2B, 35-55 años, buscan automatización</span></span></div>
+          <div class="prd-row"><span class="prd-key">STACK</span><span class="prd-val"><span class="g">Next.js 14 (App Router) · TypeScript · Tailwind · Supabase · Resend · Vercel</span></span></div>
+          <div class="prd-row"><span class="prd-key">PAGES</span><span class="prd-val"><span class="m">/ · /servicios · /casos · /agenda · /gracias · /admin (auth protegido)</span></span></div>
+          <div class="prd-row"><span class="prd-key">PRIMARY CTA</span><span class="prd-val"><span class="s">"Agenda tu Diagnóstico Gratuito" → form → Supabase + Resend</span></span></div>
+          <div class="prd-row"><span class="prd-key">PERFORMANCE</span><span class="prd-val"><span class="g">LCP &lt; 2.5s · CLS &lt; 0.1 · Mobile-first · Lighthouse 90+</span></span></div>
+          <div class="prd-row"><span class="prd-key">SEO</span><span class="prd-val"><span class="m">Meta tags · OG image · sitemap.xml · robots.txt · Schema markup</span></span></div>
+          <div class="prd-row"><span class="prd-key">ANALYTICS</span><span class="prd-val"><span class="m">Vercel Analytics + tracking de conversión de form</span></span></div>
+          <div class="prd-row"><span class="prd-key">CONVENTIONS</span><span class="prd-val"><span class="m">kebab-case files · camelCase vars · PascalCase components · Server Components by default</span></span></div>
+          <div class="prd-row"><span class="prd-key">FOLDER STRUCTURE</span><span class="prd-val"><span class="m">app/ · components/ · lib/ · types/ · utils/ · public/</span></span></div>
+          <div class="prd-row"><span class="prd-key">ERROR HANDLING</span><span class="prd-val"><span class="m">try/catch en API routes · toast notifications frontend · Zod para validación</span></span></div>
+          <div class="prd-row"><span class="prd-key">SUCCESS CRITERIA</span><span class="prd-val"><span class="g">Lead guardado en Supabase · Email confirmación enviado · Admin puede ver leads</span></span></div>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">→ USER STORIES</span>
+          <span class="sub-title">Las 5 Stories Críticas</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="tips-list">
+          <div class="tip"><span class="tip-mark">US-01</span><span>Como visitante, quiero entender en 5 segundos qué hace NexaFlow y para quién, para decidir si es relevante para mí.</span></div>
+          <div class="tip"><span class="tip-mark">US-02</span><span>Como visitante interesado, quiero ver casos de éxito concretos con números, para creer que el servicio funciona.</span></div>
+          <div class="tip"><span class="tip-mark">US-03</span><span>Como lead potencial, quiero agendar una llamada en menos de 2 minutos, para no perder el momentum de interés.</span></div>
+          <div class="tip"><span class="tip-mark">US-04</span><span>Como lead que completó el form, quiero recibir confirmación inmediata por email, para saber que mi solicitud llegó.</span></div>
+          <div class="tip"><span class="tip-mark">US-05</span><span>Como admin de NexaFlow, quiero ver todos los leads con su estado y datos, para hacer seguimiento desde un solo lugar.</span></div>
+        </div>
+
+        <div class="thought-box">
+          <p><span class="cm">// Este PRD va en: Notion (tu referencia) + claude.md (contexto de AI)</span><br>
+          <span class="kw">CÓMO USARLO:</span><br>
+          <span class="val">Inicio de sesión con Cursor/Claude:</span><br>
+          "Lee este PRD completo antes de empezar. Es el contexto de todo el proyecto."<br>
+          [pega el PRD]<br>
+          "Empezamos por la tarea: [tarea específica]"</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="phase" id="ph2b">
+      <div class="phase-header" onclick="togglePhase('ph2b')">
+        <div class="phase-num">2B</div>
+        <div class="phase-meta">
+          <div class="phase-label">COMPONENT MAP</div>
+          <div class="phase-title">Mapa de Componentes — Qué Se Construye</div>
+          <div class="phase-subtitle">Decomposición completa antes de la primera línea</div>
+        </div>
+        <div class="phase-time">DÍA 3</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">El Arquitecto mapea cada componente que necesita existir <strong>antes de buildear cualquiera.</strong> Esto define el orden de construcción, las dependencias, y los prompts para la AI.</p>
+
+        <div class="comp-grid">
+          <div class="comp-card">
+            <div class="cc-num">COMP · 01</div>
+            <div class="cc-name">Navbar</div>
+            <div class="cc-desc">Logo, links de navegación, CTA button sticky. Responsive mobile con hamburger menu.</div>
+            <span class="cc-tag ui">UI</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 02</div>
+            <div class="cc-name">HeroSection</div>
+            <div class="cc-desc">Headline + subline + CTA principal + hero image/video. Above the fold. Crítico para conversión.</div>
+            <span class="cc-tag conv">CONV</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 03</div>
+            <div class="cc-name">PainSection</div>
+            <div class="cc-desc">3-4 pain points del cliente ideal con iconos. "¿Reconoces esto?" — activa el problema consciente.</div>
+            <span class="cc-tag conv">CONV</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 04</div>
+            <div class="cc-name">ServicesGrid</div>
+            <div class="cc-desc">Cards de servicios con título, descripción, y beneficio principal. Links a /servicios.</div>
+            <span class="cc-tag ui">UI</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 05</div>
+            <div class="cc-name">SocialProof</div>
+            <div class="cc-desc">Logos de clientes + 2-3 testimonios con foto, nombre, cargo, resultado medible.</div>
+            <span class="cc-tag conv">CONV</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 06</div>
+            <div class="cc-name">LeadForm</div>
+            <div class="cc-desc">Formulario de lead: nombre, email, empresa, urgencia, mensaje. Validación Zod. Submit a API route.</div>
+            <span class="cc-tag conv">CONV</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 07</div>
+            <div class="cc-name">CTABanner</div>
+            <div class="cc-desc">Banner de conversión mid-page y footer. Reforza la oferta principal. Múltiples touch points.</div>
+            <span class="cc-tag conv">CONV</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 08</div>
+            <div class="cc-name">Footer</div>
+            <div class="cc-desc">Links, datos de contacto, legal, redes sociales. Sitemap links para SEO.</div>
+            <span class="cc-tag seo">SEO</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 09</div>
+            <div class="cc-name">AdminDashboard</div>
+            <div class="cc-desc">Tabla de leads con filtros por status. Protegido con Supabase Auth. Vista detail del lead.</div>
+            <span class="cc-tag data">DATA</span>
+          </div>
+          <div class="comp-card">
+            <div class="cc-num">COMP · 10</div>
+            <div class="cc-name">EmailTemplates</div>
+            <div class="cc-desc">Template HTML de confirmación para el lead + notificación al equipo NexaFlow via Resend.</div>
+            <span class="cc-tag data">DATA</span>
+          </div>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ Orden de construcción importa: primero crea los lib/ helpers (Supabase client, Resend client, Zod schemas) antes de cualquier componente. Sin la base, la AI construirá con imports incorrectos y perderás tiempo debuggeando.</p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S4: FASE 3 — BUILD WITH AI ====== -->
+<section class="section" id="s4">
+  <div class="sec-hd"><span class="sec-tag">FASE_03</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal">BUILD WITH <span class="hi3">AI</span><br>Prompts Reales para Tareas Reales</h2>
+
+  <div class="phase-grid reveal">
+
+    <div class="phase" id="ph3a">
+      <div class="phase-header" onclick="togglePhase('ph3a')">
+        <div class="phase-num">3A</div>
+        <div class="phase-meta">
+          <div class="phase-label">FOUNDATION FIRST</div>
+          <div class="phase-title">Setup Inicial — Lo que Buildeas Tú, No la AI</div>
+          <div class="phase-subtitle">El Arquitecto configura la base manualmente</div>
+        </div>
+        <div class="phase-time">DÍA 4</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">Hay cosas que tú configuras manualmente porque involucran <strong>credenciales, variables de entorno, y decisiones de seguridad</strong> que la AI no debe manejar.</p>
+
+        <div class="tips-list">
+          <div class="tip"><span class="tip-mark">▷ 01</span><span><strong>npx create-next-app@latest nexaflow-web</strong> — TypeScript: Yes, Tailwind: Yes, App Router: Yes, src/ directory: No</span></div>
+          <div class="tip"><span class="tip-mark">▷ 02</span><span><strong>Crear proyecto en Supabase</strong> → copiar URL + anon key → crear tabla leads con el schema definido</span></div>
+          <div class="tip"><span class="tip-mark">▷ 03</span><span><strong>Crear cuenta Resend</strong> → verificar dominio del cliente → obtener API key</span></div>
+          <div class="tip"><span class="tip-mark">▷ 04</span><span><strong>Crear .env.local</strong> con todas las variables: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_KEY, RESEND_API_KEY</span></div>
+          <div class="tip"><span class="tip-mark">▷ 05</span><span><strong>Crear .env.example</strong> sin valores reales → commitearlo al repo para documentar qué variables existen</span></div>
+          <div class="tip"><span class="tip-mark">▷ 06</span><span><strong>Crear claude.md</strong> en la raíz del proyecto → pegar el PRD completo + stack + convenciones</span></div>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ Nunca le des tus API keys reales a la AI en el prompt. El claude.md solo documenta el NOMBRE de las variables (.env.local), no sus valores. La AI las lee del proceso como process.env.VARIABLE_NAME.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="phase" id="ph3b">
+      <div class="phase-header" onclick="togglePhase('ph3b')">
+        <div class="phase-num">3B</div>
+        <div class="phase-meta">
+          <div class="phase-label">AI EXECUTION — PROMPTS REALES</div>
+          <div class="phase-title">Cómo Pedir Cada Componente a la AI</div>
+          <div class="phase-subtitle">Prompts exactos con contexto, constraints, y outputs</div>
+        </div>
+        <div class="phase-time">DÍA 5-11</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">Aquí está la diferencia entre el vibe coder promedio y el Arquitecto: <strong>la calidad del prompt determina la calidad del código.</strong> Estos son los prompts reales, en el orden correcto.</p>
+
+        <div class="sub-header">
+          <span class="sub-num">PROMPT 01</span>
+          <span class="sub-title">Supabase Client + Types</span>
+          <div class="sub-line"></div>
+        </div>
+        <div class="prompt-block">
+          <p>Eres un senior developer en Next.js 14 con App Router y TypeScript.<br><br>
+Lee el claude.md adjunto — es el PRD completo del proyecto.<br><br>
+Primera tarea: Crea el Supabase client para este proyecto.<br>
+- Archivo: lib/supabase/client.ts → client-side (createBrowserClient)<br>
+- Archivo: lib/supabase/server.ts → server-side (createServerClient con cookies)<br>
+- Archivo: types/database.ts → TypeScript types para la tabla 'leads' según el schema del PRD<br><br>
+Usa @supabase/ssr (NO @supabase/auth-helpers que está deprecated).<br>
+Las env vars son: NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY<br>
+Incluye los tipos exactos del schema de leads del PRD.</p>
+        </div>
+
+        <div class="output-block">
+          <p>Deberías recibir:</p>
+          <ul>
+            <li>lib/supabase/client.ts con createBrowserClient</li>
+            <li>lib/supabase/server.ts con createServerClient usando cookies()</li>
+            <li>types/database.ts con interface Lead y LeadInsert</li>
+          </ul>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">PROMPT 02</span>
+          <span class="sub-title">Zod Schema + Validación del Form</span>
+          <div class="sub-line"></div>
+        </div>
+        <div class="prompt-block">
+          <p>Continuando con el proyecto NexaFlow. El Supabase client ya está creado.<br><br>
+Crea el Zod schema de validación para el LeadForm:<br>
+- Archivo: lib/validations/lead.ts<br>
+- Campos según el PRD: name (min 2), email (válido), company (min 2), phone (opcional, E.164 format), urgency (enum: immediate/soon/exploring), message (opcional, max 500)<br>
+- Exporta: leadSchema (Zod), LeadFormData (TypeScript type inferido del schema)<br>
+- Este mismo schema se usará en el frontend (react-hook-form) y en la API route (validación server-side)<br>
+Single source of truth — no duplicar lógica de validación.</p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">PROMPT 03</span>
+          <span class="sub-title">API Route — Submit Lead</span>
+          <div class="sub-line"></div>
+        </div>
+        <div class="prompt-block">
+          <p>Crea la API route para recibir y procesar el form de lead:<br>
+- Archivo: app/api/leads/route.ts<br>
+- Método: POST<br>
+- Flujo: 1) Validar body con leadSchema (Zod) 2) Guardar en Supabase tabla 'leads' con server client 3) Enviar email de confirmación al lead via Resend 4) Enviar email de notificación al equipo (EMAIL_TEAM en .env) 5) Retornar { success: true, id: lead.id }<br>
+- Error handling: try/catch, retorna errores estructurados { success: false, error: string }<br>
+- Rate limiting básico: no más de 1 lead por email en 24h (query a Supabase antes de insertar)<br>
+- Env vars usadas: SUPABASE_SERVICE_KEY (no anon), RESEND_API_KEY, EMAIL_FROM, EMAIL_TEAM<br>
+Los templates de email serán simples strings HTML por ahora — los mejoraremos después.</p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">PROMPT 04</span>
+          <span class="sub-title">LeadForm Component</span>
+          <div class="sub-line"></div>
+        </div>
+        <div class="prompt-block">
+          <p>Crea el componente LeadForm:<br>
+- Archivo: components/forms/LeadForm.tsx<br>
+- Client component ('use client')<br>
+- Usa react-hook-form con zodResolver conectado a leadSchema de lib/validations/lead.ts<br>
+- Campos: nombre, email, empresa, teléfono (opcional), urgencia (select), mensaje (textarea opcional)<br>
+- Estados: idle → loading → success | error<br>
+- En success: muestra mensaje de confirmación inline (NO redirect, el parent maneja la navegación)<br>
+- Styling: Tailwind, diseño limpio profesional B2B, botón de submit con loading spinner<br>
+- Conecta con POST /api/leads usando fetch, maneja errores con toast o inline message<br>
+- Accesibilidad: labels correctos, aria-describedby para errores, focus management</p>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ Después de cada componente: léelo, entiéndelo, pruébalo. No avances al siguiente prompt hasta que el anterior funcione. La deuda técnica se acumula exponencialmente cuando stackeas componentes sobre código que no has verificado.</p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">PROMPT 05</span>
+          <span class="sub-title">Hero Section — El Más Crítico</span>
+          <div class="sub-line"></div>
+        </div>
+        <div class="prompt-block">
+          <p>Crea el HeroSection para NexaFlow — este es el componente más importante del site:<br>
+- Archivo: components/sections/HeroSection.tsx<br>
+- Headline principal: "Automatiza lo que te está costando tiempo y dinero hoy" (editable via props)<br>
+- Subline: propuesta de valor en 2 líneas máximo<br>
+- CTA principal: botón "Agenda tu Diagnóstico Gratuito" → scroll smooth a #lead-form<br>
+- CTA secundario: "Ver casos de éxito" → link a /casos<br>
+- Trust indicators: 3 números clave (ej: "47 procesos automatizados", "12 clientes", "3.2h ahorradas/día en promedio")<br>
+- Background: gradiente sutil o imagen hero con overlay, NO blanco plano<br>
+- Diseño B2B profesional: NO startup genérica, NO purple gradients. Confiable, serio, results-focused<br>
+- Full viewport height en desktop, auto en mobile<br>
+- Incluye structured data JSON-LD para Organization schema</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="phase" id="ph3c">
+      <div class="phase-header" onclick="togglePhase('ph3c')">
+        <div class="phase-num">3C</div>
+        <div class="phase-meta">
+          <div class="phase-label">ADMIN DASHBOARD</div>
+          <div class="phase-title">Dashboard de Leads — La Herramienta del Cliente</div>
+          <div class="phase-subtitle">El cliente necesita ver sus leads desde día 1</div>
+        </div>
+        <div class="phase-time">DÍA 10-11</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">El admin dashboard es lo que <strong>hace que el cliente perciba el valor inmediatamente.</strong> No es opcional — es la prueba de que el sistema funciona. Buildéalo en los últimos días del sprint.</p>
+
+        <div class="prompt-block">
+          <p>Crea el Admin Dashboard para ver y gestionar leads:<br>
+- Ruta: app/admin/page.tsx (Server Component)<br>
+- Protección: middleware.ts verifica sesión Supabase Auth, redirect a /admin/login si no hay sesión<br>
+- Ruta login: app/admin/login/page.tsx → magic link auth con Supabase (no password)<br>
+- Dashboard muestra: tabla de leads con columnas: nombre, email, empresa, urgencia, status, fecha<br>
+- Filtros: por status (new/contacted/qualified/closed), por urgencia, búsqueda por nombre/empresa<br>
+- Cada fila: click abre un panel lateral (drawer) con todos los datos del lead<br>
+- Desde el panel: puede cambiar el status del lead (Server Action)<br>
+- Stats header: total leads, leads nuevos hoy, leads esta semana, tasa de conversión estimada<br>
+- Diseño: limpio, funcional, no necesita ser bonito — necesita ser rápido y claro<br>
+- Export CSV: botón que descarga todos los leads como CSV (Client Component)</p>
+        </div>
+
+        <div class="thought-box">
+          <p><span class="cm">// Por qué magic link y no password:</span><br>
+          <span class="kw">RAZÓN 1:</span> <span class="val">No gestionar passwords del cliente = menos soporte</span><br>
+          <span class="kw">RAZÓN 2:</span> <span class="val">Más seguro — no hay password que hackear</span><br>
+          <span class="kw">RAZÓN 3:</span> <span class="val">Supabase lo maneja completo, 0 código de auth custom</span><br>
+          <span class="kw">RAZÓN 4:</span> <span class="val">El cliente solo necesita su email — experiencia simple</span></p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S5: QA ====== -->
+<section class="section" id="s5">
+  <div class="sec-hd"><span class="sec-tag">FASE_04</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal">QA COMO <span class="hi">ARQUITECTO</span><br>Revisar Antes de Entregar</h2>
+
+  <div class="philosophy-block reveal" style="margin-bottom:40px;">
+    <p>El Arquitecto no hace QA línea por línea — hace <strong>QA por capas.</strong> Primero la lógica de negocio, luego la funcionalidad técnica, luego la UX, finalmente el performance. Si falla una capa, las siguientes no importan.</p>
+  </div>
+
+  <div class="reveal">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--arc);letter-spacing:2px;margin-bottom:14px;">CHECKLIST // QA DEL ARQUITECTO — Marca cada ítem antes de launch</div>
+    <div class="qa-list" id="qaList">
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>NEGOCIO:</strong> El CTA principal está visible sin scroll en desktop Y mobile</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>NEGOCIO:</strong> El form envía correctamente y guarda en Supabase — verificado con un lead real de prueba</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>NEGOCIO:</strong> El email de confirmación llega al lead en menos de 30 segundos</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>NEGOCIO:</strong> El equipo NexaFlow recibe notificación por email de cada nuevo lead</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>NEGOCIO:</strong> El lead aparece en el admin dashboard con todos sus datos correctos</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>TÉCNICO:</strong> Validación del form: email inválido, campos vacíos muestran errores claros</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>TÉCNICO:</strong> Rate limiting funciona — mismo email no puede enviar 2 leads en 24h</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>TÉCNICO:</strong> Variables de entorno correctas en Vercel (no exponer SUPABASE_SERVICE_KEY al cliente)</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>TÉCNICO:</strong> /admin redirige a /admin/login si no hay sesión autenticada</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>UX:</strong> Sitio funcional en iPhone 12 Safari (el más restrictivo)</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>UX:</strong> El formulario se puede completar con teclado en mobile sin zoom</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>UX:</strong> Loading states visibles: botón de submit muestra spinner, no doble submit</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>UX:</strong> Página /gracias tiene CTA secundario (no dead end)</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>PERFORMANCE:</strong> Lighthouse score 85+ en mobile (PageSpeed Insights)</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>SEO:</strong> Meta title + description únicos por página</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>SEO:</strong> sitemap.xml accesible en /sitemap.xml</div></div>
+      <div class="qa-item" onclick="toggleQA(this)"><div class="qa-box"></div><div class="qa-text"><strong>LEGAL:</strong> Política de privacidad linked desde el form de lead</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<!-- ====== S6: LAUNCH ====== -->
+<section class="section" id="s6">
+  <div class="sec-hd"><span class="sec-tag">FASE_05_06</span><div class="sec-ln"></div></div>
+  <h2 class="sec-title reveal">LAUNCH <span class="hi2">&amp; BEYOND</span><br>Deploy, Entrega, y Siguiente Nivel</h2>
+
+  <div class="phase-grid reveal">
+
+    <div class="phase" id="ph4a">
+      <div class="phase-header" onclick="togglePhase('ph4a')">
+        <div class="phase-num">5</div>
+        <div class="phase-meta">
+          <div class="phase-label">DEPLOY PROTOCOL</div>
+          <div class="phase-title">Launch en Vercel — El Proceso Correcto</div>
+          <div class="phase-subtitle">Arquitecto controla el deploy, no lo improvisa</div>
+        </div>
+        <div class="phase-time">DÍA 18-19</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">Deploy no es "subir el código y rezar". El Arquitecto tiene un protocolo de launch que asegura que <strong>nada está roto en producción antes de dar el dominio al cliente.</strong></p>
+
+        <div class="tips-list">
+          <div class="tip"><span class="tip-mark">▷ 01</span><span><strong>Preview Deploy primero:</strong> Vercel genera un URL de preview por cada push. Prueba todo en el preview URL antes de asignar el dominio.</span></div>
+          <div class="tip"><span class="tip-mark">▷ 02</span><span><strong>Variables de entorno en Vercel:</strong> Settings → Environment Variables → agregar todas las del .env. Verificar que SUPABASE_SERVICE_KEY solo esté en Server (no en Edge ni Client).</span></div>
+          <div class="tip"><span class="tip-mark">▷ 03</span><span><strong>Dominio del cliente:</strong> Vercel → Domains → Add domain. DNS CNAME/A record según instrucciones. SSL automático. Espera propagación 15-60 min.</span></div>
+          <div class="tip"><span class="tip-mark">▷ 04</span><span><strong>Prueba en producción con lead real:</strong> Tú envías un lead de prueba en el dominio final. Verificas: guardado en Supabase, emails enviados, aparece en admin.</span></div>
+          <div class="tip"><span class="tip-mark">▷ 05</span><span><strong>Google Search Console:</strong> Registrar el dominio, subir sitemap.xml. Esto inicia el indexing SEO desde el día 1.</span></div>
+          <div class="tip"><span class="tip-mark">▷ 06</span><span><strong>Entrega al cliente:</strong> Un PDF de 1 página con: URL del site, URL del admin (/admin), email de login (magic link), cómo cambiar el status de un lead. Simple.</span></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="phase" id="ph4b">
+      <div class="phase-header" onclick="togglePhase('ph4b')">
+        <div class="phase-num">6</div>
+        <div class="phase-meta">
+          <div class="phase-label">RETAINER STRATEGY</div>
+          <div class="phase-title">De Proyecto a Relación Rentable con el Cliente</div>
+          <div class="phase-subtitle">El Arquitecto no cobra por entregar — cobra por resultados continuos</div>
+        </div>
+        <div class="phase-time">POST-LAUNCH</div>
+        <svg class="phase-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="phase-body"><div class="phase-content">
+        <p class="pc-intro">Entregar el proyecto no es el final — es el inicio. <strong>El cliente ahora tiene datos reales.</strong> Esos datos son la justificación perfecta para el siguiente sprint, el siguiente servicio, el retainer mensual.</p>
+
+        <div class="thought-box">
+          <p><span class="cm">// 30 días después del launch — revisión con el cliente:</span><br>
+          <span class="kw">DATO 01:</span> <span class="val">X visitantes · Y leads · Z% conversión</span><br>
+          <span class="kw">DATO 02:</span> <span class="val">Páginas más visitadas, tiempo en site, bounce rate</span><br>
+          <span class="kw">DATO 03:</span> <span class="val">Calidad de los leads: ¿cuántos avanzaron a qualified?</span><br><br>
+          <span class="cm">// Propuesta natural que fluye de los datos:</span><br>
+          "La tasa de conversión es 1.8% — el objetivo era 3%. Identificamos 2 mejoras al hero section y al form que pueden doblar eso. ¿Arrancamos el sprint 2?"</p>
+        </div>
+
+        <div class="sub-header">
+          <span class="sub-num">→ EXPANSIÓN</span>
+          <span class="sub-title">Features para Sprint 2 (Retainer)</span>
+          <div class="sub-line"></div>
+        </div>
+
+        <div class="tips-list">
+          <div class="tip"><span class="tip-mark">V2.0</span><span><strong>A/B Testing del Hero:</strong> Dos versiones del headline, tracking automático de cuál convierte más. Dato real para decisión de negocio.</span></div>
+          <div class="tip"><span class="tip-mark">V2.0</span><span><strong>Integración CRM:</strong> Sync automático de leads a HubSpot o Pipedrive via webhook. El equipo de ventas trabaja donde ya trabaja.</span></div>
+          <div class="tip"><span class="tip-mark">V2.0</span><span><strong>Blog / Content:</strong> 4-6 artículos SEO atacando keywords de intención de búsqueda. Tráfico orgánico que no depende de ads.</span></div>
+          <div class="tip"><span class="tip-mark">V2.0</span><span><strong>Lead Scoring automático:</strong> La AI analiza las respuestas del form y asigna un score de calidad al lead. El equipo prioriza los mejores.</span></div>
+          <div class="tip"><span class="tip-mark">V2.0</span><span><strong>Chat / Chatbot:</strong> Widget de conversación que captura leads fuera de horario. Se integra al mismo sistema de leads existente.</span></div>
+        </div>
+
+        <div class="warn-block">
+          <p>⚠ No propongas todo esto en el kick-off. El Vibe Architect entrega V1, espera los datos reales, y propone V2 con evidencia. "Los datos muestran que..." es el mejor argumento de venta. Vende con datos, no con features imaginarios.</p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div style="margin-top:56px;" class="reveal">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:14px;">RESULTADOS ESPERADOS // PROYECTO COMPLETADO</div>
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="rc-val" style="color:var(--arc);">3</div>
+        <div class="rc-label">SEMANAS TOTAL</div>
+        <div class="rc-sub">De brief a producción con arquitectura sólida</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-val" style="color:var(--green);">10+</div>
+        <div class="rc-label">COMPONENTES</div>
+        <div class="rc-sub">Construidos con prompts precisos, no "buildea mi app"</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-val" style="color:var(--gold);">1</div>
+        <div class="rc-label">PRD COMPLETO</div>
+        <div class="rc-sub">Documento que dirige a la AI en cada sesión</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-val" style="color:var(--arc);">3%+</div>
+        <div class="rc-label">CONV OBJETIVO</div>
+        <div class="rc-sub">Visitante a lead — medible desde día 1</div>
+      </div>
+      <div class="result-card">
+        <div class="rc-val" style="color:var(--green);">0</div>
+        <div class="rc-label">DEUDA TÉCNICA</div>
+        <div class="rc-sub">Arquitectura pensada antes de ejecutar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hdiv"></div>
+
+<footer class="footer">
+  <div>
+    <div class="fb">J.A.R.V.I.S. // DENYSOFT ARCHITECT PROTOCOL 201</div>
+    <div class="fsub">Piensa primero. Define segundo. Buildea tercero. Escala siempre.</div>
+  </div>
+  <div class="fm">TUTORIAL · NIVEL 201 · v1.0<br>MASTER DENYS LOPEZ · 2026</div>
+</footer>
+
+<script>
+// PROGRESS + NAV DOTS
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('pf').style.width = (window.scrollY / total * 100) + '%';
+  const ids = ['s0','s1','s2','s3','s4','s5','s6'];
+  document.querySelectorAll('.ni').forEach((ni, i) => {
+    const el = document.getElementById(ids[i]);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top <= window.innerHeight * .5 && r.bottom >= window.innerHeight * .5) {
+      document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+      ni.classList.add('active');
+    }
+  });
+});
+
+document.querySelectorAll('.ni').forEach((ni) => {
+  ni.addEventListener('click', () => {
+    const id = ni.dataset.s;
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// PHASE TOGGLE
+function togglePhase(id) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+// QA CHECKLIST
+function toggleQA(el) {
+  el.classList.toggle('checked');
+  const box = el.querySelector('.qa-box');
+  box.textContent = el.classList.contains('checked') ? '✓' : '';
+}
+
+// REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// TYPING EFFECT
+const tt = document.getElementById('tt');
+const words = ['REAL.', 'COMPLETO.', 'EN PRODUCCIÓN.', 'REAL.'];
+let wi=0, ci=0, del=false;
+function type() {
+  const w = words[wi];
+  if (!del) { tt.textContent = w.slice(0,++ci); if(ci===w.length){del=true;setTimeout(type,2200);return;} }
+  else { tt.textContent = w.slice(0,--ci); if(ci===0){del=false;wi=(wi+1)%words.length;} }
+  setTimeout(type, del?55:90);
+}
+setTimeout(type, 1800);
+
+// Auto-open first phase for engagement
+setTimeout(() => { togglePhase('ph1a'); }, 800);
+</script>
+</body>
+</html>

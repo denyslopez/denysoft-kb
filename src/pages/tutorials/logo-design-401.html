@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Design 401 — Denysoft KB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060a0f;
+  --surface: #0c1018;
+  --card: #111820;
+  --card2: #161f28;
+  --border: #1e2d3d;
+  --border2: #253545;
+  /* Brand Colors from brief */
+  --te-blue: #0F2557;
+  --te-blue-mid: #1A3A8F;
+  --te-orange: #F5820D;
+  --te-orange-light: #FF9A2E;
+  --te-white: #FAFAFA;
+  /* UI */
+  --accent: #F5820D;
+  --accent2: #1A3A8F;
+  --accent3: #39ff8f;
+  --accent4: #fbbf24;
+  --text: #e2eaf4;
+  --muted: #5a7080;
+  --muted2: #3a5060;
+  --success: #39ff8f;
+  --radius: 14px;
+  --rsm: 8px;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+[data-theme="light"] {
+  --bg: #f4f6f9; --surface: #ffffff; --card: #f8fafc; --card2: #edf2f7;
+  --border: #cdd8e6; --border2: #b0c4d8; --text: #0d1b2a; --muted: #4a6070; --muted2: #8aa0b0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;transition:background .3s,color .3s;}
+
+.wrap{max-width:900px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+/* PROGRESS */
+.prog{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;}
+.prog-inner{max-width:900px;margin:0 auto;padding:0 24px;}
+.prog-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--te-orange),var(--te-blue-mid));width:0%;transition:width .3s;}
+
+/* HEADER */
+header{padding:44px 0 0;border-bottom:1px solid var(--border);margin-bottom:52px;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px;flex-wrap:wrap;gap:12px;}
+.badges{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{font-family:var(--font-mono);font-size:10px;padding:4px 12px;border-radius:100px;letter-spacing:.06em;}
+.badge-kb{color:var(--te-orange);background:rgba(245,130,13,0.08);border:1px solid rgba(245,130,13,0.25);}
+.badge-live{color:#39ff8f;background:rgba(57,255,143,0.08);border:1px solid rgba(57,255,143,0.25);animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+.badge-final{color:var(--accent4);background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.2);}
+.ctrls{display:flex;gap:8px;}
+.btn-c{font-family:var(--font-mono);font-size:10px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s;}
+.btn-c:hover{border-color:var(--accent);color:var(--accent);}
+
+.eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--te-orange);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
+.hero-title{font-family:var(--font-display);font-size:clamp(48px,8vw,90px);font-weight:800;line-height:.95;margin-bottom:20px;}
+.hero-title .hl{color:var(--te-orange);}
+.hero-sub{font-size:16px;color:var(--muted);max-width:620px;margin-bottom:32px;}
+.hero-sub strong{color:var(--text);}
+.hero-meta{display:flex;gap:20px;flex-wrap:wrap;padding:18px 0;border-top:1px solid var(--border);}
+.meta-i{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.meta-i span{color:var(--te-orange);}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 26px;margin-bottom:52px;}
+.toc-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:520px){.toc-grid{grid-template-columns:1fr;}}
+.toc-a{text-decoration:none;color:var(--text);font-size:14px;display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:var(--rsm);transition:all .2s;}
+.toc-a:hover{background:rgba(245,130,13,0.06);color:var(--te-orange);}
+.toc-n{font-family:var(--font-mono);font-size:10px;color:var(--te-orange);min-width:22px;}
+
+/* SECTIONS */
+.section{margin-bottom:68px;scroll-margin-top:60px;}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;color:var(--te-orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.sec-label::before{content:'';width:14px;height:1px;background:var(--te-orange);}
+h2{font-family:var(--font-display);font-size:clamp(28px,5vw,46px);font-weight:800;line-height:1.05;margin-bottom:18px;}
+p{color:var(--muted);margin-bottom:14px;font-size:15px;}
+strong{color:var(--text);}
+hr.dv{border:none;border-top:1px solid var(--border);margin:52px 0;}
+
+/* CALLOUTS */
+.callout{border:1px solid var(--border);border-left:3px solid var(--te-orange);border-radius:var(--rsm);padding:14px 18px;margin:18px 0;font-size:14px;color:var(--text);background:var(--card);}
+.callout.blue{border-left-color:var(--te-blue-mid);}
+.callout.green{border-left-color:var(--success);}
+.callout.warn{border-left-color:#fbbf24;}
+
+/* CLIENT BRIEF CARD */
+.brief-showcase{background:linear-gradient(135deg,rgba(15,37,87,0.4),rgba(26,58,143,0.2));border:1px solid rgba(26,58,143,0.4);border-radius:var(--radius);padding:32px;margin:24px 0;position:relative;overflow:hidden;}
+.brief-showcase::before{content:'BRIEF v2.0';position:absolute;top:16px;right:20px;font-family:var(--font-mono);font-size:10px;color:rgba(245,130,13,0.4);letter-spacing:.15em;}
+.client-name{font-family:var(--font-display);font-size:clamp(36px,6vw,60px);font-weight:800;margin:8px 0 4px;line-height:1;}
+.client-name .hl{color:var(--te-orange);}
+.client-tagline{font-size:15px;color:var(--muted);margin-bottom:20px;font-style:italic;}
+.brief-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.brief-pill{font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:100px;background:rgba(245,130,13,0.1);border:1px solid rgba(245,130,13,0.25);color:var(--te-orange);}
+.brief-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+@media(max-width:540px){.brief-grid{grid-template-columns:1fr;}}
+.brief-box{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;}
+.brief-box-label{font-family:var(--font-mono);font-size:10px;color:var(--te-orange);letter-spacing:.1em;margin-bottom:8px;}
+.brief-box ul{list-style:none;display:grid;gap:4px;}
+.brief-box li{font-size:13px;color:var(--muted);display:flex;gap:7px;align-items:flex-start;}
+.brief-box li::before{content:'→';color:var(--te-orange);flex-shrink:0;margin-top:1px;}
+
+/* STEP PIPELINE */
+.pipeline{margin:28px 0;}
+.pipe-step{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:0;margin-bottom:4px;overflow:hidden;transition:border-color .2s;}
+.pipe-step.expanded{border-color:var(--te-orange);}
+.pipe-header{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;user-select:none;}
+.pipe-header:hover{background:rgba(245,130,13,0.03);}
+.pipe-num{width:44px;height:44px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--te-orange);flex-shrink:0;transition:all .2s;}
+.pipe-step.expanded .pipe-num{border-color:var(--te-orange);background:rgba(245,130,13,0.08);}
+.pipe-meta{flex:1;}
+.pipe-tool{font-family:var(--font-mono);font-size:10px;color:var(--te-blue-mid);letter-spacing:.1em;margin-bottom:2px;}
+.pipe-step.expanded .pipe-tool{color:var(--te-orange);}
+.pipe-title{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);}
+.pipe-time{font-family:var(--font-mono);font-size:10px;color:var(--muted);white-space:nowrap;}
+.pipe-arrow{font-size:14px;color:var(--muted);transition:transform .3s;}
+.pipe-step.expanded .pipe-arrow{transform:rotate(90deg);color:var(--te-orange);}
+.pipe-body{display:none;padding:0 24px 24px;border-top:1px solid var(--border);animation:fadeIn .3s;}
+.pipe-step.expanded .pipe-body{display:block;}
+
+/* PROMPT BLOCK */
+.prompt-block{background:#050e08;border:1px solid rgba(245,130,13,0.15);border-radius:var(--rsm);padding:18px 20px;margin:14px 0;font-family:var(--font-mono);font-size:12px;color:#ffd599;line-height:1.9;position:relative;white-space:pre-wrap;word-break:break-word;}
+.prompt-block::before{content:'PROMPT USADO';position:absolute;top:10px;right:14px;font-size:9px;color:rgba(245,130,13,0.35);letter-spacing:.1em;}
+.prompt-ph{color:rgba(245,130,13,0.45);}
+.copy-btn{position:absolute;bottom:10px;right:14px;font-family:var(--font-mono);font-size:9px;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .2s;}
+.copy-btn:hover{border-color:var(--te-orange);color:var(--te-orange);}
+
+/* AI OUTPUT CARD */
+.ai-output{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 20px;margin:14px 0;}
+.ai-output-label{font-family:var(--font-mono);font-size:10px;color:var(--success);letter-spacing:.1em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.ai-output-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.5s infinite;}
+
+/* CONCEPT CARDS */
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;}
+@media(max-width:560px){.concepts{grid-template-columns:1fr;}}
+.concept-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:20px 16px;cursor:pointer;transition:all .25s;text-align:center;}
+.concept-card:hover{border-color:var(--te-orange);transform:translateY(-2px);}
+.concept-card.winner{border-color:var(--te-orange);background:rgba(245,130,13,0.04);}
+.concept-card.runner{border-color:var(--border2);}
+.cc-badge{font-family:var(--font-mono);font-size:10px;margin-bottom:8px;padding:3px 10px;border-radius:100px;display:inline-block;}
+.cc-badge.win{background:rgba(245,130,13,0.15);color:var(--te-orange);border:1px solid rgba(245,130,13,0.3);}
+.cc-badge.out{background:rgba(90,112,128,0.1);color:var(--muted);border:1px solid var(--border);}
+.cc-logo{height:90px;border-radius:var(--rsm);margin:10px 0;display:flex;align-items:center;justify-content:center;}
+.cc-name{font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:4px;}
+.cc-desc{font-size:12px;color:var(--muted);}
+.concept-verdict{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 20px;margin-top:14px;display:none;animation:fadeIn .3s;}
+.concept-verdict.show{display:block;}
+
+/* REFINEMENT STAGES */
+.refine-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
+@media(max-width:600px){.refine-stages{grid-template-columns:1fr 1fr;}}
+.rs-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;}
+.rs-card:hover,.rs-card.sel{border-color:var(--te-orange);}
+.rs-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:12px;}
+.rs-visual{height:80px;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.rs-note{font-size:11px;color:var(--muted);}
+.rs-detail{background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:16px 20px;margin-top:4px;display:none;animation:fadeIn .3s;}
+.rs-detail.show{display:block;}
+
+/* FINAL LOGO SYSTEM */
+.logo-system{background:linear-gradient(135deg,#050e1a,#0a1428);border:1px solid var(--border);border-radius:var(--radius);padding:40px 32px;margin:24px 0;}
+.ls-title{font-family:var(--font-mono);font-size:10px;color:var(--te-orange);letter-spacing:.15em;margin-bottom:28px;}
+.ls-main{display:flex;align-items:center;gap:16px;margin-bottom:32px;justify-content:center;}
+.ls-mark{width:68px;height:68px;background:linear-gradient(135deg,var(--te-orange),var(--te-orange-light));border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;}
+.ls-mark-inner{display:flex;align-items:center;justify-content:center;width:100%;height:100%;}
+.ls-mark svg{width:42px;height:42px;}
+.ls-wordmark{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:#f0f4f8;letter-spacing:-.01em;line-height:1;}
+.ls-wordmark .ex{color:var(--te-orange);}
+.ls-tagline-text{font-family:'Fira Code',monospace;font-size:9px;color:#4a6070;letter-spacing:.2em;text-transform:uppercase;margin-top:3px;}
+.ls-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px;}
+@media(max-width:540px){.ls-variants{grid-template-columns:1fr 1fr;}}
+.ls-var{border-radius:var(--rsm);padding:14px 10px;text-align:center;}
+.ls-var-label{font-family:var(--font-mono);font-size:9px;color:var(--muted);margin-top:8px;letter-spacing:.08em;}
+.ls-color-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}
+.ls-color-chip{border-radius:var(--rsm);overflow:hidden;border:1px solid rgba(255,255,255,0.06);}
+.ls-color-top{height:40px;width:100px;}
+.ls-color-info{padding:8px 10px;background:var(--card2);}
+.ls-color-name{font-family:var(--font-mono);font-size:10px;color:var(--text);font-weight:500;}
+.ls-color-hex{font-family:var(--font-mono);font-size:9px;color:var(--muted);}
+
+/* DELIVERABLES */
+.del-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+@media(max-width:520px){.del-grid{grid-template-columns:1fr;}}
+.del-item{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:all .2s;}
+.del-item:hover,.del-item.done{border-color:var(--success);background:rgba(57,255,143,0.03);}
+.del-check{width:20px;height:20px;border:1.5px solid var(--border2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;margin-top:1px;}
+.del-item.done .del-check{background:var(--success);border-color:var(--success);color:#000;}
+.del-name{font-size:14px;font-weight:600;margin-bottom:2px;}
+.del-desc{font-size:12px;color:var(--muted);}
+
+/* LESSONS */
+.lessons{display:grid;gap:12px;margin:20px 0;}
+.lesson{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:18px 20px;display:flex;gap:16px;align-items:flex-start;}
+.lesson-num{font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--te-orange);opacity:.25;min-width:36px;line-height:1;}
+.lesson h3{font-size:15px;font-weight:700;margin-bottom:4px;}
+.lesson p{font-size:13.5px;margin:0;}
+
+/* QUIZ */
+.quiz-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;}
+.q-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.q-lbl{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.q-bar-wrap{width:90px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.q-bar{height:100%;background:var(--te-orange);transition:width .4s;}
+.q-q{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:18px;line-height:1.15;}
+.q-opts{display:grid;gap:9px;}
+.q-opt{padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;font-size:14px;font-family:var(--font-body);color:var(--text);text-align:left;transition:all .2s;}
+.q-opt:hover:not(.dis){border-color:var(--te-orange);background:rgba(245,130,13,0.04);}
+.q-opt.correct{border-color:var(--success);background:rgba(57,255,143,0.07);color:var(--success);}
+.q-opt.wrong{border-color:#ff5c5c;background:rgba(255,92,92,0.07);color:#ff5c5c;}
+.q-opt.dis{cursor:default;}
+.q-fb{margin-top:14px;padding:12px 16px;border-radius:var(--rsm);font-size:13.5px;display:none;animation:fadeIn .3s;}
+.q-fb.correct{background:rgba(57,255,143,0.07);border:1px solid var(--success);color:var(--success);display:block;}
+.q-fb.wrong{background:rgba(255,92,92,0.07);border:1px solid #ff5c5c;color:#ff5c5c;display:block;}
+.q-next{margin-top:14px;display:none;padding:10px 22px;background:var(--te-orange);color:#fff;border:none;border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;}
+.q-result{text-align:center;padding:16px 0;display:none;}
+.q-score{font-family:var(--font-display);font-size:72px;color:var(--te-orange);line-height:1;}
+.q-msg{font-size:14px;color:var(--muted);margin-top:8px;}
+.q-restart{margin-top:18px;padding:10px 24px;background:transparent;border:1px solid var(--te-orange);color:var(--te-orange);border-radius:var(--rsm);font-family:var(--font-body);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
+.q-restart:hover{background:rgba(245,130,13,0.08);}
+
+/* COMPLETION */
+.completion{background:linear-gradient(135deg,rgba(245,130,13,0.08),rgba(26,58,143,0.08));border:1px solid rgba(245,130,13,0.2);border-radius:var(--radius);padding:40px 32px;margin-top:48px;text-align:center;}
+.comp-title{font-family:var(--font-display);font-size:clamp(28px,5vw,48px);font-weight:800;margin-bottom:12px;}
+.comp-title .hl{color:var(--te-orange);}
+.series-track{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+.series-item{font-family:var(--font-mono);font-size:11px;padding:6px 16px;border-radius:100px;display:flex;align-items:center;gap:6px;}
+.series-item.done{background:rgba(57,255,143,0.1);border:1px solid rgba(57,255,143,0.3);color:var(--success);}
+.series-item.current{background:rgba(245,130,13,0.1);border:1px solid rgba(245,130,13,0.4);color:var(--te-orange);}
+
+footer{border-top:1px solid var(--border);padding:28px 0;margin-top:60px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px;}
+.footer-brand{color:var(--te-orange);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+[data-lang="es"] .en{display:none;}
+[data-lang="en"] .es{display:none;}
+</style>
+</head>
+<body>
+
+<div class="prog"><div class="prog-inner"><div class="prog-track"><div class="prog-fill" id="pFill"></div></div></div></div>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="badges">
+      <span class="badge badge-kb">Denysoft KB · Design Series</span>
+      <span class="badge badge-live">● LIVE CASE</span>
+      <span class="badge badge-final">✦ Módulo Final</span>
+    </div>
+    <div class="ctrls">
+      <button class="btn-c" id="langBtn" onclick="toggleLang()">🌐 EN</button>
+      <button class="btn-c" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+    </div>
+  </div>
+  <div class="eyebrow en">Graphic Design · Final Module</div>
+  <div class="eyebrow es">Diseño Gráfico · Módulo Final</div>
+  <h1 class="hero-title">LOGO<br>DESIGN<br><span class="hl">401</span></h1>
+  <p class="hero-sub en">This is not theory. We're executing the <strong>complete AI-native logo process</strong> in real time for a real client: <strong>Taller Express</strong> — El Salvador's automotive concierge startup.</p>
+  <p class="hero-sub es">Esto no es teoría. Estamos ejecutando el <strong>proceso AI-native de logo completo</strong> en tiempo real para un cliente real: <strong>Taller Express</strong> — el startup de concierge automotriz de El Salvador.</p>
+  <div class="hero-meta">
+    <div class="meta-i">🏢 <span>Taller Express SV</span></div>
+    <div class="meta-i">🤖 <span>AI-Native Execution</span></div>
+    <div class="meta-i">🎯 <span class="en">8 Steps</span><span class="es">8 Pasos</span></div>
+    <div class="meta-i">⏱ <span class="en">~3 hrs total</span><span class="es">~3 hrs total</span></div>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc reveal">
+  <div class="toc-label en">Contents</div><div class="toc-label es">Contenido</div>
+  <div class="toc-grid">
+    <a class="toc-a" href="#s1"><span class="toc-n">01</span><span class="en">The Client Brief</span><span class="es">El Brief del Cliente</span></a>
+    <a class="toc-a" href="#s2"><span class="toc-n">02</span><span class="en">Claude: Strategy Extraction</span><span class="es">Claude: Extracción Estratégica</span></a>
+    <a class="toc-a" href="#s3"><span class="toc-n">03</span><span class="en">Gemini: Market Research</span><span class="es">Gemini: Investigación de Mercado</span></a>
+    <a class="toc-a" href="#s4"><span class="toc-n">04</span><span class="en">Claude + ChatGPT: Ideation</span><span class="es">Claude + ChatGPT: Ideación</span></a>
+    <a class="toc-a" href="#s5"><span class="toc-n">05</span><span class="en">Firefly: Visual Generation</span><span class="es">Firefly: Generación Visual</span></a>
+    <a class="toc-a" href="#s6"><span class="toc-n">06</span><span class="en">Refinement & Vector</span><span class="es">Refinamiento y Vector</span></a>
+    <a class="toc-a" href="#s7"><span class="toc-n">07</span><span class="en">Final Logo System</span><span class="es">Sistema de Logo Final</span></a>
+    <a class="toc-a" href="#s8"><span class="toc-n">08</span><span class="en">Lessons & Quiz</span><span class="es">Lecciones y Quiz</span></a>
+  </div>
+</nav>
+
+<!-- S1: CLIENT BRIEF -->
+<section class="section reveal" id="s1">
+  <div class="sec-label en">Step 01</div><div class="sec-label es">Paso 01</div>
+  <h2 class="en">The Client Brief</h2><h2 class="es">El Brief del Cliente</h2>
+  <p class="en">Before any AI tool is opened, we read the brief completely and extract the non-negotiables. Every decision made in the next 7 steps will be justified against this document.</p>
+  <p class="es">Antes de abrir cualquier herramienta AI, leemos el brief completo y extraemos los no-negociables. Cada decisión tomada en los próximos 7 pasos se justificará contra este documento.</p>
+
+  <div class="brief-showcase">
+    <div class="eyebrow es" style="font-size:10px;">EL CLIENTE</div>
+    <div class="eyebrow en" style="font-size:10px;">THE CLIENT</div>
+    <div class="client-name">Taller <span class="hl">Express</span></div>
+    <div class="client-tagline en">"Tu gestor personal de vehículo." — The Uber of automotive maintenance in El Salvador</div>
+    <div class="client-tagline es">"Tu gestor personal de vehículo." — El Uber del mantenimiento automotriz en El Salvador</div>
+    <div class="brief-pills">
+      <span class="brief-pill">🇸🇻 Santa Tecla · Antiguo Cuscatlán</span>
+      <span class="brief-pill">🚗 Concierge Automotriz</span>
+      <span class="brief-pill">📱 Digital-First</span>
+      <span class="brief-pill">💰 Premium Accesible</span>
+    </div>
+    <div class="brief-grid">
+      <div class="brief-box">
+        <div class="brief-box-label en">WHAT THEY DO</div><div class="brief-box-label es">QUÉ HACEN</div>
+        <ul>
+          <li class="en">Pick up your car, take it to a certified shop, return it ready</li>
+          <li class="es">Recogen tu carro, lo llevan al taller certificado, te lo devuelven listo</li>
+          <li class="en">Transparent quotes, real-time WhatsApp tracking</li>
+          <li class="es">Cotizaciones transparentes, seguimiento en tiempo real vía WhatsApp</li>
+          <li class="en">Client never interacts with the mechanic directly</li>
+          <li class="es">El cliente nunca interactúa directamente con el mecánico</li>
+        </ul>
+      </div>
+      <div class="brief-box">
+        <div class="brief-box-label en">3 TARGET AUDIENCES</div><div class="brief-box-label es">3 AUDIENCIAS OBJETIVO</div>
+        <ul>
+          <li class="en">👩‍💼 Female car owner (overcharged, distrustful)</li>
+          <li class="es">👩‍💼 Mujer propietaria (la cobran de más, desconfía)</li>
+          <li class="en">🧑‍💻 Young first-car owner (knows nothing about mechanics)</li>
+          <li class="es">🧑‍💻 Joven primer carro (no sabe de mecánica)</li>
+          <li class="en">⏱ Busy professional (time > money)</li>
+          <li class="es">⏱ Profesional ocupado (tiempo > dinero)</li>
+        </ul>
+      </div>
+      <div class="brief-box">
+        <div class="brief-box-label en">BRAND PALETTE (DEFINED)</div><div class="brief-box-label es">PALETA DE MARCA (DEFINIDA)</div>
+        <ul>
+          <li><span style="display:inline-block;width:10px;height:10px;background:#0F2557;border-radius:2px;margin-right:6px;vertical-align:middle;"></span>#0F2557 — Azul Profundo</li>
+          <li><span style="display:inline-block;width:10px;height:10px;background:#1A3A8F;border-radius:2px;margin-right:6px;vertical-align:middle;"></span>#1A3A8F — Azul Medio</li>
+          <li><span style="display:inline-block;width:10px;height:10px;background:#F5820D;border-radius:2px;margin-right:6px;vertical-align:middle;"></span>#F5820D — Naranja Express</li>
+        </ul>
+      </div>
+      <div class="brief-box">
+        <div class="brief-box-label en">CRITICAL RESTRICTIONS</div><div class="brief-box-label es">RESTRICCIONES CRÍTICAS</div>
+        <ul>
+          <li class="en">❌ No wrenches, oil, dirty garage imagery</li>
+          <li class="es">❌ Sin llaves inglesas, aceite, imágenes de taller sucio</li>
+          <li class="en">❌ No luxury/expensive look — investor mandate</li>
+          <li class="es">❌ Sin apariencia de lujo/caro — mandato del inversor</li>
+          <li class="en">✅ Think: Rappi, inDrive, Uber — not a garage</li>
+          <li class="es">✅ Pensar: Rappi, inDrive, Uber — no un taller</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout en">🎯 <strong>Designer's read:</strong> The colors are already defined by the client (#0F2557 blue + #F5820D orange). Our job is NOT to choose colors — it's to design the mark, wordmark, and system that works within this palette. The brief is unusually strong and specific. This shortens Step 1 significantly.</div>
+  <div class="callout es">🎯 <strong>Lectura del diseñador:</strong> Los colores ya están definidos por el cliente (#0F2557 azul + #F5820D naranja). Nuestro trabajo NO es elegir colores — es diseñar el símbolo, wordmark y sistema que funcione dentro de esta paleta. El brief es inusualmente sólido y específico. Esto acorta el Paso 1 significativamente.</div>
+</section>
+
+<hr class="dv">
+
+<!-- S2-S6: PIPELINE STEPS -->
+<section class="section reveal" id="s2">
+  <div class="sec-label en">Steps 02 — 06</div><div class="sec-label es">Pasos 02 — 06</div>
+  <h2 class="en">The AI-Native Execution</h2><h2 class="es">La Ejecución AI-Native</h2>
+  <p class="en">Each step below shows the exact tool used, the exact prompt written, and the actual output received. This is how the AI-native process runs in the real world — not theory.</p>
+  <p class="es">Cada paso a continuación muestra la herramienta exacta usada, el prompt exacto escrito y el output real recibido. Así funciona el proceso AI-native en el mundo real — no es teoría.</p>
+
+  <div class="pipeline">
+
+    <!-- STEP 2: CLAUDE STRATEGY -->
+    <div class="pipe-step" id="ps2">
+      <div class="pipe-header" onclick="togglePipe('ps2')">
+        <div class="pipe-num">2</div>
+        <div class="pipe-meta">
+          <div class="pipe-tool">🧠 CLAUDE · ~10 min</div>
+          <div class="pipe-title en">Strategic Direction Extraction</div>
+          <div class="pipe-title es">Extracción de Dirección Estratégica</div>
+        </div>
+        <div class="pipe-time">10 min</div>
+        <div class="pipe-arrow">›</div>
+      </div>
+      <div class="pipe-body">
+        <p class="en" style="margin-top:16px;">We paste the full Taller Express brief into Claude with a structured prompt. Claude processes it and returns a precise logo design direction — no vagueness, no generic recommendations.</p>
+        <p class="es" style="margin-top:16px;">Pegamos el brief completo de Taller Express en Claude con un prompt estructurado. Claude lo procesa y devuelve una dirección precisa de diseño de logo — sin vaguedad, sin recomendaciones genéricas.</p>
+        <div class="prompt-block">Act as a senior brand strategist and logo design director.
+
+Read this client brief carefully: [BRIEF COMPLETO DE TALLER EXPRESS]
+
+Extract a precise logo design brief with:
+1. Brand positioning in one sentence
+2. The ONE emotion the logo must trigger on first sight
+3. Logo type recommendation with justification
+4. Symbol/mark concept (2–3 specific ideas, not generic)
+5. Typography direction (specific category + why)
+6. What this logo must NEVER look like
+7. How it should differ from Rappi, inDrive and Uber visually
+8. Favicon/app icon strategy (what works at 32px)
+<button class="copy-btn" onclick="copyText(this)">copiar</button></div>
+        <div class="ai-output">
+          <div class="ai-output-label">OUTPUT DE CLAUDE</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.7;">
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">1. Positioning:</strong><strong style="color:var(--text);" class="es">1. Posicionamiento:</strong> <span class="en">"The trusted intermediary that protects you from the mechanic — fast, transparent, and always on your side."</span><span class="es">"El intermediario de confianza que te protege del mecánico — rápido, transparente y siempre de tu lado."</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">2. First-sight emotion:</strong><strong style="color:var(--text);" class="es">2. Emoción al primer vistazo:</strong> <span class="en"><em>Relief</em> — "Finally, someone I can trust with my car."</span><span class="es"><em>Alivio</em> — "Por fin, alguien en quien puedo confiar con mi carro."</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">3. Logo type:</strong><strong style="color:var(--text);" class="es">3. Tipo de logo:</strong> <span class="en">Combination mark. The brand is new and unknown — name recognition needs the wordmark. The icon can stand alone on WhatsApp/app over time.</span><span class="es">Marca combinada. La marca es nueva y desconocida — el reconocimiento de nombre necesita el wordmark. El ícono puede usarse solo en WhatsApp/app con el tiempo.</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">4. Mark concepts:</strong><strong style="color:var(--text);" class="es">4. Conceptos de símbolo:</strong> <span class="en">A) Shield with movement arrow — protection + speed. B) Car with checkmark integrated — service confirmed. C) Abstract "TE" monogram with shield form — scalable, ownable.</span><span class="es">A) Escudo con flecha de movimiento — protección + velocidad. B) Auto con checkmark integrado — servicio confirmado. C) Monograma "TE" abstracto con forma de escudo — escalable, apropiable.</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">5. Typography:</strong><strong style="color:var(--text);" class="es">5. Tipografía:</strong> <span class="en">Bold geometric sans-serif (Syne or similar). Weight 700–800. Signals: modern, digital, accessible. No serif — too formal. No rounded — too playful.</span><span class="es">Sans-serif geométrica bold (Syne o similar). Peso 700–800. Señales: moderno, digital, accesible. Sin serif — muy formal. Sin redondeada — muy lúdica.</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">6. Never look like:</strong><strong style="color:var(--text);" class="es">6. Nunca verse como:</strong> <span class="en">A mechanic shop, a luxury brand, a government agency, or a generic blue-and-orange tech startup.</span><span class="es">Un taller mecánico, una marca de lujo, una agencia gubernamental, o una startup tech genérica azul y naranja.</span></p>
+            <p style="margin-bottom:10px;"><strong style="color:var(--text);" class="en">7. Vs. competitors:</strong><strong style="color:var(--text);" class="es">7. Vs. competidores:</strong> <span class="en">Rappi = playful/food. inDrive = aggressive/price. Uber = cold/premium. Taller Express needs: warm authority — professional but approachable. The orange must feel energetic, not aggressive.</span><span class="es">Rappi = lúdico/comida. inDrive = agresivo/precio. Uber = frío/premium. Taller Express necesita: autoridad cálida — profesional pero accesible. El naranja debe sentirse enérgico, no agresivo.</span></p>
+            <p><strong style="color:var(--text);" class="en">8. Favicon strategy:</strong><strong style="color:var(--text);" class="es">8. Estrategia de favicon:</strong> <span class="en">The shield/mark alone on orange background. Letter "T" or "TE" inside. Must be readable at 32px — avoid complex shapes.</span><span class="es">El escudo/símbolo solo en fondo naranja. Letra "T" o "TE" dentro. Debe ser legible a 32px — evitar formas complejas.</span></p>
+          </div>
+        </div>
+        <div class="callout green en">✅ <strong>Result:</strong> Claude gave us a precise strategic direction in 2 minutes. This replaced what would have been a 2-hour strategy session. Most importantly: it validated that the client's defined colors work, recommended a combination mark, and gave us 3 specific symbol concepts to explore.</div>
+        <div class="callout green es">✅ <strong>Resultado:</strong> Claude nos dio una dirección estratégica precisa en 2 minutos. Esto reemplazó lo que habría sido una sesión de estrategia de 2 horas. Lo más importante: validó que los colores definidos por el cliente funcionan, recomendó una marca combinada y nos dio 3 conceptos específicos de símbolo para explorar.</div>
+      </div>
+    </div>
+
+    <!-- STEP 3: GEMINI RESEARCH -->
+    <div class="pipe-step" id="ps3">
+      <div class="pipe-header" onclick="togglePipe('ps3')">
+        <div class="pipe-num">3</div>
+        <div class="pipe-meta">
+          <div class="pipe-tool">♊ GEMINI · ~15 min</div>
+          <div class="pipe-title en">Competitor Visual Landscape</div>
+          <div class="pipe-title es">Panorama Visual Competitivo</div>
+        </div>
+        <div class="pipe-time">15 min</div>
+        <div class="pipe-arrow">›</div>
+      </div>
+      <div class="pipe-body">
+        <p class="en" style="margin-top:16px;">We use Gemini to map the visual landscape of automotive service apps and platforms in Latin America — what logos exist, what colors dominate, and most importantly: what visual territory is unclaimed.</p>
+        <p class="es" style="margin-top:16px;">Usamos Gemini para mapear el paisaje visual de apps y plataformas de servicio automotriz en Latinoamérica — qué logos existen, qué colores dominan y lo más importante: qué territorio visual está sin reclamar.</p>
+        <div class="prompt-block">Search and analyze the visual identity of automotive service 
+platforms in Latin America and El Salvador specifically.
+
+Include: YourMechanic, Wrench, Kavak, inDrive (automotive),
+any mechanic/concierge apps operating in Central America.
+
+For each identify: logo type, dominant colors, typography feel,
+brand personality in 3 words.
+
+Then tell me:
+1. What colors dominate this category?
+2. What visual clichés are overused?
+3. What would make a new brand INSTANTLY stand out?
+4. Is blue + orange already owned by a competitor in this space?
+<button class="copy-btn" onclick="copyText(this)">copiar</button></div>
+        <div class="ai-output">
+          <div class="ai-output-label">SÍNTESIS DEL RESEARCH — GEMINI</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 14px;">
+              <div style="font-family:var(--font-mono);font-size:10px;color:#ff5c5c;margin-bottom:8px;">QUÉ DOMINA EL MERCADO</div>
+              <ul style="list-style:none;font-size:13px;color:var(--muted);display:grid;gap:5px;">
+                <li>→ Azul como color dominante (70%+ de marcas)</li>
+                <li>→ Íconos de llave inglesa o auto genérico</li>
+                <li>→ Sans-serif básica, sin personalidad</li>
+                <li>→ Paleta fría, sin calidez humana</li>
+              </ul>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 14px;">
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--success);margin-bottom:8px;">LA OPORTUNIDAD VISUAL</div>
+              <ul style="list-style:none;font-size:13px;color:var(--muted);display:grid;gap:5px;">
+                <li>→ Naranja es escaso — diferenciación inmediata</li>
+                <li>→ Nadie usa símbolos de escudo/protección</li>
+                <li>→ Bold weight en tipografía es raro</li>
+                <li>→ Azul + naranja: no está tomado en SV</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="callout green en">✅ <strong>Key insight:</strong> Blue + orange is NOT owned by any automotive concierge in El Salvador or Central America. The combination mark with a protection-themed symbol is unclaimed visual territory. We proceed with confidence.</div>
+        <div class="callout green es">✅ <strong>Insight clave:</strong> Azul + naranja NO está tomado por ningún concierge automotriz en El Salvador ni Centroamérica. La marca combinada con símbolo temático de protección es territorio visual sin reclamar. Procedemos con confianza.</div>
+      </div>
+    </div>
+
+    <!-- STEP 4: IDEATION -->
+    <div class="pipe-step" id="ps4">
+      <div class="pipe-header" onclick="togglePipe('ps4')">
+        <div class="pipe-num">4</div>
+        <div class="pipe-meta">
+          <div class="pipe-tool">🧠 CLAUDE + 💬 CHATGPT · ~15 min</div>
+          <div class="pipe-title en">Concept Sprint & Naming</div>
+          <div class="pipe-title es">Sprint de Conceptos y Naming</div>
+        </div>
+        <div class="pipe-time">15 min</div>
+        <div class="pipe-arrow">›</div>
+      </div>
+      <div class="pipe-body">
+        <p class="en" style="margin-top:16px;">Claude develops 3 deep concept directions. ChatGPT runs a parallel tagline sprint — 20 options in under 2 minutes. We review both outputs and select the strongest combination.</p>
+        <p class="es" style="margin-top:16px;">Claude desarrolla 3 direcciones profundas de concepto. ChatGPT corre un sprint paralelo de taglines — 20 opciones en menos de 2 minutos. Revisamos ambos outputs y seleccionamos la combinación más fuerte.</p>
+        <div class="prompt-block">Based on this brief and strategic direction for Taller Express:
+[Brief + Claude output del Paso 2]
+
+Develop 3 distinct logo concept directions.
+For each provide:
+- Concept name + 1-sentence rationale
+- Exact mark idea (describe shape/form precisely)
+- Why it works for this audience (women, young owners, busy professionals)
+- Why it's different from Rappi, inDrive, Uber
+- Risk or sacrifice of this direction
+<button class="copy-btn" onclick="copyText(this)">copiar</button></div>
+        <div class="ai-output">
+          <div class="ai-output-label">3 CONCEPTOS — CLAUDE OUTPUT</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7;">
+            <p><strong style="color:var(--te-orange);">A — "El Escudo Express"</strong><br><span class="en">A geometric shield (hexagonal form) with a forward-pointing arrow integrated at the center. Protection + forward momentum. The "TE" monogram lives inside. Scales perfectly to 32px favicon.</span><span class="es">Un escudo geométrico (forma hexagonal) con una flecha apuntando hacia adelante integrada al centro. Protección + impulso hacia adelante. El monograma "TE" vive dentro. Escala perfectamente a 32px de favicon.</span></p>
+            <p style="margin-top:10px;"><strong style="color:var(--te-blue-mid);">B — "El Checkmark Automotriz"</strong><br><span class="en">Minimal car silhouette (top-view, 3 lines only) with a bold checkmark replacing the windshield. Communicates: your car is taken care of. Very app-friendly. Risk: can read as "auto insurance" if not executed carefully.</span><span class="es">Silueta mínima de auto (vista superior, solo 3 líneas) con un checkmark bold reemplazando el parabrisas. Comunica: tu carro está atendido. Muy app-friendly. Riesgo: puede leerse como "seguro de auto" si no se ejecuta bien.</span></p>
+            <p style="margin-top:10px;"><strong style="color:var(--muted2);">C — "Wordmark Puro"</strong><br><span class="en">No mark. Just "TALLER EXPRESS" in Syne ExtraBold with the word "EXPRESS" in orange. Clean, scalable, fast to recognise. Risk: harder to use as WhatsApp avatar or app icon — needs simplified version.</span><span class="es">Sin símbolo. Solo "TALLER EXPRESS" en Syne ExtraBold con la palabra "EXPRESS" en naranja. Limpio, escalable, rápido de reconocer. Riesgo: más difícil usar como avatar de WhatsApp o ícono de app — necesita versión simplificada.</span></p>
+          </div>
+        </div>
+        <div class="prompt-block">Generate 20 tagline options for Taller Express,
+a premium-accessible automotive concierge in El Salvador.
+
+Positioning: "We pick up your car, handle everything, 
+return it ready. You don't do anything."
+
+Audience: women overcharged by mechanics, young first-car
+owners, busy professionals.
+
+Language: Spanish. Under 6 words each.
+Tone: protective, confident, never arrogant.
+NOT: technical, expensive, or mechanic-sounding.
+<button class="copy-btn" onclick="copyText(this)">copiar</button></div>
+        <div class="ai-output">
+          <div class="ai-output-label">TOP 5 TAGLINES — CHATGPT OUTPUT</div>
+          <div style="display:grid;gap:6px;margin-top:4px;">
+            <div style="background:rgba(245,130,13,0.08);border:1px solid rgba(245,130,13,0.2);border-radius:var(--rsm);padding:10px 14px;font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--te-orange);">Tu carro en buenas manos. <span style="font-size:12px;font-family:var(--font-mono);color:var(--muted);font-weight:400;">← GANADOR</span></div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 14px;font-size:14px;color:var(--muted);">Nosotros nos encargamos. Tú descansas.</div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 14px;font-size:14px;color:var(--muted);">Sin colas, sin talleres, sin drama.</div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 14px;font-size:14px;color:var(--muted);">Tu carro listo. Sin moverte.</div>
+            <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 14px;font-size:14px;color:var(--muted);">El taller que llega a ti.</div>
+          </div>
+        </div>
+        <div class="callout green en">✅ <strong>Decision:</strong> Concept A (El Escudo Express) wins. It owns the "protection" territory that no competitor claims, scales perfectly to all formats including WhatsApp avatar and 32px favicon, and directly speaks to the female segment's primary fear. Tagline: "Tu carro en buenas manos."</div>
+        <div class="callout green es">✅ <strong>Decisión:</strong> El Concepto A (El Escudo Express) gana. Es dueño del territorio de "protección" que ningún competidor reclama, escala perfectamente a todos los formatos incluyendo avatar de WhatsApp y favicon de 32px, y habla directamente al miedo primario del segmento femenino. Tagline: "Tu carro en buenas manos."</div>
+      </div>
+    </div>
+
+    <!-- STEP 5: FIREFLY -->
+    <div class="pipe-step" id="ps5">
+      <div class="pipe-header" onclick="togglePipe('ps5')">
+        <div class="pipe-num">5</div>
+        <div class="pipe-meta">
+          <div class="pipe-tool">🔥 ADOBE FIREFLY · ~30 min</div>
+          <div class="pipe-title en">Visual Generation</div>
+          <div class="pipe-title es">Generación Visual</div>
+        </div>
+        <div class="pipe-time">30 min</div>
+        <div class="pipe-arrow">›</div>
+      </div>
+      <div class="pipe-body">
+        <p class="en" style="margin-top:16px;">We take Concept A into Firefly with 4 progressively refined prompts. Each iteration tests a different form of the shield mark. We generate 16 total variations and select the strongest 2 for manual refinement.</p>
+        <p class="es" style="margin-top:16px;">Llevamos el Concepto A a Firefly con 4 prompts progresivamente refinados. Cada iteración prueba una forma diferente del símbolo de escudo. Generamos 16 variaciones totales y seleccionamos las 2 más fuertes para refinamiento manual.</p>
+        <div class="prompt-block">Prompt 1 (inicial):
+Combination mark logo for "Taller Express", automotive 
+concierge service, hexagonal shield mark with forward arrow,
+navy blue #0F2557 and orange #F5820D, bold geometric 
+sans-serif wordmark, vector style, white background,
+flat design, no shadows, no gradients, professional
+
+Prompt 2 (refinado):
+Minimalist combination logo "Taller Express", hexagonal
+shield icon containing letter T and right-pointing arrow,
+deep navy and vibrant orange, Syne bold typography,
+modern digital-first brand, app icon ready, clean vector,
+NO wrench NO car silhouette NO oil drop, white background
+
+Prompt 3 (iteración de color):
+Same as above, test with orange shield + navy wordmark
+instead of navy shield + orange accent
+
+Prompt 4 (favicon test):
+Just the shield icon at large size, hexagonal, letter TE
+monogram inside, orange fill, suitable for 32x32 favicon
+<button class="copy-btn" onclick="copyText(this)">copiar</button></div>
+        <div class="callout warn en">⚠️ <strong>What Firefly does well vs. badly here:</strong> Good — color exploration, general form ideas, proportion testing. Bad — typography (always needs manual replacement), exact shape precision (always needs vectorization), and sometimes defaults to literal "mechanic" imagery despite negative prompts. We discard any output with wrenches or oil immediately.</div>
+        <div class="callout warn es">⚠️ <strong>Qué hace bien y mal Firefly aquí:</strong> Bien — exploración de color, ideas de forma general, prueba de proporciones. Mal — tipografía (siempre necesita reemplazo manual), precisión exacta de forma (siempre necesita vectorización) y a veces usa imágenes de "mecánico" literales a pesar de los prompts negativos. Descartamos cualquier output con llaves inglesas o aceite de inmediato.</div>
+        <div class="callout green en">✅ <strong>Firefly output used:</strong> Prompt 3 (orange shield + navy text) produced the strongest visual — the orange mark creates instant visibility on any background and the navy wordmark anchors the brand. This becomes our base for manual vectorization in Step 6.</div>
+        <div class="callout green es">✅ <strong>Output de Firefly usado:</strong> El Prompt 3 (escudo naranja + texto navy) produjo el visual más fuerte — el símbolo naranja crea visibilidad instantánea en cualquier fondo y el wordmark navy ancla la marca. Este se convierte en nuestra base para vectorización manual en el Paso 6.</div>
+      </div>
+    </div>
+
+    <!-- STEP 6: REFINEMENT -->
+    <div class="pipe-step" id="ps6">
+      <div class="pipe-header" onclick="togglePipe('ps6')">
+        <div class="pipe-num">6</div>
+        <div class="pipe-meta">
+          <div class="pipe-tool">✏️ ILLUSTRATOR / FIGMA · ~45 min</div>
+          <div class="pipe-title en">Vector Refinement — The Human Layer</div>
+          <div class="pipe-title es">Refinamiento Vectorial — La Capa Humana</div>
+        </div>
+        <div class="pipe-time">45 min</div>
+        <div class="pipe-arrow">›</div>
+      </div>
+      <div class="pipe-body">
+        <p class="en" style="margin-top:16px;">This is the step AI cannot do for you. The Firefly PNG is vectorized using Image Trace, then manually rebuilt with precise geometry. Typography is replaced with the actual Syne font. Proportions are adjusted until every element is in perfect harmony.</p>
+        <p class="es" style="margin-top:16px;">Este es el paso que la AI no puede hacer por ti. El PNG de Firefly se vectoriza usando Image Trace, luego se reconstruye manualmente con geometría precisa. La tipografía se reemplaza con la fuente Syne real. Las proporciones se ajustan hasta que cada elemento esté en perfecta armonía.</p>
+
+        <p class="en"><strong>Click each stage to see what changed and why:</strong></p>
+        <p class="es"><strong>Toca cada etapa para ver qué cambió y por qué:</strong></p>
+
+        <div class="refine-stages">
+          <div class="rs-card" onclick="showRefine(0,this)">
+            <div class="rs-label">ETAPA 1</div>
+            <div class="rs-visual" style="background:#0a1420;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:34px;height:34px;background:#F5820D;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;font-family:'Syne',sans-serif;">T</div>
+                <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#6a7a8a;">Taller Express</span>
+              </div>
+            </div>
+            <div class="rs-note en">Raw vectorized — proportions off</div>
+            <div class="rs-note es">Vectorizado bruto — proporciones incorrectas</div>
+          </div>
+          <div class="rs-card" onclick="showRefine(1,this)">
+            <div class="rs-label">ETAPA 2</div>
+            <div class="rs-visual" style="background:#0a1420;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <div style="width:38px;height:38px;background:#F5820D;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;font-family:'Syne',sans-serif;">T</div>
+                <div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#e2eaf4;letter-spacing:-.01em;">Taller</div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#F5820D;letter-spacing:-.01em;">Express</div>
+                </div>
+              </div>
+            </div>
+            <div class="rs-note en">Typography replaced — two-line layout</div>
+            <div class="rs-note es">Tipografía reemplazada — diseño en dos líneas</div>
+          </div>
+          <div class="rs-card" onclick="showRefine(2,this)">
+            <div class="rs-label">ETAPA 3</div>
+            <div class="rs-visual" style="background:#0a1420;">
+              <div style="display:flex;align-items:center;gap:11px;">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,#F5820D,#FF9A2E);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;font-family:'Syne',sans-serif;">T</div>
+                <div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#e2eaf4;">Taller</div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#F5820D;">Express</div>
+                  <div style="font-family:'Fira Code',monospace;font-size:7px;color:#3a5060;letter-spacing:.2em;margin-top:1px;">CONCIERGE AUTOMOTRIZ</div>
+                </div>
+              </div>
+            </div>
+            <div class="rs-note en">Mark scaled up, tagline added</div>
+            <div class="rs-note es">Símbolo escalado, tagline agregado</div>
+          </div>
+          <div class="rs-card" onclick="showRefine(3,this)">
+            <div class="rs-label">FINAL ✓</div>
+            <div class="rs-visual" style="background:#050a10;border:1px solid rgba(245,130,13,0.15);">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:48px;height:48px;background:linear-gradient(135deg,#F5820D,#FF9A2E);clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff;font-family:'Syne',sans-serif;box-shadow:0 4px 16px rgba(245,130,13,.3);">T</div>
+                <div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#e2eaf4;letter-spacing:-.01em;">Taller</div>
+                  <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#F5820D;letter-spacing:-.01em;">Express</div>
+                  <div style="font-family:'Fira Code',monospace;font-size:7px;color:#3a5060;letter-spacing:.22em;margin-top:2px;text-transform:uppercase;">Concierge Automotriz</div>
+                </div>
+              </div>
+            </div>
+            <div class="rs-note" style="color:var(--te-orange);">✅ Final — listo para entrega</div>
+          </div>
+        </div>
+        <div class="rs-detail" id="rsDetail"></div>
+      </div>
+    </div>
+
+  </div><!-- /pipeline -->
+</section>
+
+<hr class="dv">
+
+<!-- S7: FINAL LOGO SYSTEM -->
+<section class="section reveal" id="s7">
+  <div class="sec-label en">Step 07</div><div class="sec-label es">Paso 07</div>
+  <h2 class="en">Final Logo System</h2><h2 class="es">Sistema de Logo Final</h2>
+  <p class="en">The complete Taller Express brand system — all variants, all contexts, all specs. This is what gets delivered to the client.</p>
+  <p class="es">El sistema de marca completo de Taller Express — todas las variantes, todos los contextos, todas las especificaciones. Esto es lo que se entrega al cliente.</p>
+
+  <div class="logo-system">
+    <div class="ls-title">TALLER EXPRESS — SISTEMA DE LOGO FINAL</div>
+
+    <!-- PRIMARY LOGO -->
+    <div class="ls-main">
+      <div class="ls-mark">
+        <div class="ls-mark-inner">
+          <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 2L38 11.5V30.5L21 40L4 30.5V11.5L21 2Z" fill="white" fill-opacity="0.15"/>
+            <path d="M21 2L38 11.5V30.5L21 40L4 30.5V11.5L21 2Z" stroke="white" stroke-opacity="0.3" stroke-width="1"/>
+            <text x="21" y="27" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="18" fill="white">T</text>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <div class="ls-wordmark">Taller<br><span class="ex">Express</span></div>
+        <div class="ls-tagline-text">Concierge Automotriz · El Salvador</div>
+      </div>
+    </div>
+
+    <!-- VARIANTS -->
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin-bottom:12px;">VARIANTES DEL SISTEMA</div>
+    <div class="ls-variants">
+      <div class="ls-var" style="background:rgba(245,130,13,0.08);border:1px solid rgba(245,130,13,0.15);">
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+          <div style="width:28px;height:28px;background:linear-gradient(135deg,#F5820D,#FF9A2E);clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:#fff;">T</div>
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#e2eaf4;">Taller<br><span style="color:#F5820D;">Express</span></div>
+        </div>
+        <div class="ls-var-label">Horizontal</div>
+      </div>
+      <div class="ls-var" style="background:rgba(255,255,255,0.96);border:1px solid #ddd;">
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+          <div style="width:28px;height:28px;background:linear-gradient(135deg,#F5820D,#FF9A2E);clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:#fff;">T</div>
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#0F2557;">Taller<br><span style="color:#F5820D;">Express</span></div>
+        </div>
+        <div class="ls-var-label">Fondo Claro</div>
+      </div>
+      <div class="ls-var" style="background:var(--card2);border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+          <div style="width:28px;height:28px;background:#555;clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:#fff;">T</div>
+          <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#888;">Taller<br>Express</div>
+        </div>
+        <div class="ls-var-label">Monocromo</div>
+      </div>
+      <div class="ls-var" style="background:var(--te-orange);border:1px solid rgba(255,255,255,0.1);">
+        <div style="display:flex;align-items:center;justify-content:center;">
+          <div style="width:40px;height:40px;background:rgba(255,255,255,0.2);clip-path:polygon(50% 0%,95% 25%,95% 75%,50% 100%,5% 75%,5% 25%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;">T</div>
+        </div>
+        <div class="ls-var-label" style="color:rgba(255,255,255,0.7);">Ícono Solo (WA)</div>
+      </div>
+    </div>
+
+    <!-- COLOR SPECS -->
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin:24px 0 12px;">ESPECIFICACIONES DE COLOR</div>
+    <div class="ls-color-row">
+      <div class="ls-color-chip">
+        <div class="ls-color-top" style="background:#0F2557;width:130px;"></div>
+        <div class="ls-color-info">
+          <div class="ls-color-name">Azul Profundo</div>
+          <div class="ls-color-hex">HEX #0F2557</div>
+          <div class="ls-color-hex">RGB 15, 37, 87</div>
+          <div class="ls-color-hex">CMYK 83, 57, 0, 66</div>
+        </div>
+      </div>
+      <div class="ls-color-chip">
+        <div class="ls-color-top" style="background:#F5820D;width:130px;"></div>
+        <div class="ls-color-info">
+          <div class="ls-color-name">Naranja Express</div>
+          <div class="ls-color-hex">HEX #F5820D</div>
+          <div class="ls-color-hex">RGB 245, 130, 13</div>
+          <div class="ls-color-hex">CMYK 0, 47, 95, 4</div>
+        </div>
+      </div>
+      <div class="ls-color-chip">
+        <div class="ls-color-top" style="background:#1A3A8F;width:130px;"></div>
+        <div class="ls-color-info">
+          <div class="ls-color-name">Azul Medio</div>
+          <div class="ls-color-hex">HEX #1A3A8F</div>
+          <div class="ls-color-hex">RGB 26, 58, 143</div>
+          <div class="ls-color-hex">CMYK 82, 59, 0, 44</div>
+        </div>
+      </div>
+      <div class="ls-color-chip">
+        <div class="ls-color-top" style="background:#FAFAFA;border-bottom:1px solid #eee;width:130px;"></div>
+        <div class="ls-color-info">
+          <div class="ls-color-name">Blanco Limpio</div>
+          <div class="ls-color-hex">HEX #FAFAFA</div>
+          <div class="ls-color-hex">RGB 250, 250, 250</div>
+          <div class="ls-color-hex">CMYK 0, 0, 0, 2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPO SPECS -->
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em;margin:24px 0 12px;">TIPOGRAFÍA</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--te-orange);margin-bottom:8px;">PRIMARIA — WORDMARK</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);">Syne</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">ExtraBold 800 · Google Fonts (Gratis)</div>
+      </div>
+      <div style="background:var(--card2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:8px;">SECUNDARIA — TAGLINE</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:400;color:var(--text);">DM Sans</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Regular 400 · Google Fonts (Gratis)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin:32px 0 16px;" class="en">Delivery Checklist</h3>
+  <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin:32px 0 16px;" class="es">Checklist de Entrega</h3>
+  <div class="del-grid">
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">SVG — Archivo Maestro</div><div class="del-desc en">All variants, all colors. Source file.</div><div class="del-desc es">Todas las variantes, todos los colores. Archivo fuente.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">PNG — Uso Digital</div><div class="del-desc en">Transparent BG. 512px, 1024px, 2048px.</div><div class="del-desc es">Fondo transparente. 512px, 1024px, 2048px.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">WhatsApp Avatar</div><div class="del-desc en">800×800px icon only (orange shield). Optimized for WhatsApp Business profile.</div><div class="del-desc es">800×800px ícono solo (escudo naranja). Optimizado para perfil de WhatsApp Business.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">Favicon / App Icon</div><div class="del-desc en">32×32 and 512×512. Orange shield + T only.</div><div class="del-desc es">32×32 y 512×512. Escudo naranja + T solamente.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">Variante Fondo Oscuro</div><div class="del-desc">Orange mark + white wordmark. For dark posts.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">Variante Monocromo</div><div class="del-desc en">Full black version for stamps, legal docs.</div><div class="del-desc es">Versión negro completo para sellos y documentos.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">Mini Guía de Marca PDF</div><div class="del-desc en">Colors (HEX/RGB/CMYK), fonts, usage rules, do's & don'ts.</div><div class="del-desc es">Colores (HEX/RGB/CMYK), fuentes, reglas de uso, qué hacer y no hacer.</div></div></div>
+    <div class="del-item" onclick="toggleDel(this)"><div class="del-check"></div><div><div class="del-name">Carpeta Organizada .ZIP</div><div class="del-desc en">All files named: TallerExpress_[variant]_[bg].svg</div><div class="del-desc es">Todos los archivos nombrados: TallerExpress_[variante]_[fondo].svg</div></div></div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- S8: LESSONS + QUIZ -->
+<section class="section reveal" id="s8">
+  <div class="sec-label en">Step 08</div><div class="sec-label es">Paso 08</div>
+  <h2 class="en">Real-World Lessons</h2><h2 class="es">Lecciones del Mundo Real</h2>
+  <p class="en">What this live case taught us that the theory sections couldn't. These are extracted directly from the Taller Express execution — not generic advice.</p>
+  <p class="es">Lo que este caso en vivo nos enseñó que las secciones teóricas no pudieron. Extraídas directamente de la ejecución de Taller Express — no consejos genéricos.</p>
+
+  <div class="lessons">
+    <div class="lesson"><div class="lesson-num">01</div><div><h3 class="en">A strong brief cuts the AI process in half</h3><h3 class="es">Un brief sólido reduce el proceso AI a la mitad</h3><p class="en">Taller Express had defined colors, typography preferences, visual references, and restrictions before we started. This eliminated 2 full steps of the AI-native process (color exploration, audience research). The better the brief, the faster and better the AI output.</p><p class="es">Taller Express tenía colores definidos, preferencias tipográficas, referencias visuales y restricciones antes de empezar. Esto eliminó 2 pasos completos del proceso AI-native. Mientras mejor sea el brief, más rápido y mejor será el output de AI.</p></div></div>
+    <div class="lesson"><div class="lesson-num">02</div><div><h3 class="en">Firefly needs negative prompts more than positive ones</h3><h3 class="es">Firefly necesita prompts negativos más que positivos</h3><p class="en">"No wrench, no oil drop, no car silhouette" was more important than describing what we wanted. AI visual tools have strong category defaults — for "automotive" that default is mechanic tools. Fighting that default requires explicit negative instruction.</p><p class="es">"Sin llave inglesa, sin gota de aceite, sin silueta de auto" fue más importante que describir lo que queríamos. Las herramientas visuales de AI tienen defaults de categoría fuertes — para "automotriz" ese default son herramientas de mecánico. Combatir ese default requiere instrucción negativa explícita.</p></div></div>
+    <div class="lesson"><div class="lesson-num">03</div><div><h3 class="en">The WhatsApp constraint changed the design decision</h3><h3 class="es">La restricción de WhatsApp cambió la decisión de diseño</h3><p class="en">The brief specified WhatsApp as the primary channel (95% adoption in El Salvador). This immediately disqualified Concept C (wordmark only) — you cannot use "TALLER EXPRESS" as a WhatsApp avatar. The shield icon was chosen partly because it works at 800×800px as a profile photo.</p><p class="es">El brief especificó WhatsApp como canal primario (95% de adopción en El Salvador). Esto descalificó de inmediato el Concepto C (solo wordmark) — no puedes usar "TALLER EXPRESS" como avatar de WhatsApp. El ícono de escudo fue elegido en parte porque funciona a 800×800px como foto de perfil.</p></div></div>
+    <div class="lesson"><div class="lesson-num">04</div><div><h3 class="en">Claude's "never look like" instruction was the most valuable</h3><h3 class="es">La instrucción "nunca verse como" de Claude fue la más valiosa</h3><p class="en">Asking Claude what the logo must NEVER look like produced clearer strategic direction than asking what it should look like. Exclusion is a sharper strategic tool than aspiration. "Never look like a mechanic shop, luxury brand, government agency, or generic tech startup" is a precise design brief.</p><p class="es">Preguntarle a Claude cómo el logo NUNCA debe verse produjo una dirección estratégica más clara que preguntarle cómo debe verse. La exclusión es una herramienta estratégica más afilada que la aspiración. "Nunca verse como un taller mecánico, marca de lujo, agencia gubernamental o startup tech genérica" es un brief de diseño preciso.</p></div></div>
+    <div class="lesson"><div class="lesson-num">05</div><div><h3 class="en">Total time: 2h 45min for a complete logo system</h3><h3 class="es">Tiempo total: 2h 45min para un sistema de logo completo</h3><p class="en">Brief reading (15min) → Claude strategy (10min) → Gemini research (15min) → Claude + ChatGPT ideation (15min) → Firefly generation (30min) → Vector refinement (45min) → Variants + guidelines (35min). Traditional process for same quality: 3–4 days.</p><p class="es">Lectura del brief (15min) → Estrategia Claude (10min) → Investigación Gemini (15min) → Ideación Claude + ChatGPT (15min) → Generación Firefly (30min) → Refinamiento vectorial (45min) → Variantes + guías (35min). Proceso tradicional para la misma calidad: 3–4 días.</p></div></div>
+  </div>
+
+  <!-- QUIZ -->
+  <h3 style="font-family:var(--font-display);font-size:24px;font-weight:700;margin:36px 0 16px;" class="en">Final Quiz — Series Complete</h3>
+  <h3 style="font-family:var(--font-display);font-size:24px;font-weight:700;margin:36px 0 16px;" class="es">Quiz Final — Serie Completa</h3>
+  <p class="en">6 questions based on the Taller Express real execution. These are not theoretical.</p>
+  <p class="es">6 preguntas basadas en la ejecución real de Taller Express. No son teóricas.</p>
+
+  <div class="quiz-box">
+    <div id="qA">
+      <div class="q-head">
+        <div class="q-lbl" id="qLbl">Pregunta 1 / 6</div>
+        <div class="q-bar-wrap"><div class="q-bar" id="qBar" style="width:16.6%"></div></div>
+      </div>
+      <div class="q-q" id="qQ"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <button class="q-next" id="qNext" onclick="nextQ()"></button>
+    </div>
+    <div class="q-result" id="qR">
+      <div class="q-score" id="qSc"></div>
+      <div class="q-msg" id="qMsg"></div>
+      <button class="q-restart" onclick="restartQ()"><span class="en">↺ Restart</span><span class="es">↺ Reiniciar</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLETION -->
+<div class="completion reveal">
+  <div class="comp-title en">Design Series<br><span class="hl">Complete.</span></div>
+  <div class="comp-title es">Serie de Diseño<br><span class="hl">Completa.</span></div>
+  <p style="color:var(--muted);max-width:500px;margin:12px auto 0;" class="en">You've completed the full Logo Design series — from fundamentals to live AI-native execution on a real Salvadoran startup.</p>
+  <p style="color:var(--muted);max-width:500px;margin:12px auto 0;" class="es">Completaste la serie completa de Logo Design — desde los fundamentos hasta la ejecución AI-native en vivo para un startup salvadoreño real.</p>
+  <div class="series-track">
+    <span class="series-item done">✓ 101 — Fundamentos</span>
+    <span class="series-item done">✓ 201 — Proceso Avanzado</span>
+    <span class="series-item done">✓ 301 — AI-Native Flow</span>
+    <span class="series-item current">✦ 401 — Caso en Vivo</span>
+  </div>
+</div>
+
+<footer>
+  <div><span class="footer-brand">Denysoft KB</span> · Logo Design 401</div>
+  <div class="en">Graphic Design Series · 2025</div>
+  <div class="es">Serie de Diseño Gráfico · 2025</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// THEME / LANG
+function toggleTheme(){
+  const h=document.documentElement,b=document.getElementById('themeBtn'),d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');b.textContent=d?'🌙 Dark':'☀️ Light';
+}
+function toggleLang(){
+  const h=document.documentElement,b=document.getElementById('langBtn'),e=h.getAttribute('data-lang')==='en';
+  h.setAttribute('data-lang',e?'es':'en');b.textContent=e?'🌐 EN':'🌐 ES';renderQ();
+}
+
+// PROGRESS
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement.scrollTop,t=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('pFill').style.width=(s/t*100)+'%';
+});
+
+// REVEAL
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('in');});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// COPY
+function copyText(btn){
+  const block=btn.closest('.prompt-block');
+  const text=block.innerText.replace('copiar','').replace('copy','').trim();
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='✓ copiado';setTimeout(()=>btn.textContent='copiar',2000);});
+}
+
+// PIPELINE TOGGLE
+function togglePipe(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('expanded');
+}
+
+// REFINEMENT STAGES
+const refineData=[
+  {en:'Raw Illustrator Image Trace output from the Firefly PNG. The hexagonal shield is there but the proportions are wrong — the mark is too small relative to the wordmark, the text weight is too thin, and the overall hierarchy is unclear. Typography is still Firefly-generated (wrong font).',es:'Output bruto del Image Trace de Illustrator del PNG de Firefly. El escudo hexagonal está presente pero las proporciones están mal — el símbolo es demasiado pequeño relative al wordmark, el peso del texto es muy delgado y la jerarquía general no es clara. La tipografía todavía es la generada por Firefly (fuente incorrecta).'},
+  {en:'Syne ExtraBold 800 replaces the Firefly typography. The layout is split into two lines: "Taller" in regular weight + "Express" in orange. This creates hierarchy and makes "Express" (the brand differentiator) the most prominent text element. Mark is now 38px — still slightly small.',es:'Syne ExtraBold 800 reemplaza la tipografía de Firefly. El diseño se divide en dos líneas: "Taller" en peso regular + "Express" en naranja. Esto crea jerarquía y hace de "Express" (el diferenciador de marca) el elemento de texto más prominente. El símbolo ahora es de 38px — todavía ligeramente pequeño.'},
+  {en:'Mark scaled to 44px — now in correct proportion to the wordmark (ratio 1:1.1 to cap height). Orange gradient added to the shield for depth. Tagline "CONCIERGE AUTOMOTRIZ" added in Fira Code monospace at 7px — signals tech/digital DNA. The full system now reads correctly at multiple sizes.',es:'Símbolo escalado a 44px — ahora en proporción correcta al wordmark (ratio 1:1.1 con la altura de mayúscula). Gradiente naranja agregado al escudo para profundidad. Tagline "CONCIERGE AUTOMOTRIZ" en Fira Code monoespaciado a 7px — señala ADN tech/digital. El sistema completo ahora se lee correctamente a múltiples tamaños.'},
+  {en:'Final micro-adjustments: mark increased to 48px, hexagon inner path tightened for cleaner SVG output, shadow removed (was added accidentally in Illustrator), tagline tracking increased from 0.18em to 0.22em for better readability, orange gradient refined to 2-stop instead of 3-stop. Logo tested at 16px favicon, 800px WhatsApp avatar, and A4 letterhead. Passes all three.',es:'Micro-ajustes finales: símbolo aumentado a 48px, path interior del hexágono ajustado para output SVG más limpio, sombra eliminada (agregada accidentalmente en Illustrator), tracking del tagline aumentado de 0.18em a 0.22em para mejor legibilidad, gradiente naranja refinado a 2 puntos en lugar de 3. Logo probado a 16px favicon, 800px avatar de WhatsApp y membrete A4. Pasa los tres.'}
+];
+function showRefine(i,el){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.querySelectorAll('.rs-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const d=refineData[i];
+  const det=document.getElementById('rsDetail');
+  det.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:var(--te-orange);letter-spacing:.1em;margin-bottom:8px;">ETAPA ${i+1} — QUÉ CAMBIÓ Y POR QUÉ</div><p style="font-size:13.5px;margin:0;color:var(--muted);">${es?d.es:d.en}</p>`;
+  det.classList.add('show');
+}
+
+// DELIVERABLES
+function toggleDel(el){
+  el.classList.toggle('done');
+  const box=el.querySelector('.del-check');
+  box.textContent=el.classList.contains('done')?'✓':'';
+}
+
+// QUIZ
+const qData=[
+  {q:{en:'Why was Concept A (the shield mark) chosen over Concept C (wordmark only) for Taller Express?',es:'¿Por qué se eligió el Concepto A (símbolo de escudo) sobre el Concepto C (solo wordmark) para Taller Express?'},o:{en:['The shield looks more expensive and premium','WhatsApp (the primary channel) requires an icon — a wordmark alone cannot work as a 800×800 avatar','Shields are more recognizable than wordmarks in general','Claude recommended the shield as the only option'],es:['El escudo se ve más caro y premium','WhatsApp (el canal primario) requiere un ícono — un wordmark solo no puede funcionar como avatar de 800×800','Los escudos son más reconocibles que los wordmarks en general','Claude recomendó el escudo como única opción']},c:1,e:{en:'✅ The WhatsApp constraint was decisive. 95% adoption in El Salvador means the logo must work as a profile photo at 800×800px. "TALLER EXPRESS" as a circle avatar is unreadable. The shield with the T monogram was designed specifically to work at that size.',es:'✅ La restricción de WhatsApp fue decisiva. El 95% de adopción en El Salvador significa que el logo debe funcionar como foto de perfil a 800×800px. "TALLER EXPRESS" como avatar circular es ilegible. El escudo con el monograma T fue diseñado específicamente para funcionar a ese tamaño.'}},
+  {q:{en:'What was the most important negative instruction given to Adobe Firefly for Taller Express?',es:'¿Cuál fue la instrucción negativa más importante dada a Adobe Firefly para Taller Express?'},o:{en:['No gradients or shadows','No wrenches, no oil drops, no car silhouettes — override the automotive category default','No serif typography','No dark backgrounds'],es:['Sin gradientes ni sombras','Sin llaves inglesas, sin gotas de aceite, sin siluetas de auto — anular el default de categoría automotriz','Sin tipografía serif','Sin fondos oscuros']},c:1,e:{en:"✅ Firefly defaults to mechanic tools for 'automotive' prompts. Overriding that default with explicit negative instructions ('no wrench, no oil, no car silhouette') was more important than describing what we wanted. Fighting category defaults is one of the most critical Firefly skills.",es:"✅ Firefly usa herramientas de mecánico por defecto para prompts 'automotriz'. Anular ese default con instrucciones negativas explícitas ('sin llave inglesa, sin aceite, sin silueta de auto') fue más importante que describir lo que queríamos. Combatir los defaults de categoría es una de las habilidades más críticas de Firefly."}},
+  {q:{en:"Claude was asked what the logo must NEVER look like. Why is this 'exclusion prompt' more valuable than asking what it SHOULD look like?",es:'A Claude se le preguntó cómo el logo NUNCA debe verse. ¿Por qué este "prompt de exclusión" es más valioso que preguntar cómo DEBE verse?'},o:{en:["Claude can't generate positive descriptions accurately","Exclusion is more precise than aspiration — it creates a sharper, more actionable design brief","It's faster to type what you don't want","Claude responds better to negative prompts"],es:["Claude no puede generar descripciones positivas con precisión","La exclusión es más precisa que la aspiración — crea un brief de diseño más afilado y accionable","Es más rápido escribir lo que no quieres","Claude responde mejor a prompts negativos"]},c:1,e:{en:"✅ 'Never look like a mechanic shop, luxury brand, government agency, or generic tech startup' gives the designer (and AI) a clear boundary. Positive descriptions like 'modern and clean' are vague. Exclusion draws the exact edges of the design space — making every subsequent decision faster and clearer.",es:"✅ 'Nunca verse como un taller mecánico, marca de lujo, agencia gubernamental o startup tech genérica' le da al diseñador (y a la AI) un límite claro. Las descripciones positivas como 'moderno y limpio' son vagas. La exclusión dibuja los bordes exactos del espacio de diseño — haciendo cada decisión posterior más rápida y clara."}},
+  {q:{en:'How long did the complete Taller Express logo system take using the AI-native process?',es:'¿Cuánto tiempo tardó el sistema completo de logo de Taller Express usando el proceso AI-native?'},o:{en:['About 30 minutes total','About 2 hours 45 minutes total','About 8 hours total','About 1 full working day'],es:['Aproximadamente 30 minutos en total','Aproximadamente 2 horas 45 minutos en total','Aproximadamente 8 horas en total','Aproximadamente 1 día laboral completo']},c:1,e:{en:'✅ 2h 45min for a complete, professional logo system: primary logo, 4 variants, color specs (HEX/RGB/CMYK), typography specs, WhatsApp avatar, favicon, and delivery guidelines. Traditional process for the same quality: 3–4 working days.',es:'✅ 2h 45min para un sistema de logo completo y profesional: logo primario, 4 variantes, especificaciones de color (HEX/RGB/CMYK), especificaciones de tipografía, avatar de WhatsApp, favicon y guías de entrega. Proceso tradicional para la misma calidad: 3–4 días laborales.'}},
+  {q:{en:"The Taller Express brief specified 'No luxury look — investor mandate.' How did this restriction influence the logo design?",es:"El brief de Taller Express especificó 'Sin apariencia de lujo — mandato del inversor.' ¿Cómo influyó esta restricción en el diseño del logo?"},o:{en:["It forced us to use cheaper fonts and simpler shapes","It eliminated thin/elegant serif options and luxury minimalism — directing us toward bold, energetic, accessible design","It meant we couldn't use the color orange","It was ignored because design decisions should be aesthetic, not client-driven"],es:["Nos obligó a usar fuentes más baratas y formas más simples","Eliminó las opciones de serif delgada/elegante y el minimalismo de lujo — dirigiéndonos hacia un diseño bold, enérgico y accesible","Significó que no podíamos usar el color naranja","Se ignoró porque las decisiones de diseño deben ser estéticas, no impulsadas por el cliente"]},c:1,e:{en:"✅ The investor's restriction directly shaped the typography direction. Thin serif = luxury. Light sans-serif = premium. Bold geometric sans-serif (Syne 800) = energetic, accessible, mass market. The orange reinforces approachability over exclusivity. Every restriction in a brief is a design direction.",es:"✅ La restricción del inversor moldeó directamente la dirección tipográfica. Serif delgada = lujo. Sans-serif ligera = premium. Sans-serif geométrica bold (Syne 800) = enérgica, accesible, mercado masivo. El naranja refuerza la accesibilidad sobre la exclusividad. Cada restricción en un brief es una dirección de diseño."}},
+  {q:{en:'Why is the vector refinement step (Step 6) the one that AI cannot replace?',es:'¿Por qué el paso de refinamiento vectorial (Paso 6) es el que la AI no puede reemplazar?'},o:{en:["It's too expensive for AI to do","AI generates raster PNG files — vectorization, precise geometric rebuilding, proportion micro-adjustments, and multi-format testing require human judgment and craft","AI tools don't have access to Illustrator","Clients don't accept AI-generated files legally"],es:["Es demasiado caro para que la AI lo haga","La AI genera archivos PNG raster — la vectorización, la reconstrucción geométrica precisa, los micro-ajustes de proporción y las pruebas en múltiples formatos requieren juicio humano y oficio","Las herramientas de AI no tienen acceso a Illustrator","Los clientes no aceptan archivos generados por AI legalmente"]},c:1,e:{en:'✅ Firefly outputs are always raster PNGs. Professional logo delivery requires clean SVG vectors. Beyond vectorization, the micro-decisions in Step 6 — 48px vs 44px mark, 0.18em vs 0.22em tracking, 2-stop vs 3-stop gradient — are craft decisions that require a human eye trained by experience. This is where the designer earns their fee.',es:'✅ Los outputs de Firefly siempre son PNG raster. La entrega profesional de logo requiere vectores SVG limpios. Más allá de la vectorización, las micro-decisiones del Paso 6 — símbolo de 48px vs 44px, tracking de 0.18em vs 0.22em, gradiente de 2 puntos vs 3 puntos — son decisiones de oficio que requieren un ojo humano entrenado por la experiencia. Aquí es donde el diseñador gana su honorario.'}}
+];
+
+let qCur=0,qScore=0,qAns=false;
+function renderQ(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.getElementById('qLbl').textContent=(es?'Pregunta':'Question')+` ${qCur+1} / ${qData.length}`;
+  document.getElementById('qBar').style.width=((qCur+1)/qData.length*100)+'%';
+  document.getElementById('qQ').textContent=es?q.q.es:q.q.en;
+  const opts=es?q.o.es:q.o.en;
+  document.getElementById('qOpts').innerHTML=opts.map((o,i)=>`<button class="q-opt" onclick="ansQ(${i})">${o}</button>`).join('');
+  document.getElementById('qFb').className='q-fb';
+  document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').style.display='none';
+  document.getElementById('qNext').textContent=qCur<qData.length-1?(es?'Siguiente →':'Next →'):(es?'Ver resultado →':'See result →');
+  qAns=false;
+}
+function ansQ(i){
+  if(qAns)return;qAns=true;
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  const q=qData[qCur];
+  document.querySelectorAll('.q-opt').forEach(o=>o.classList.add('dis'));
+  const ok=i===q.c;if(ok)qScore++;
+  document.querySelectorAll('.q-opt')[i].classList.add(ok?'correct':'wrong');
+  document.querySelectorAll('.q-opt')[q.c].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.textContent=es?q.e.es:q.e.en;
+  fb.className='q-fb '+(ok?'correct':'wrong');
+  document.getElementById('qNext').style.display='inline-block';
+}
+function nextQ(){
+  qCur++;
+  if(qCur>=qData.length)showResult();else renderQ();
+}
+function showResult(){
+  const es=document.documentElement.getAttribute('data-lang')==='es';
+  document.getElementById('qA').style.display='none';
+  document.getElementById('qR').style.display='block';
+  document.getElementById('qSc').textContent=`${qScore}/${qData.length}`;
+  const m={en:['Keep reviewing — re-read the execution steps and try again.','Good progress. Review the WhatsApp and Firefly sections.','Solid! You understand real AI-native execution.','Outstanding — you\'re ready to run this process independently.'],es:['Sigue revisando — relee los pasos de ejecución e intenta de nuevo.','Buen progreso. Revisa las secciones de WhatsApp y Firefly.','¡Sólido! Entiendes la ejecución AI-native real.','Sobresaliente — estás listo para correr este proceso de forma independiente.']};
+  const tier=qScore<=2?0:qScore<=4?1:qScore===5?2:3;
+  document.getElementById('qMsg').textContent=es?m.es[tier]:m.en[tier];
+}
+function restartQ(){
+  qCur=0;qScore=0;qAns=false;
+  document.getElementById('qA').style.display='block';
+  document.getElementById('qR').style.display='none';
+  renderQ();
+}
+
+renderQ();
+</script>
+</body>
+</html>

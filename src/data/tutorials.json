@@ -1,0 +1,62 @@
+[
+  {
+    "id": "logo-design-101",
+    "title": "Logo Design 101 — Fundamentos",
+    "category": "Logo Design",
+    "level": "101",
+    "description": "Los fundamentos del diseño de logotipos: anatomía del logo, psicología del color, tipografía de marca, briefing y proceso creativo esencial para construir identidades sólidas.",
+    "tags": ["logo", "branding", "tipografía", "color", "brief"],
+    "dateAdded": "2026-04-29",
+    "file": "logo-design-101.html"
+  },
+  {
+    "id": "logo-design-201",
+    "title": "Logo Design 201 — Sistema de Identidad",
+    "category": "Logo Design",
+    "level": "201",
+    "description": "De logo a sistema de identidad completo: construcción de marca, variaciones, sistema tipográfico, paleta de color, y aplicaciones en piezas reales de comunicación.",
+    "tags": ["identidad", "sistema", "marca", "tipografía", "aplicaciones"],
+    "dateAdded": "2026-04-29",
+    "file": "logo-design-201.html"
+  },
+  {
+    "id": "logo-design-301",
+    "title": "Logo Design 301 — AI-Native Workflow",
+    "category": "Logo Design",
+    "level": "301",
+    "description": "El workflow AI-Native para diseño de logos: cómo usar Claude + ChatGPT + Adobe Firefly para reemplazar el proceso tradicional y generar identidades de nivel profesional.",
+    "tags": ["AI-Native", "Firefly", "Claude", "workflow", "vectorización"],
+    "dateAdded": "2026-04-29",
+    "file": "logo-design-301.html"
+  },
+  {
+    "id": "logo-design-401",
+    "title": "Logo Design 401 — Taller Express Live",
+    "category": "Logo Design",
+    "level": "401",
+    "description": "Caso real en vivo: diseño completo del logo de Taller Express, startup de concierge automotriz en El Salvador. Brief real, decisiones reales, entregable final aprobado por el cliente.",
+    "tags": ["caso real", "Taller Express", "live project", "AI-Native", "El Salvador"],
+    "dateAdded": "2026-04-29",
+    "file": "logo-design-401.html"
+  },
+  {
+    "id": "vibe-coding-101",
+    "title": "Vibe Coding 101 — El Paradigma del Arquitecto",
+    "category": "AI Productivity",
+    "level": "101",
+    "description": "El nuevo paradigma del desarrollo con IA: cómo pensar como arquitecto de sistemas, dirigir la IA como tu equipo de ingeniería y facturar como senior sin escribir código tradicional.",
+    "tags": ["vibe coding", "IA", "arquitectura", "Claude Code"],
+    "dateAdded": "2026-03-08",
+    "file": "vibe-coding-101.html"
+  },
+  {
+    "id": "vibe-coding-201",
+    "title": "Vibe Coding 201 — Architect First",
+    "category": "AI Productivity",
+    "level": "201",
+    "description": "De la filosofía a la práctica: cómo diseñar sistemas reales antes de abrir el editor. PRD completo, arquitectura de datos, stack selection y prompts de producción con un caso B2B real.",
+    "tags": ["vibe coding", "PRD", "arquitectura", "Supabase"],
+    "dateAdded": "2026-03-09",
+    "file": "vibe-coding-201.html"
+  }
+]
