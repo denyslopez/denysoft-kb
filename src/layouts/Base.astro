@@ -1,19 +1,118 @@
 ---
 export interface Props {
-  title?: string;
+  title?:       string;
+  description?: string;
+  ogImage?:     string;
+  canonical?:   string;
+  type?:        'website' | 'article';
+  dateAdded?:   string;
+  tags?:        string[];
+  category?:    string;
 }
-const { title = 'Denysoft KB' } = Astro.props;
+
+const {
+  title       = 'Denysoft KB',
+  description = 'Knowledge base de Denysoft — tutoriales interactivos sobre diseño, marketing, IA y desarrollo digital para agencias y emprendedores latinoamericanos.',
+  ogImage     = '/og-default.png',
+  canonical   = Astro.url.href,
+  type        = 'website',
+  dateAdded,
+  tags        = [],
+  category    = '',
+} = Astro.props;
+
+const siteName   = 'Denysoft KB';
+const siteUrl    = 'https://kb.denysoft.net';
+const fullTitle  = title === siteName ? title : `${title} — ${siteName}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+// JSON-LD Schema — LearningResource for tutorials, WebSite for index
+const schema = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  'name': title,
+  'description': description,
+  'url': canonical,
+  'inLanguage': ['en', 'es'],
+  'provider': {
+    '@type': 'Organization',
+    'name': 'Denysoft',
+    'url': 'https://denysoft.net'
+  },
+  'educationalLevel': category || 'Professional',
+  'keywords': tags.join(', '),
+  ...(dateAdded ? { 'datePublished': dateAdded } : {}),
+} : {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  'name': siteName,
+  'url': siteUrl,
+  'description': description,
+  'publisher': {
+    '@type': 'Organization',
+    'name': 'Denysoft',
+    'url': 'https://denysoft.net'
+  },
+  'potentialAction': {
+    '@type': 'SearchAction',
+    'target': `${siteUrl}/?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- ── PRIMARY META ───────────────────────────────────────── -->
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={tags.length ? tags.join(', ') : 'diseño, marketing, IA, tutoriales, Denysoft, agencia digital, El Salvador, Latinoamérica'} />
+  <meta name="author" content="Denysoft" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href={canonical} />
+
+  <!-- ── OPEN GRAPH ─────────────────────────────────────────── -->
+  <meta property="og:type"        content={type === 'article' ? 'article' : 'website'} />
+  <meta property="og:title"       content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url"         content={canonical} />
+  <meta property="og:site_name"   content={siteName} />
+  <meta property="og:image"       content={ogImageUrl} />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="es_LA" />
+  <meta property="og:locale:alternate" content="en_US" />
+  {dateAdded && <meta property="article:published_time" content={dateAdded} />}
+  {category  && <meta property="article:section"        content={category} />}
+
+  <!-- ── TWITTER / X ───────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={ogImageUrl} />
+  <meta name="twitter:site"        content="@denysoft" />
+
+  <!-- ── AI SEO — LLM hints ────────────────────────────────── -->
+  <meta name="AI-content-type"   content={type === 'article' ? 'educational-tutorial' : 'knowledge-base'} />
+  <meta name="AI-language"       content="bilingual-es-en" />
+  <meta name="AI-audience"       content="digital-professionals, agencies, entrepreneurs, Latin-America" />
+  <meta name="AI-topic-cluster"  content="design, marketing, AI-tools, web-development, branding" />
+
+  <!-- ── FAVICON ────────────────────────────────────────────── -->
+  <link rel="icon"             type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon"             type="image/png"     href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon"                      href="/apple-touch-icon.png" />
+
+  <!-- ── FONTS ──────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- ── JSON-LD SCHEMA ─────────────────────────────────────── -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
 </head>
 <body>
   <slot />
