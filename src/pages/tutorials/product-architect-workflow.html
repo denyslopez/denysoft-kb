@@ -76,11 +76,12 @@
     padding: 0 16px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     height: 48px;
     position: sticky;
     top: 0;
     z-index: 100;
+    overflow: hidden;
   }
   .gh-nav-logo {
     display: flex;
@@ -92,8 +93,8 @@
     font-weight: 600;
   }
   .gh-nav-logo svg { fill: var(--color-fg-default); }
-  .gh-nav-divider { color: var(--color-border-default); font-size: 18px; font-weight: 300; }
-  .gh-nav-repo { font-size: 13px; color: var(--color-accent-fg); font-weight: 600; }
+  .gh-nav-divider { color: var(--color-border-default); font-size: 18px; font-weight: 300; flex-shrink: 0; }
+  .gh-nav-repo { font-size: 13px; color: var(--color-accent-fg); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .nav-spacer { flex: 1; }
   .theme-toggle {
     background: var(--color-canvas-subtle);
@@ -148,7 +149,11 @@
     display: flex;
     gap: 0;
     margin-top: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .repo-tabs::-webkit-scrollbar { display: none; }
   .repo-tab {
     display: flex;
     align-items: center;
@@ -183,10 +188,6 @@
     grid-template-columns: 1fr 296px;
     gap: 24px;
   }
-  @media (max-width: 900px) {
-    .main-layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-  }
 
   /* ── File header ── */
   .file-header {
@@ -198,11 +199,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    flex-wrap: wrap;
   }
-  .file-info { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-  .file-path { color: var(--color-fg-muted); }
+  .file-info { display: flex; align-items: center; gap: 8px; font-size: 13px; min-width: 0; flex: 1; }
+  .file-path { color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .file-path .file-name { color: var(--color-fg-default); font-weight: 600; }
-  .file-actions { display: flex; gap: 4px; }
+  .file-actions { display: flex; gap: 4px; flex-shrink: 0; }
   .btn-sm {
     background: var(--color-canvas-subtle);
     border: 1px solid var(--color-border-default);
@@ -406,7 +408,7 @@
     gap: 12px;
     margin-bottom: 12px;
   }
-  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
   .info-box {
     background: var(--color-canvas-subtle);
     border: 1px solid var(--color-border-default);
@@ -452,7 +454,7 @@
   }
   .loop-label { font-size: 11px; font-weight: 600; color: var(--color-accent-fg); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
   .loop-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  @media (max-width: 500px) { .loop-steps { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .loop-steps { grid-template-columns: 1fr; } }
   .loop-step { font-size: 12px; color: var(--color-accent-fg); display: flex; gap: 6px; }
   .loop-n { font-weight: 600; flex-shrink: 0; min-width: 14px; }
   .sec-box {
@@ -464,7 +466,7 @@
   }
   .sec-label { font-size: 11px; font-weight: 600; color: var(--color-danger-fg); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
   .sec-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  @media (max-width: 600px) { .sec-cols { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .sec-cols { grid-template-columns: 1fr; } }
   .sec-group { font-size: 11px; font-weight: 600; color: var(--color-danger-fg); margin-bottom: 5px; }
   .sec-items { list-style: none; padding: 0; }
   .sec-items li { font-size: 12px; color: var(--color-danger-fg); padding: 2px 0; display: flex; gap: 5px; }
@@ -477,7 +479,7 @@
     font-size: 12px;
     padding: 2px 10px;
   }
-  .type-tabs-ph { display: flex; gap: 6px; margin-bottom: 10px; }
+  .type-tabs-ph { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
   .type-tab {
     padding: 4px 12px;
     border: 1px solid var(--color-border-default);
@@ -489,6 +491,7 @@
     color: var(--color-fg-muted);
     font-family: var(--font-sans);
     transition: all .12s;
+    white-space: nowrap;
   }
   .type-tab.on { background: var(--color-accent-emphasis); border-color: var(--color-accent-emphasis); color: #fff; }
 
@@ -499,7 +502,10 @@
     gap: 8px;
     margin-bottom: 16px;
   }
-  @media (max-width: 600px) { .principles-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .principles-grid { grid-template-columns: 1fr; }
+    .principle-wide { grid-column: span 1 !important; }
+  }
   .principle-card {
     background: var(--color-canvas-subtle);
     border: 1px solid var(--color-border-default);
@@ -574,6 +580,103 @@
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--color-canvas-default); }
   ::-webkit-scrollbar-thumb { background: var(--color-border-default); border-radius: 4px; }
+
+  /* ── Responsive: tablet (≤900px) ── */
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; padding: 16px 12px; }
+    .sidebar { display: none; }
+    .repo-header { padding: 12px 16px 0; }
+    .repo-owner, .repo-name { font-size: 16px; }
+    .repo-name-sep { font-size: 16px; }
+  }
+
+  /* ── Responsive: mobile (≤640px) ── */
+  @media (max-width: 640px) {
+    /* Nav */
+    .gh-nav { padding: 0 12px; gap: 8px; }
+    .gh-nav-divider, .gh-nav-repo { display: none; }
+    .theme-toggle span:last-child { display: none; }
+    .theme-toggle { padding: 4px 8px; }
+
+    /* Repo header */
+    .repo-header { padding: 10px 12px 0; }
+    .repo-title { gap: 6px; margin-bottom: 8px; }
+    .repo-owner, .repo-name { font-size: 15px; }
+    .repo-name-sep { font-size: 15px; }
+    .repo-tab { padding: 8px 12px; font-size: 13px; }
+
+    /* Main layout */
+    .main-layout { padding: 12px 8px; gap: 16px; }
+
+    /* File header */
+    .file-header { padding: 8px 12px; }
+    .file-path { font-size: 12px; }
+    .btn-sm { font-size: 11px; padding: 3px 8px; }
+    .btn-sm svg { width: 12px; height: 12px; }
+
+    /* Markdown body */
+    .markdown-body { padding: 16px 14px; font-size: 14px; }
+    .markdown-body h1 { font-size: 20px; padding-bottom: 10px; margin-bottom: 12px; }
+    .markdown-body h2 { font-size: 17px; margin-top: 24px; margin-bottom: 12px; }
+    .markdown-body h3 { font-size: 15px; margin-top: 18px; }
+    .markdown-body p { margin-bottom: 12px; }
+
+    /* Tables: wrap in scrollable container via JS, and ensure they scroll */
+    .markdown-body table { font-size: 12px; min-width: 480px; }
+    .markdown-body th, .markdown-body td { padding: 6px 10px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 16px; border-radius: var(--border-radius-small); }
+    .table-scroll table { margin-bottom: 0; }
+    .phase-summary { font-size: 12px; }
+    .phase-summary table { min-width: 520px; display: table; }
+    .phase-summary th, .phase-summary td { padding: 8px 10px; }
+
+    /* Phase accordions */
+    .phase-header { padding: 10px 12px; gap: 10px; }
+    .phase-name { font-size: 13px; }
+    .phase-sub { font-size: 11px; }
+    .phase-body { padding: 12px; }
+    .info-box { padding: 10px; }
+    .item-list li { font-size: 12px; }
+    .box-label { font-size: 10px; }
+
+    /* Loop steps → single column */
+    .loop-steps { grid-template-columns: 1fr; gap: 4px; }
+    .loop-step { font-size: 12px; }
+
+    /* Security checklist → single column */
+    .sec-cols { grid-template-columns: 1fr; gap: 8px; }
+
+    /* Principles */
+    .principles-grid { grid-template-columns: 1fr; }
+    .principle-wide { grid-column: span 1 !important; }
+    .principle-card { padding: 10px; }
+    .principle-title { font-size: 12px; }
+    .principle-text { font-size: 11px; }
+
+    /* Gate & callouts */
+    .gate-box { font-size: 12px; padding: 8px 10px; }
+    .callout { padding: 10px 12px; }
+    .callout-body p { font-size: 13px; }
+
+    /* Tools pills */
+    .tool-pill { font-size: 11px; padding: 2px 8px; }
+
+    /* Footer */
+    .gh-footer { font-size: 11px; padding: 16px 0 12px; }
+  }
+
+  /* ── Responsive: very small (≤380px) ── */
+  @media (max-width: 380px) {
+    .markdown-body { padding: 12px 10px; }
+    .markdown-body h1 { font-size: 18px; }
+    .markdown-body h2 { font-size: 15px; }
+    .repo-tab { padding: 8px 8px; font-size: 12px; }
+    .repo-tab svg { display: none; }
+    .tab-count { display: none; }
+    .type-tab { padding: 4px 8px; font-size: 11px; }
+    .phase-header { gap: 8px; padding: 10px; }
+    .phase-num-badge { width: 20px; height: 20px; font-size: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -666,11 +769,12 @@
         <div class="principle-card"><span class="principle-num">4</span><div class="principle-body"><div class="principle-title">Educar al AI explícitamente</div><div class="principle-text"><code>claude.md</code>, <code>.cursor/rules</code>, <code>AGENTS.md</code> no son opcionales. El AI olvida convenciones cada sesión.</div></div></div>
         <div class="principle-card"><span class="principle-num">5</span><div class="principle-body"><div class="principle-title">Scope estrecho por prompt</div><div class="principle-text">Un prompt = un cambio acotado. Prompts amplios producen regresiones invisibles.</div></div></div>
         <div class="principle-card"><span class="principle-num">6</span><div class="principle-body"><div class="principle-title">Checkpoints obligatorios</div><div class="principle-text">Después de cada feature: probar, commit, documentar. Sin checkpoint se construye sobre algo roto.</div></div></div>
-        <div class="principle-card" style="grid-column: span 2"><span class="principle-num">7</span><div class="principle-body"><div class="principle-title">Auditoría humana en seguridad</div><div class="principle-text">Código AI tiene 2.74× más vulnerabilidades (ICSE-SEIP '26). Pase de seguridad humano antes de producción es obligatorio.</div></div></div>
+        <div class="principle-card principle-wide" style="grid-column: span 2"><span class="principle-num">7</span><div class="principle-body"><div class="principle-title">Auditoría humana en seguridad</div><div class="principle-text">Código AI tiene 2.74× más vulnerabilidades (ICSE-SEIP '26). Pase de seguridad humano antes de producción es obligatorio.</div></div></div>
       </div>
 
       <h2>Cuadro maestro</h2>
       <div class="phase-summary">
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table>
           <thead><tr><th>Fase</th><th>Nombre</th><th>Entregable mínimo</th><th>Gate</th></tr></thead>
           <tbody>
@@ -683,6 +787,7 @@
             <tr><td><code>6</code></td><td>Iteración &amp; Mantenimiento</td><td>Retainer / loop de métricas / archivo</td><td>Continúa o cierra</td></tr>
           </tbody>
         </table>
+        </div>
       </div>
 
       <h2>Workflow por fases</h2>
@@ -708,6 +813,7 @@
           <p>Lista compilada de los hallazgos del paradigma 2025–2026. Cada uno cuesta caro la primera vez.</p>
         </div>
       </div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;">
       <table>
         <thead><tr><th>Error</th><th>Consecuencia</th></tr></thead>
         <tbody>
@@ -720,10 +826,12 @@
           <tr><td>Cerrar el proyecto sin handover</td><td>El cliente queda atado por dependencia, no por valor</td></tr>
         </tbody>
       </table>
+      </div>
 
       <hr>
 
       <h2>Stack de herramientas recomendado</h2>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;">
       <table>
         <thead><tr><th>Fase</th><th>Herramientas</th></tr></thead>
         <tbody>
@@ -736,6 +844,7 @@
           <tr><td><code>6</code> Iteración</td><td>Linear · ClickUp · PostHog · Stripe (retainer)</td></tr>
         </tbody>
       </table>
+      </div>
 
       <div class="gh-footer">
         Denysoft · Product Architect Framework · v1.0 · Mayo 2026 &nbsp;·&nbsp;
