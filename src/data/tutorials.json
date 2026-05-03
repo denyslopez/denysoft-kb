@@ -58,5 +58,15 @@
     "tags": ["vibe coding", "PRD", "arquitectura", "Supabase"],
     "dateAdded": "2026-03-09",
     "file": "vibe-coding-201.html"
+  },
+  {
+    "id": "product-architect-workflow",
+    "title": "Product Architect Workflow — Spec-Driven Development",
+    "category": "AI Productivity",
+    "level": "",
+    "description": "El paradigma maduro del Vibe Coding: cómo el Product Architect dirige la IA con specs ejecutables antes de generar código. 7 principios, workflow por fases, PRD + Tech Spec + claude.md y stack de herramientas recomendado.",
+    "tags": ["Product Architect", "Spec-Driven", "PRD", "claude.md", "workflow"],
+    "dateAdded": "2026-05-01",
+    "file": "product-architect-workflow.html"
   }
 ]

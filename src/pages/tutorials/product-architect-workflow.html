@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es" data-color-mode="dark" data-dark-theme="dark" data-light-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Architect Workflow · Denysoft</title>
+<style>
+  /* ── GitHub Design System tokens ── */
+  :root {
+    --color-canvas-default: #0d1117;
+    --color-canvas-subtle: #161b22;
+    --color-canvas-inset: #010409;
+    --color-border-default: #30363d;
+    --color-border-muted: #21262d;
+    --color-fg-default: #e6edf3;
+    --color-fg-muted: #8b949e;
+    --color-fg-subtle: #6e7681;
+    --color-fg-on-emphasis: #ffffff;
+    --color-accent-fg: #58a6ff;
+    --color-accent-emphasis: #1f6feb;
+    --color-accent-subtle: #388bfd1a;
+    --color-success-fg: #3fb950;
+    --color-success-emphasis: #238636;
+    --color-success-subtle: #238636;
+    --color-warning-fg: #d29922;
+    --color-warning-subtle: #bb800926;
+    --color-danger-fg: #f85149;
+    --color-danger-subtle: #f8514926;
+    --color-done-fg: #a371f7;
+    --color-done-subtle: #a371f726;
+    --color-attention-fg: #d29922;
+    --color-attention-subtle: #bb800926;
+    --color-scale-gray-5: #30363d;
+    --color-scale-gray-6: #21262d;
+    --color-scale-gray-7: #161b22;
+    --color-scale-green-3: #2ea043;
+    --color-neutral-muted: #6e768166;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --base-size-4: 4px; --base-size-8: 8px; --base-size-12: 12px;
+    --base-size-16: 16px; --base-size-24: 24px; --base-size-32: 32px;
+    --border-radius-small: 6px; --border-radius-medium: 8px;
+  }
+  [data-color-mode="light"] {
+    --color-canvas-default: #ffffff;
+    --color-canvas-subtle: #f6f8fa;
+    --color-canvas-inset: #f6f8fa;
+    --color-border-default: #d0d7de;
+    --color-border-muted: #d8dee4;
+    --color-fg-default: #1f2328;
+    --color-fg-muted: #636c76;
+    --color-fg-subtle: #6e7781;
+    --color-accent-fg: #0969da;
+    --color-accent-subtle: #ddf4ff;
+    --color-success-fg: #1a7f37;
+    --color-warning-subtle: #fff8c5;
+    --color-danger-subtle: #fff0ee;
+    --color-done-subtle: #fbefff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-fg-default);
+    background: var(--color-canvas-default);
+    min-height: 100vh;
+  }
+
+  /* ── Top nav ── */
+  .gh-nav {
+    background: var(--color-canvas-inset);
+    border-bottom: 1px solid var(--color-border-default);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .gh-nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--color-fg-default);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .gh-nav-logo svg { fill: var(--color-fg-default); }
+  .gh-nav-divider { color: var(--color-border-default); font-size: 18px; font-weight: 300; }
+  .gh-nav-repo { font-size: 13px; color: var(--color-accent-fg); font-weight: 600; }
+  .nav-spacer { flex: 1; }
+  .theme-toggle {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-small);
+    color: var(--color-fg-muted);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background .15s, border-color .15s;
+  }
+  .theme-toggle:hover { background: var(--color-border-muted); border-color: var(--color-border-default); color: var(--color-fg-default); }
+
+  /* ── Repo header ── */
+  .repo-header {
+    background: var(--color-canvas-subtle);
+    border-bottom: 1px solid var(--color-border-default);
+    padding: 16px 24px 0;
+  }
+  .repo-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .repo-icon { color: var(--color-fg-muted); }
+  .repo-owner { color: var(--color-accent-fg); font-size: 20px; font-weight: 400; text-decoration: none; }
+  .repo-owner:hover { text-decoration: underline; }
+  .repo-name-sep { color: var(--color-fg-muted); font-size: 20px; font-weight: 300; }
+  .repo-name { color: var(--color-accent-fg); font-size: 20px; font-weight: 600; text-decoration: none; }
+  .repo-name:hover { text-decoration: underline; }
+  .topic-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-accent-subtle);
+    border: none;
+    border-radius: 20px;
+    color: var(--color-accent-fg);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0 10px;
+    height: 22px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .repo-tabs {
+    display: flex;
+    gap: 0;
+    margin-top: 4px;
+  }
+  .repo-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--color-fg-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font-sans);
+    border-bottom: 2px solid transparent;
+    transition: color .15s;
+    text-decoration: none;
+  }
+  .repo-tab:hover { color: var(--color-fg-default); border-bottom-color: var(--color-border-default); }
+  .repo-tab.active { color: var(--color-fg-default); border-bottom-color: #f78166; font-weight: 600; }
+  .tab-count {
+    background: var(--color-neutral-muted);
+    border-radius: 20px;
+    font-size: 11px;
+    padding: 0 6px;
+    color: var(--color-fg-default);
+  }
+
+  /* ── Main layout ── */
+  .main-layout {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    display: grid;
+    grid-template-columns: 1fr 296px;
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+
+  /* ── File header ── */
+  .file-header {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .file-info { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .file-path { color: var(--color-fg-muted); }
+  .file-path .file-name { color: var(--color-fg-default); font-weight: 600; }
+  .file-actions { display: flex; gap: 4px; }
+  .btn-sm {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-small);
+    color: var(--color-fg-default);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background .12s;
+  }
+  .btn-sm:hover { background: var(--color-border-muted); }
+  .btn-primary {
+    background: var(--color-success-emphasis);
+    border-color: var(--color-scale-green-3);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #2ea043; }
+
+  /* ── Markdown body ── */
+  .markdown-body {
+    background: var(--color-canvas-default);
+    border: 1px solid var(--color-border-default);
+    border-top: none;
+    border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
+    padding: 32px 40px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-fg-default);
+  }
+  .markdown-body h1 {
+    font-size: 28px; font-weight: 600; line-height: 1.25;
+    margin-bottom: 16px; margin-top: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border-muted);
+    color: var(--color-fg-default);
+  }
+  .markdown-body h2 {
+    font-size: 22px; font-weight: 600; line-height: 1.25;
+    margin-top: 32px; margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border-muted);
+  }
+  .markdown-body h3 {
+    font-size: 18px; font-weight: 600;
+    margin-top: 24px; margin-bottom: 12px;
+  }
+  .markdown-body h4 {
+    font-size: 15px; font-weight: 600;
+    margin-top: 20px; margin-bottom: 8px;
+    color: var(--color-fg-default);
+  }
+  .markdown-body p { margin-bottom: 16px; }
+  .markdown-body ul, .markdown-body ol {
+    margin: 0 0 16px 0;
+    padding-left: 24px;
+  }
+  .markdown-body li { margin-bottom: 4px; }
+  .markdown-body li::marker { color: var(--color-fg-muted); }
+  .markdown-body code {
+    background: var(--color-neutral-muted);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 85%;
+    padding: 2px 6px;
+    color: var(--color-fg-default);
+  }
+  .markdown-body pre {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-medium);
+    overflow: auto;
+    padding: 16px;
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-fg-default);
+  }
+  .markdown-body pre code { background: none; padding: 0; font-size: inherit; }
+  .markdown-body a { color: var(--color-accent-fg); text-decoration: none; }
+  .markdown-body a:hover { text-decoration: underline; }
+  .markdown-body strong { font-weight: 600; color: var(--color-fg-default); }
+  .markdown-body em { font-style: italic; }
+  .markdown-body hr {
+    border: none;
+    border-top: 1px solid var(--color-border-muted);
+    margin: 24px 0;
+  }
+  .markdown-body blockquote {
+    border-left: 4px solid var(--color-border-default);
+    color: var(--color-fg-muted);
+    margin: 0 0 16px;
+    padding: 0 16px;
+    font-style: italic;
+  }
+  .markdown-body blockquote strong { color: var(--color-fg-muted); }
+
+  /* ── Tables ── */
+  .markdown-body table {
+    border-collapse: collapse;
+    display: block;
+    margin-bottom: 16px;
+    overflow: auto;
+    width: 100%;
+    font-size: 14px;
+  }
+  .markdown-body th {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    font-weight: 600;
+    padding: 8px 13px;
+    text-align: left;
+  }
+  .markdown-body td {
+    border: 1px solid var(--color-border-default);
+    padding: 8px 13px;
+    vertical-align: top;
+  }
+  .markdown-body tr:nth-child(even) td { background: var(--color-canvas-subtle); }
+
+  /* ── Callout boxes ── */
+  .callout {
+    border: 1px solid;
+    border-radius: var(--border-radius-medium);
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { flex: 1; }
+  .callout-body p { margin-bottom: 0; }
+  .callout-note { background: var(--color-accent-subtle); border-color: var(--color-accent-fg); }
+  .callout-note .callout-icon { color: var(--color-accent-fg); }
+  .callout-warning { background: var(--color-warning-subtle); border-color: var(--color-warning-fg); }
+  .callout-warning .callout-icon { color: var(--color-warning-fg); }
+  .callout-tip { background: rgba(63,185,80,0.1); border-color: var(--color-success-fg); }
+  .callout-tip .callout-icon { color: var(--color-success-fg); }
+  .callout-danger { background: var(--color-danger-subtle); border-color: var(--color-danger-fg); }
+  .callout-danger .callout-icon { color: var(--color-danger-fg); }
+
+  /* ── Phase accordion ── */
+  .phase-accordion {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-medium);
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: var(--color-canvas-subtle);
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: var(--color-fg-default);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    transition: background .12s;
+    user-select: none;
+  }
+  .phase-header:hover { background: var(--color-border-muted); }
+  .phase-num-badge {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .badge-gray { background: var(--color-neutral-muted); color: var(--color-fg-muted); }
+  .badge-blue { background: var(--color-accent-subtle); color: var(--color-accent-fg); }
+  .badge-purple { background: var(--color-done-subtle); color: var(--color-done-fg); }
+  .badge-teal { background: rgba(63,185,80,.15); color: var(--color-success-fg); }
+  .badge-amber { background: var(--color-warning-subtle); color: var(--color-warning-fg); }
+  .badge-green { background: rgba(46,160,67,.2); color: var(--color-success-fg); }
+  .badge-red { background: var(--color-danger-subtle); color: var(--color-danger-fg); }
+  .phase-title-area { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .phase-name { font-weight: 600; font-size: 14px; }
+  .phase-sub { font-size: 12px; color: var(--color-fg-muted); }
+  .phase-chevron { color: var(--color-fg-muted); font-size: 11px; transition: transform .2s; }
+  .phase-accordion.open .phase-chevron { transform: rotate(180deg); }
+  .phase-body {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-canvas-default);
+  }
+  .phase-accordion.open .phase-body { display: block; }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  .info-box {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-small);
+    padding: 12px;
+  }
+  .box-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 8px;
+  }
+  .item-list { list-style: none; padding: 0; }
+  .item-list li {
+    font-size: 13px;
+    color: var(--color-fg-muted);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--color-border-muted);
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .item-list li:last-child { border-bottom: none; }
+  .item-list li::before { content: "→"; color: var(--color-fg-subtle); flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+  .gate-box {
+    background: rgba(46,160,67,.1);
+    border: 1px solid var(--color-success-fg);
+    border-radius: var(--border-radius-small);
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--color-success-fg);
+  }
+  .gate-label { font-weight: 600; margin-bottom: 3px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .loop-box {
+    background: var(--color-accent-subtle);
+    border: 1px solid var(--color-accent-emphasis);
+    border-radius: var(--border-radius-small);
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .loop-label { font-size: 11px; font-weight: 600; color: var(--color-accent-fg); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+  .loop-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  @media (max-width: 500px) { .loop-steps { grid-template-columns: 1fr; } }
+  .loop-step { font-size: 12px; color: var(--color-accent-fg); display: flex; gap: 6px; }
+  .loop-n { font-weight: 600; flex-shrink: 0; min-width: 14px; }
+  .sec-box {
+    background: var(--color-danger-subtle);
+    border: 1px solid var(--color-danger-fg);
+    border-radius: var(--border-radius-small);
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .sec-label { font-size: 11px; font-weight: 600; color: var(--color-danger-fg); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+  .sec-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .sec-cols { grid-template-columns: 1fr; } }
+  .sec-group { font-size: 11px; font-weight: 600; color: var(--color-danger-fg); margin-bottom: 5px; }
+  .sec-items { list-style: none; padding: 0; }
+  .sec-items li { font-size: 12px; color: var(--color-danger-fg); padding: 2px 0; display: flex; gap: 5px; }
+  .tools-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tool-pill {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: 20px;
+    color: var(--color-fg-muted);
+    font-size: 12px;
+    padding: 2px 10px;
+  }
+  .type-tabs-ph { display: flex; gap: 6px; margin-bottom: 10px; }
+  .type-tab {
+    padding: 4px 12px;
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-small);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--color-canvas-subtle);
+    color: var(--color-fg-muted);
+    font-family: var(--font-sans);
+    transition: all .12s;
+  }
+  .type-tab.on { background: var(--color-accent-emphasis); border-color: var(--color-accent-emphasis); color: #fff; }
+
+  /* ── Principles section ── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .principles-grid { grid-template-columns: 1fr; } }
+  .principle-card {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-small);
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+  }
+  .principle-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-fg);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .principle-body { flex: 1; }
+  .principle-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: var(--color-fg-default); }
+  .principle-text { font-size: 12px; color: var(--color-fg-muted); line-height: 1.4; }
+
+  /* ── Summary table ── */
+  .phase-summary {
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .phase-summary table { margin: 0; display: table; width: 100%; font-size: 13px; }
+  .phase-summary th { background: var(--color-canvas-subtle); padding: 10px 14px; }
+  .phase-summary td { padding: 10px 14px; }
+
+  /* ── Sidebar ── */
+  .sidebar { font-size: 13px; }
+  .sidebar-section { margin-bottom: 20px; }
+  .sidebar-title { font-size: 12px; font-weight: 600; color: var(--color-fg-default); margin-bottom: 8px; }
+  .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; color: var(--color-fg-muted); font-size: 13px; cursor: pointer; }
+  .sidebar-item:hover { color: var(--color-accent-fg); }
+  .sidebar-badge {
+    display: inline-block;
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: 20px;
+    font-size: 11px;
+    padding: 0 6px;
+    color: var(--color-fg-muted);
+    margin-left: auto;
+  }
+  .about-box {
+    background: var(--color-canvas-subtle);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--border-radius-medium);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .about-desc { color: var(--color-fg-muted); font-size: 13px; margin-bottom: 12px; }
+  .topic-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stat-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 13px; color: var(--color-fg-muted); border-top: 1px solid var(--color-border-muted); margin-top: 10px; padding-top: 10px; }
+  .stat-icon { color: var(--color-fg-subtle); }
+
+  /* ── Footer ── */
+  .gh-footer {
+    border-top: 1px solid var(--color-border-muted);
+    margin-top: 32px;
+    padding: 24px 0 16px;
+    font-size: 12px;
+    color: var(--color-fg-subtle);
+    text-align: center;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-canvas-default); }
+  ::-webkit-scrollbar-thumb { background: var(--color-border-default); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="gh-nav">
+  <a class="gh-nav-logo" href="#">
+    <svg height="20" width="20" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    denysoft
+  </a>
+  <span class="gh-nav-divider">/</span>
+  <span class="gh-nav-repo">product-architect-workflow</span>
+  <div class="nav-spacer"></div>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">☀️</span>
+    <span id="theme-label">Light</span>
+  </button>
+</nav>
+
+<!-- Repo header -->
+<div class="repo-header">
+  <div class="repo-title">
+    <span class="repo-icon">📋</span>
+    <a href="#" class="repo-owner">denysoft</a>
+    <span class="repo-name-sep">/</span>
+    <a href="#" class="repo-name">product-architect-workflow</a>
+    <span class="topic-badge">Public</span>
+  </div>
+  <div class="repo-tabs">
+    <button class="repo-tab active">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8.878.392a1.75 1.75 0 00-1.756 0l-5.25 3.045A1.75 1.75 0 001 5.25v5.5c0 .608.316 1.172.872 1.513l5.25 3.045a1.75 1.75 0 001.756 0l5.25-3.045c.556-.341.872-.905.872-1.513v-5.5a1.75 1.75 0 00-.872-1.313L8.878.392z"/></svg>
+      Code <span class="tab-count">1</span>
+    </button>
+    <button class="repo-tab">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"/></svg>
+      Issues <span class="tab-count">0</span>
+    </button>
+    <button class="repo-tab">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354z"/><path d="M3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"/></svg>
+      Pull requests
+    </button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main-layout">
+  <main>
+    <!-- File header -->
+    <div class="file-header">
+      <div class="file-info">
+        <span style="font-size:16px">📄</span>
+        <span class="file-path">
+          <span>product-architect-workflow</span>
+          <span style="color:var(--color-border-default);margin:0 6px">/</span>
+          <span class="file-name">README.md</span>
+        </span>
+      </div>
+      <div class="file-actions">
+        <a href="product-architect-workflow.md" download class="btn-sm">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.75 14A1.75 1.75 0 011 12.25v-2.5a.75.75 0 011.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25v-2.5a.75.75 0 011.5 0v2.5A1.75 1.75 0 0113.25 14H2.75z"/><path d="M7.25 7.689V2a.75.75 0 011.5 0v5.689l1.97-1.97a.749.749 0 111.06 1.06l-3.25 3.25a.749.749 0 01-1.06 0L4.22 6.779a.749.749 0 111.06-1.06l1.97 1.97z"/></svg>
+          Raw
+        </a>
+        <button class="btn-sm" onclick="copyMarkdown()">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"/><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"/></svg>
+          Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- Markdown content -->
+    <div class="markdown-body">
+
+      <h1>Denysoft · Product Architect Workflow</h1>
+      <p><strong>Spec-Driven Development v1.0 · Mayo 2026</strong><br>
+      <em>De la idea al producto entregado · Vibe Coding evolucionado</em></p>
+
+      <div class="callout callout-note">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <p><strong>Tesis operativa:</strong> El paradigma maduró. Vibe coding puro sirve para prototipos desechables. Lo que entrega producto profesional es <strong>Spec-Driven Development</strong>: el Product Architect dirige al AI con specs ejecutables antes de generar código. Veinte minutos en una spec ahorran dos horas de iteración.</p>
+        </div>
+      </div>
+
+      <h2>Los 7 principios no negociables</h2>
+      <p>Aplican a las tres categorías de proyecto sin excepción.</p>
+      <div class="principles-grid">
+        <div class="principle-card"><span class="principle-num">1</span><div class="principle-body"><div class="principle-title">Architect First</div><div class="principle-text">Antes de generar una línea de código, existe una spec. Si no hay spec, no hay build.</div></div></div>
+        <div class="principle-card"><span class="principle-num">2</span><div class="principle-body"><div class="principle-title">Validar antes de construir</div><div class="principle-text">Workflow rápido sin problema validado es solo velocidad para construir lo equivocado.</div></div></div>
+        <div class="principle-card"><span class="principle-num">3</span><div class="principle-body"><div class="principle-title">Frameworks sólidos</div><div class="principle-text">Stack opinado (Next.js, Supabase, Vercel) reduce el espacio de problema para el AI.</div></div></div>
+        <div class="principle-card"><span class="principle-num">4</span><div class="principle-body"><div class="principle-title">Educar al AI explícitamente</div><div class="principle-text"><code>claude.md</code>, <code>.cursor/rules</code>, <code>AGENTS.md</code> no son opcionales. El AI olvida convenciones cada sesión.</div></div></div>
+        <div class="principle-card"><span class="principle-num">5</span><div class="principle-body"><div class="principle-title">Scope estrecho por prompt</div><div class="principle-text">Un prompt = un cambio acotado. Prompts amplios producen regresiones invisibles.</div></div></div>
+        <div class="principle-card"><span class="principle-num">6</span><div class="principle-body"><div class="principle-title">Checkpoints obligatorios</div><div class="principle-text">Después de cada feature: probar, commit, documentar. Sin checkpoint se construye sobre algo roto.</div></div></div>
+        <div class="principle-card" style="grid-column: span 2"><span class="principle-num">7</span><div class="principle-body"><div class="principle-title">Auditoría humana en seguridad</div><div class="principle-text">Código AI tiene 2.74× más vulnerabilidades (ICSE-SEIP '26). Pase de seguridad humano antes de producción es obligatorio.</div></div></div>
+      </div>
+
+      <h2>Cuadro maestro</h2>
+      <div class="phase-summary">
+        <table>
+          <thead><tr><th>Fase</th><th>Nombre</th><th>Entregable mínimo</th><th>Gate</th></tr></thead>
+          <tbody>
+            <tr><td><code>0</code></td><td>Discovery &amp; Validación</td><td>Brief / Lean Canvas / Nota interna</td><td>Contrato firmado o Go documentado</td></tr>
+            <tr><td><code>1</code></td><td>Spec &amp; Architecture</td><td>PRD + Tech Spec + claude.md + Prompts</td><td>Aprobación de spec</td></tr>
+            <tr><td><code>2</code></td><td>Diseño UI/UX</td><td>Mockups o wireframes según fidelidad</td><td>Aprobación visual</td></tr>
+            <tr><td><code>3</code></td><td>Build (AI-Assisted)</td><td>Repo + staging + reporte semanal</td><td>Hito funcional verde</td></tr>
+            <tr><td><code>4</code></td><td>QA &amp; Hardening</td><td>Checklist + reporte de seguridad</td><td>Sin issues bloqueantes</td></tr>
+            <tr><td><code>5</code></td><td>Deploy &amp; Launch</td><td>Producción + acta de entrega</td><td>Smoke test verde</td></tr>
+            <tr><td><code>6</code></td><td>Iteración &amp; Mantenimiento</td><td>Retainer / loop de métricas / archivo</td><td>Continúa o cierra</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Workflow por fases</h2>
+
+      <!-- Project type tabs (global) -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;color:var(--color-fg-muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;">Tipo de proyecto</div>
+        <div class="type-tabs-ph">
+          <button class="type-tab on" onclick="setGlobalType('client',this)">A — Cliente</button>
+          <button class="type-tab" onclick="setGlobalType('saas',this)">B — SaaS propio</button>
+          <button class="type-tab" onclick="setGlobalType('personal',this)">C — Consumo propio</button>
+        </div>
+      </div>
+
+      <div id="phase-list"></div>
+
+      <hr>
+
+      <h2>Errores recurrentes a evitar</h2>
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <p>Lista compilada de los hallazgos del paradigma 2025–2026. Cada uno cuesta caro la primera vez.</p>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Error</th><th>Consecuencia</th></tr></thead>
+        <tbody>
+          <tr><td>Saltar la spec porque el cliente quiere ver algo rápido</td><td>20 min de spec ahorran 2h de iteración de prompts</td></tr>
+          <tr><td>Iterar sobre código AI sin reset</td><td>Acumula vulnerabilidades. Cada 3–5 features: pausa de limpieza</td></tr>
+          <tr><td>Prompts amplios ("Add filtering to the app")</td><td>Regresiones en cascada. Scopear el componente específico</td></tr>
+          <tr><td>Confundir prototipo con MVP</td><td>Bolt/Lovable hacen prototipos. MVP real = Cursor + spec + QA</td></tr>
+          <tr><td>No documentar decisiones arquitectónicas</td><td>El AI las olvida cada sesión. <code>claude.md</code> es donde viven</td></tr>
+          <tr><td>Dejar que el AI elija el stack</td><td>Stack abierto produce inconsistencia caótica</td></tr>
+          <tr><td>Cerrar el proyecto sin handover</td><td>El cliente queda atado por dependencia, no por valor</td></tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <h2>Stack de herramientas recomendado</h2>
+      <table>
+        <thead><tr><th>Fase</th><th>Herramientas</th></tr></thead>
+        <tbody>
+          <tr><td><code>0</code> Discovery</td><td>Notion · Google Docs · Miro</td></tr>
+          <tr><td><code>1</code> Spec</td><td>Claude.ai · Notion · GitHub · dbdiagram.io</td></tr>
+          <tr><td><code>2</code> Diseño</td><td>Figma · v0.dev · Whimsical · Excalidraw</td></tr>
+          <tr><td><code>3</code> Build</td><td>Cursor · Claude Code · Bolt.new · Lovable</td></tr>
+          <tr><td><code>4</code> QA</td><td>Sentry · Lighthouse · Snyk · Playwright</td></tr>
+          <tr><td><code>5</code> Deploy</td><td>Vercel · Supabase · Resend · Stripe · PostHog</td></tr>
+          <tr><td><code>6</code> Iteración</td><td>Linear · ClickUp · PostHog · Stripe (retainer)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="gh-footer">
+        Denysoft · Product Architect Framework · v1.0 · Mayo 2026 &nbsp;·&nbsp;
+        Revisar cada trimestre — el paradigma sigue moviéndose.
+      </div>
+
+    </div><!-- /markdown-body -->
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="about-box">
+      <div class="sidebar-title">About</div>
+      <div class="about-desc">Framework operativo de Denysoft para construir software bajo Spec-Driven Development. De la idea al producto entregado.</div>
+      <div class="topic-list">
+        <span class="topic-badge">vibe-coding</span>
+        <span class="topic-badge">spec-driven</span>
+        <span class="topic-badge">ai-dev</span>
+        <span class="topic-badge">product-architect</span>
+        <span class="topic-badge">denysoft</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-icon">⭐</span> <strong>7</strong> principios &nbsp;·&nbsp; <strong>7</strong> fases
+      </div>
+      <div class="stat-row">
+        <span class="stat-icon">📅</span> Mayo 2026 · v1.0
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Fases</div>
+      <div id="sidebar-phases"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Tipos de proyecto</div>
+      <div class="sidebar-item">🔵 A — Cliente externo</div>
+      <div class="sidebar-item">🟣 B — SaaS propio</div>
+      <div class="sidebar-item">🟢 C — Consumo propio</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Stack principal</div>
+      <div class="sidebar-item">Next.js · Supabase</div>
+      <div class="sidebar-item">Vercel · Resend</div>
+      <div class="sidebar-item">Cursor · Claude Code</div>
+      <div class="sidebar-item">Stripe · PostHog</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+const PHASES_DATA = [
+  {
+    id:0, name:"Discovery & Validación",
+    sub:"Antes del workflow técnico hay un workflow comercial",
+    badge:"badge-gray",
+    info:["Origen: cliente paga / iniciativa propia / necesidad interna","Problema en una frase, en lenguaje del usuario final","Quién paga, quién decide, quién usa","Restricciones de tiempo y presupuesto (rangos)","Definición operativa de éxito"],
+    deliverables:{
+      client:["Brief comercial firmado (problema, solución, presupuesto, timeline)","Propuesta técnico-comercial con SOW","Contrato firmado con cláusulas de scope y cambios"],
+      saas:["Lean Canvas (1 página)","5–10 entrevistas siguiendo The Mom Test","Hipótesis de monetización con benchmarks","Decisión documentada Go/No-Go"],
+      personal:["Nota interna de 1 página: problema, costo construir vs. comprar, plazo"]
+    },
+    gate:{client:"Contrato firmado y depósito recibido",saas:"Al menos 3 personas dijeron 'lo pagaría' con monto específico",personal:"ROI de construirlo > costo de no tenerlo en 90 días"},
+    tools:["Notion","Google Docs","Miro","Loom"]
+  },
+  {
+    id:1, name:"Spec & Architecture",
+    sub:"El Product Architect convierte intent en artefactos ejecutables",
+    badge:"badge-blue",
+    info:["Brief de Fase 0 firmado","Lista MoSCoW de funcionalidades","Roles de usuario y permisos","Entidades de datos y relaciones","Integraciones requeridas (pago, email, CRM)","Restricciones técnicas conocidas"],
+    deliverables:{
+      client:["PRD completo (branded) con criterios de aceptación","Tech Spec con schema, endpoints y estrategia de auth","claude.md / .cursor/rules / AGENTS.md","Build prompts numerados en orden de dependencia","Aprobación firmada del PRD antes de build"],
+      saas:["PRD ligero (Notion/Markdown)","Tech Spec completo","claude.md","Build prompts numerados"],
+      personal:["Un solo SPEC.md: problema, stack, schema, prompts","claude.md"]
+    },
+    gate:{client:"PRD firmado por el cliente. Sin firma, no se construye.",saas:"Test de spec: ¿puede otro arquitecto construir sin hacer preguntas?",personal:"El AI puede construir sin decisiones arquitectónicas durante la sesión"},
+    tools:["Claude.ai","Notion / GitHub","dbdiagram.io","Cursor"],
+    subfases:["1.1 PRD — qué y porqué, outcomes verificables, in/out-of-scope","1.2 Tech Spec — stack, schema, endpoints API, auth, deployment","1.3 claude.md — convenciones, patrones obligatorios, anti-patrones","1.4 Build Prompts — unidades atómicas con criterio de aceptación por prompt"]
+  },
+  {
+    id:2, name:"Diseño UI/UX",
+    sub:"Referencia visual mínima para que el AI genere UI consistente",
+    badge:"badge-purple",
+    info:["Brand kit (colores, tipografía, logo, tono)","3–5 referencias visuales que el cliente admira","Lista de pantallas derivada del PRD","Restricciones de accesibilidad (WCAG)"],
+    deliverables:{
+      client:["Wireframes aprobados de pantallas críticas","Mockups alta fidelidad de mínimo 3 pantallas","Sistema de componentes — fuente única de verdad","Aprobación firmada antes de build"],
+      saas:["Mockups de pantallas críticas (signup, core, billing)","Tokens de diseño en variables CSS"],
+      personal:["Screenshots de referencia + prompt visual descriptivo"]
+    },
+    gate:{client:"Aprobación visual firmada. El AI tiene referencia suficiente para no improvisar.",saas:"Mockups de flujos core aprobados internamente",personal:"Prompt visual listo para consumo directo en la herramienta de build"},
+    tools:["Figma","v0.dev","Whimsical","Excalidraw","Bolt.new","Lovable"],
+    note:"El AI consume mejor referencias visuales (screenshots) que descripciones largas. Una imagen en el prompt vale más que tres párrafos describiendo el layout."
+  },
+  {
+    id:3, name:"Build — AI-Assisted",
+    sub:"Dirección, no escritura. El paradigma se diferencia aquí.",
+    badge:"badge-teal",
+    info:["PRD + Tech Spec + claude.md + build prompts de Fase 1","Mockups de Fase 2 si aplica","Repo Git inicializado con estructura del stack","Variables de entorno y servicios preconfigurados"],
+    deliverables:{
+      client:["Repo con commits limpios y mensajes descriptivos","Demo en staging por hito (mínimo semanal)","Reporte de avance semanal contra PRD","Tests automatizados de flujos críticos"],
+      saas:["Repo + staging deploy","Tests de flujos que tocan dinero o auth"],
+      personal:["Repo. Tests opcionales según criticidad."]
+    },
+    gate:{client:"Hito funcional verde. Demo aprobado por cliente antes del siguiente hito.",saas:"Flujos críticos en staging. Core loop verificado.",personal:"La herramienta hace lo que necesito. Sin gold-plating."},
+    tools:["Cursor AI","Claude Code","Bolt.new","Lovable","GitHub"],
+    loop:[{n:"1",t:"Cargar contexto",d:"claude.md presente, prompt N de la secuencia"},{n:"2",t:"Generar",d:"AI ejecuta el prompt acotado"},{n:"3",t:"Probar",d:"Verificar criterio de aceptación del prompt"},{n:"4",t:"Revisar diff",d:"Si tocó archivos fuera del scope, rechazar"},{n:"5",t:"Commit",d:"Mensaje descriptivo. Punto de retorno si N+1 rompe"},{n:"6",t:"Documentar",d:"Notas en claude.md sobre patrones y trampas"},{n:"7",t:"Siguiente",d:"Solo cuando el anterior está cerrado y verde"}]
+  },
+  {
+    id:4, name:"QA & Hardening",
+    sub:"36% de vibe coders saltan QA. No es opcional en Denysoft.",
+    badge:"badge-amber",
+    info:["PRD original para validar que todo está implementado","Criterios de aceptación pendientes","Inventario de superficies sensibles (auth, pagos, datos personales)"],
+    deliverables:{
+      client:["Reporte de QA firmado (checklist completo)","Reporte de auditoría de seguridad","Lighthouse / performance report","Test plan ejecutado con evidencia"],
+      saas:["Checklist completo (sin reporte formal)","Pase de seguridad obligatorio"],
+      personal:["Checklist mínimo: sin secretos hardcoded, sin endpoints abiertos"]
+    },
+    gate:{client:"Cero issues bloqueantes. Checklist firmado. Cliente aprueba QA.",saas:"Pase de seguridad pasado. Flujos críticos verificados en staging.",personal:"Ningún secreto en código. Funciona en el caso de uso principal."},
+    tools:["Sentry","Lighthouse","Snyk","npm audit","Playwright"],
+    security:{"Seguridad":["Sin secretos hardcoded","Auth en endpoints protegidos","Validación server-side (Zod)","Rate limiting crítico","CORS restrictivo","Headers (CSP, HSTS)","Auditoría de deps"],"Calidad funcional":["Cada user story verificada","Tests E2E de flujos críticos","Sin white screens en errores","Estados vacíos diseñados","Testing 2+ navegadores + mobile"],"Performance":["Lighthouse score acordado","Imágenes optimizadas","N+1 queries resueltas","Bundle size revisado"]}
+  },
+  {
+    id:5, name:"Deploy & Launch",
+    sub:"A producción de forma reversible, observable y con plan de respuesta",
+    badge:"badge-green",
+    info:["Dominios y DNS confirmados","Cuentas en plan de producción (no free tier)","Monitoring y alertas configurables","Backup strategy definida"],
+    deliverables:{
+      client:["Acta de entrega firmada","Credenciales en bóveda segura (1Password)","Manual de operación / handover doc","Período de garantía contractual"],
+      saas:["Plan de soporte e incidentes","Métricas baseline registradas"],
+      personal:["Documentación mínima de recuperación si se rompe"]
+    },
+    gate:{client:"Smoke test verde (5 flujos críticos en producción). Acta firmada.",saas:"Producto live, monitoring activo, soporte activo las primeras 48h",personal:"Corre en el entorno final. Puedo usarlo sin instrucciones."},
+    tools:["Vercel","Supabase","Resend","Stripe","PostHog","Sentry","Cloudflare"],
+    note:"Smoke test post-deploy: 5 flujos críticos en producción. Ventana de soporte activo en las primeras 48 horas."
+  },
+  {
+    id:6, name:"Iteración & Mantenimiento",
+    sub:"Define si el producto sobrevive o muere bajo deuda técnica",
+    badge:"badge-red",
+    info:["Métricas de uso post-launch","Feedback de usuarios (entrevistas, tickets, analytics)","Bugs reportados en producción","Backlog de features priorizado"],
+    deliverables:{
+      client:["Contrato de retainer con SLA acordado","Reportes mensuales: uso, incidentes, trabajo","Cambios significativos regresan a Fase 1","Propuesta de Fase 2 si aplica"],
+      saas:["Loop mensual: métricas → hipótesis → build → medir","Refactor obligatorio cada N features","Backlog priorizado en herramienta única","Decision log de arquitectura"],
+      personal:["Si deja de usarse: archivar repo y bajar servicios. Costo cero supera mantenimiento de algo que nadie usa."]
+    },
+    gate:{client:"Retainer activo o acuerdo de cierre formal con handover completo",saas:"Loop de iteración establecido. Churn y activación analizados.",personal:"Continúa en uso activo o se archiva. No hay término medio."},
+    tools:["PostHog","Plausible","Sentry","Linear","ClickUp","Stripe","Notion"]
+  }
+];
+
+let globalType = 'client';
+const typeLabels = {client:'Cliente',saas:'SaaS propio',personal:'Consumo propio'};
+
+function setGlobalType(t, btn) {
+  globalType = t;
+  document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderPhases();
+}
+
+function togglePhase(id) {
+  document.querySelector(`.phase-accordion[data-id="${id}"]`).classList.toggle('open');
+}
+
+function renderPhases() {
+  const container = document.getElementById('phase-list');
+  const opens = {};
+  container.querySelectorAll('.phase-accordion').forEach(c => { opens[c.dataset.id] = c.classList.contains('open'); });
+
+  container.innerHTML = PHASES_DATA.map(p => {
+    const isOpen = opens[p.id] !== undefined ? opens[p.id] : p.id === 0;
+    const delivs = p.deliverables[globalType];
+    const gate = p.gate[globalType];
+
+    let extra = '';
+    if (p.subfases) {
+      extra += `<div style="background:var(--color-canvas-subtle);border:1px solid var(--color-border-default);border-radius:6px;padding:12px;margin-bottom:10px"><div class="box-label">Sub-fases</div>${p.subfases.map(s=>`<div style="font-size:13px;color:var(--color-fg-muted);padding:3px 0;display:flex;gap:8px"><span style="color:var(--color-accent-fg)">→</span><span>${s}</span></div>`).join('')}</div>`;
+    }
+    if (p.loop) {
+      extra += `<div class="loop-box"><div class="loop-label">Loop de ejecución por prompt (7 pasos)</div><div class="loop-steps">${p.loop.map(s=>`<div class="loop-step"><span class="loop-n">${s.n}.</span><span><strong>${s.t}</strong> — ${s.d}</span></div>`).join('')}</div></div>`;
+    }
+    if (p.security) {
+      extra += `<div class="sec-box"><div class="sec-label">Checklist de seguridad y calidad</div><div class="sec-cols">${Object.entries(p.security).map(([grp,items])=>`<div><div class="sec-group">${grp}</div><ul class="sec-items">${items.map(i=>`<li><span>☐</span>${i}</li>`).join('')}</ul></div>`).join('')}</div></div>`;
+    }
+    if (p.note) {
+      extra += `<div class="callout callout-tip" style="margin-top:10px"><span class="callout-icon">✅</span><div class="callout-body"><p><strong>Aprendizaje del paradigma:</strong> ${p.note}</p></div></div>`;
+    }
+
+    return `
+<div class="phase-accordion${isOpen?' open':''}" data-id="${p.id}">
+  <button class="phase-header" onclick="togglePhase(${p.id})">
+    <span class="phase-num-badge ${p.badge}">${p.id}</span>
+    <div class="phase-title-area"><div class="phase-name">${p.name}</div><div class="phase-sub">${p.sub}</div></div>
+    <span class="phase-chevron">▾</span>
+  </button>
+  <div class="phase-body">
+    <div class="two-col">
+      <div class="info-box"><div class="box-label">Información necesaria</div><ul class="item-list">${p.info.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+      <div class="info-box"><div class="box-label">Entregables — ${typeLabels[globalType]}</div><ul class="item-list">${delivs.map(d=>`<li>${d}</li>`).join('')}</ul></div>
+    </div>
+    ${extra}
+    <div class="gate-box"><div class="gate-label">Gate de aprobación</div><div>${gate}</div></div>
+    <div class="tools-pills">${p.tools.map(t=>`<span class="tool-pill">${t}</span>`).join('')}</div>
+  </div>
+</div>`;
+  }).join('');
+
+  renderSidebar();
+}
+
+function renderSidebar() {
+  const badgeColors = ['badge-gray','badge-blue','badge-purple','badge-teal','badge-amber','badge-green','badge-red'];
+  const icons = ['○','○','○','○','○','○','○'];
+  document.getElementById('sidebar-phases').innerHTML = PHASES_DATA.map(p =>
+    `<div class="sidebar-item" onclick="scrollToPhase(${p.id})">
+      <span class="phase-num-badge ${p.badge}" style="width:18px;height:18px;font-size:10px">${p.id}</span>
+      ${p.name}
+    </div>`
+  ).join('');
+}
+
+function scrollToPhase(id) {
+  const el = document.querySelector(`.phase-accordion[data-id="${id}"]`);
+  if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-color-mode') === 'light';
+  html.setAttribute('data-color-mode', isLight ? 'dark' : 'light');
+  document.getElementById('theme-icon').textContent = isLight ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = isLight ? 'Light' : 'Dark';
+}
+
+function copyMarkdown() {
+  navigator.clipboard.writeText(document.querySelector('.markdown-body').innerText)
+    .then(() => { const btn = event.target.closest('.btn-sm'); const orig = btn.innerHTML; btn.textContent = '✓ Copied!'; setTimeout(()=>{btn.innerHTML=orig},1500); });
+}
+
+// Init
+renderPhases();
+</script>
+
+</body>
+</html>
